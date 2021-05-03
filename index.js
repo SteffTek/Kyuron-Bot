@@ -1,7 +1,14 @@
-//IMPORTS
+//IMPORTANT IMPORTS
 const logger = require("./src/Utils/Logger");
 const configHandler = require("./src/Utils/ConfigHandler");
 const config = configHandler.getConfig();
+const Discord = require('discord.js');
+
+//MANAGERS
+const eventListener = require("./src/Managers/EventListener");
+
+//VARS
+const client = new Discord.Client();
 
 // APP INFO
 let version = configHandler.getVersion();
@@ -21,10 +28,9 @@ console.log(
 
 /* STARTUP */
 
-//Für clara <3
-logger.done("DONE");
-logger.error("ERROR");
-logger.info("INFO");
-logger.warn("WARN");
+//Registering Managers
+eventListener(client);
 
-logger.done(config.discord.token);
+//Log in Client
+logger.info("Logging in...")
+client.login(config.discord.token);
