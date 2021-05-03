@@ -1,0 +1,23 @@
+{
+  "name": "kyuron-bot",
+  "version": "1.0.0",
+  "description": "A free utility discord bot.",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SteffTek/Kyuron-Bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SteffTek/Kyuron-Bot/issues"
+  },
+  "homepage": "https://github.com/SteffTek/Kyuron-Bot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
+}
