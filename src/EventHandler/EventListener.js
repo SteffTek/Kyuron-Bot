@@ -4,17 +4,19 @@ const configHandler = require("../Utils/ConfigHandler");
 const config = configHandler.getConfig();
 const Discord = require('discord.js');
 
+/* EVENT IMPORTS */
+const ready = require("./Events/Ready");
+const message = require("./Events/Message");
+
 module.exports = (client) => {
 
     /* Startup Event */
     client.on('ready', () => {
-        logger.done(`Logged in as ${client.user.tag}!`);
+        ready(client);
     });
 
     /* Message Event */
     client.on('message', msg => {
-        if (msg.content === 'ping') {
-            msg.reply('pong');
-        }
+        message(client, msg);
     });
 }
