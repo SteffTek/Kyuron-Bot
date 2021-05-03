@@ -5,7 +5,7 @@ const config = configHandler.getConfig();
 const Discord = require('discord.js');
 
 //MANAGERS
-const eventListener = require("./src/Managers/EventListener");
+const eventListener = require("./src/EventHandler/EventListener");
 
 //VARS
 const client = new Discord.Client();
