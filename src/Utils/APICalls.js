@@ -9,7 +9,7 @@ const axios = require('axios')
 module.exports.createGuildCommand = async function (application_id, guild_id, data) {
     let http_config = {
         headers: {
-            "Authorization": "Bot " + config.token
+            "Authorization": "Bot " + config.discord.token
         }
     }
 
@@ -17,4 +17,17 @@ module.exports.createGuildCommand = async function (application_id, guild_id, da
         .catch(function (error) {
             console.log(error);
         });
+}
+
+module.exports.sendInteraction = async function (client, data, interaction, type) {
+    if (!type) {
+        type = 4
+    }
+
+    client.api.interactions(interaction.id, interaction.token).callback.post({
+        data: {
+            type: type,
+            data: data
+        }
+    })
 }

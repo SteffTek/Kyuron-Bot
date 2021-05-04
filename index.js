@@ -3,6 +3,7 @@ const logger = require("./src/Utils/Logger");
 const configHandler = require("./src/Utils/ConfigHandler");
 const config = configHandler.getConfig();
 const Discord = require('discord.js');
+const APICalls = require('./src/Utils/APICalls.js')
 
 //MANAGERS
 const eventListener = require("./src/EventHandler/EventListener");
@@ -34,6 +35,10 @@ eventListener(client);
 
 //Load commands
 commandHandler(client)
+
+//Initializing Debug Guild-Commands
+/*let debugCMD = client.commands.get("ping")
+APICalls.createGuildCommand(config.discord.appID, config.discord.testGuildID, {name: debugCMD.name, description: debugCMD.description, options: debugCMD.options})*/
 
 //Log in Client
 logger.info("Logging in...")

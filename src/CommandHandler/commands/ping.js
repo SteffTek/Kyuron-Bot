@@ -1,8 +1,11 @@
+//IMPORTANT IMPORTS
+const APICalls = require('./../../Utils/APICalls.js')
+
 module.exports = {
 	name: 'ping',
 	description: 'Ping!',
 	options: [],
 	async execute(data) {
-		data.channel.send("Pong!")
+		APICalls.sendInteraction(data.client, {"content": "PONG!",}, data.interaction)
 	}
 };

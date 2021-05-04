@@ -1,6 +1,7 @@
 {
     "discord":{
         "token":"",
-        "appID":""
+        "appID":"",
+        "testGuildID":""
     }
 }
