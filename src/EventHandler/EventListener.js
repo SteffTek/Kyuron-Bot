@@ -27,8 +27,8 @@ module.exports = (client) => {
     /*
         MESSAGE EVENTS
     */
-    client.on('message', message => {
-        message(client, message);
+    client.on('message', msg => {
+        message(client, msg);
     });
 
     client.on('messageUpdate', (oldMessage, newMessage) => {
