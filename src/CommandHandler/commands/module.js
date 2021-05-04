@@ -63,7 +63,7 @@ module.exports = {
                     "value":"timer"
                 },
                 {
-                    "name":"Warn System",
+                    "name":"Warn System (Requires Audit Log)",
                     "value":"warn"
                 }
             ]

@@ -31,9 +31,11 @@ module.exports.connect = function () {
  *
  */
 module.exports.loadGuildData = async function (guildID) {
+    this.connect();
+
     let doc = await Guild.findOne({
         guildID: guildID
-    }).exec()
+    }).exec().catch(err => console.log(err));
 
     if (doc === null) {
         const newDoc = await new Guild({

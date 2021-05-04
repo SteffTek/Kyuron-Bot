@@ -3,7 +3,6 @@ const logger = require("./src/Utils/Logger");
 const configHandler = require("./src/Utils/ConfigHandler");
 const config = configHandler.getConfig();
 const Discord = require('discord.js');
-const db = require('./src/Database/db.js')
 const APICalls = require('./src/Utils/APICalls.js')
 
 //MANAGERS
@@ -31,9 +30,6 @@ console.log(
 
 /* STARTUP */
 
-//Connecting to MongoDB database
-db.connect();
-
 //Registering Managers
 eventListener(client);
 
@@ -42,10 +38,9 @@ commandHandler(client)
 
 //Initializing Debug Guild-Commands
 
-/*
 let debugCMD = client.commands.get("module")
 APICalls.createGuildCommand(config.discord.appID, config.discord.testGuildID, {name: debugCMD.name, description: debugCMD.description, options: debugCMD.options})
-*/
+
 
 //Log in Client
 logger.info("Logging in...")
