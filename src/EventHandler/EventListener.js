@@ -10,16 +10,83 @@ const message = require("./Events/Message");
 
 module.exports = (client) => {
 
-    /* Startup Event */
+    /* CLIENT EVENTS*/
     client.on('ready', () => {
         ready(client);
     });
 
+    client.on('invalidated', () => {
+
+    });
+
+    client.on('rateLimit', rateLimitInfo => {
+        logger.error("Rate Limit hit! See following log...");
+        console.log(rateLimitInfo);
+    });
+
     /*
-        Message Event
+        MESSAGE EVENTS
     */
-    client.on('message', msg => {
-        message(client, msg);
+    client.on('message', message => {
+        message(client, message);
+    });
+
+    client.on('messageUpdate', (oldMessage, newMessage) => {
+
+    });
+
+    client.on('messageDelete', message => {
+
+    });
+
+    client.on('messageDeleteBulk', messages => {
+
+    });
+
+    client.on('messageReactionAdd', (messageReaction, user) => {
+
+    });
+
+    client.on('messageReactionRemove', (messageReaction, user) => {
+
+    });
+
+    client.on('messageReactionRemoveAll', message => {
+
+    });
+
+    client.on('messageReactionRemoveEmoji', messageReaction => {
+
+    });
+
+    /*
+        GUILD EVENTS
+    */
+    client.on('guildCreate', guild => {
+
+    });
+
+    client.on('guildDelete', guild => {
+
+    });
+
+    client.on('guildUpdate', (oldGuild, newGuild) => {
+
+    });
+
+    /*
+        GUILD MEMBER EVENTS
+    */
+    client.on('guildMemberAdd', member => {
+
+    });
+
+    client.on('guildMemberRemove', member => {
+
+    });
+
+    client.on('guildMemberUpdate', (oldMember, newMember) => {
+
     });
 
     /*
@@ -45,10 +112,47 @@ module.exports = (client) => {
     });
 
     client.on("emojiDelete", emoji => {
-        
+
     });
 
     client.on("emojiUpdate", (oldEmoji, newEmoji) => {
+
+    });
+
+    /*
+        BAN EVENTS
+    */
+    client.on("guildBanAdd", (guild, user) => {
+
+    });
+
+    client.on("guildBanRemove", (guild, user) => {
+
+    });
+
+    /*
+        INVITE EVENTS
+    */
+    client.on("inviteCreate", invite => {
+
+    });
+
+    client.on("inviteDelete", invite => {
+
+    });
+
+    /*
+        ROLE EVENTS
+    */
+    client.on("roleCreate", role => {
+
+    });
+
+    client.on("roleDelete", role => {
+
+    });
+
+    client.on("roleUpdate", (oldRole, newRole) => {
 
     });
 }
