@@ -15,8 +15,40 @@ module.exports = (client) => {
         ready(client);
     });
 
-    /* Message Event */
+    /*
+        Message Event
+    */
     client.on('message', msg => {
         message(client, msg);
+    });
+
+    /*
+        CHANNEL EVENTS
+    */
+    client.on("channelCreate", channel => {
+
+    });
+
+    client.on("channelDelete", channel => {
+
+    });
+
+    client.on("channelUpdate", (oldChannel, newChannel) => {
+
+    });
+
+    /*
+        EMOJI EVENTS
+    */
+    client.on("emojiCreate", emoji => {
+
+    });
+
+    client.on("emojiDelete", emoji => {
+        
+    });
+
+    client.on("emojiUpdate", (oldEmoji, newEmoji) => {
+
     });
 }
