@@ -4,6 +4,9 @@
         "appID":"",
         "testGuildID":""
     },
+    "database":{
+        "url":""
+    },
     "embedGen":{
         "errorColor": "0xF52411"
     }

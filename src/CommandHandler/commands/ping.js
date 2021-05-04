@@ -10,5 +10,6 @@ module.exports = {
 	async execute(data) {
 		// Responding to the interaction with the client's websocket ping
 		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("📡 PONG 📡", "0xFF964F", "Bot Latency: **`"+data.client.ws.ping+"ms`**")]}, data.interaction)
+		console.log(data.guildData)
 	}
 };
