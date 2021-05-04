@@ -33,7 +33,7 @@ console.log(
 eventListener(client);
 
 //Load commands
-commandHandler.getCommands(client)
+commandHandler(client)
 
 //Log in Client
 logger.info("Logging in...")
