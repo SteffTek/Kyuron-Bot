@@ -13,8 +13,8 @@ module.exports = {
         "required": true,
         "choices":[
             {
-                "name":"Log Channel",
-                "value":"logChannel"
+                "name":"Audit Log Channel",
+                "value":"auditLogChannel"
             },
             {
                 "name":"Announcement Channel",

@@ -1,6 +1,7 @@
 //IMPORTANT IMPORTS
 const APICalls = require('./../../Utils/APICalls.js')
 const embedGen = require('./../../Utils/embedGenerator.js')
+const db = require('./../../Database/db.js')
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -18,6 +19,10 @@ module.exports = {
                     "value":"auditLogging"
                 },
                 {
+                    "name":"Auto Responder",
+                    "value":"autoResponder"
+                },
+                {
                     "name":"Auto Mod",
                     "value":"autoMod"
                 },
@@ -26,8 +31,40 @@ module.exports = {
                     "value":"announcements"
                 },
                 {
+                    "name":"Economy",
+                    "value":"economy"
+                },
+                {
+                    "name":"F.U.N.",
+                    "value":"fun"
+                },
+                {
+                    "name":"Giveaways",
+                    "value":"giveaway"
+                },
+                {
+                    "name":"Level System",
+                    "value":"leveling"
+                },
+                {
                     "name":"Moderation",
                     "value":"moderation"
+                },
+                {
+                    "name":"Ticket System",
+                    "value":"tickets"
+                },
+                {
+                    "name":"Polls",
+                    "value":"polls"
+                },
+                {
+                    "name":"Timed Messages",
+                    "value":"timer"
+                },
+                {
+                    "name":"Warn System",
+                    "value":"warn"
                 }
             ]
         },{
@@ -38,7 +75,18 @@ module.exports = {
         }
     ],
 	async execute(data) {
-		// Responding to the interaction with the client's websocket ping
-		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("Module Set", "0xFF964F", "")]}, data.interaction)
+        //GET DATA
+        let module = data.args[0].value;
+        let isEnabled = data.args[1].value;
+
+        //SET MODULE DATA
+        data.guildData.modules[module] = isEnabled;
+
+        //SAVE GUILD DATA
+        data.guildData.save().catch(err => console.log(err));
+
+        //TODO: MODULE SPECIFIC UPDATES
+
+		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🛠️ MODULE SET 🛠️", "0x214aff", "**State:** `" + module + "/" + isEnabled + "`")]}, data.interaction)
 	}
 };

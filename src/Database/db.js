@@ -1,6 +1,8 @@
 //IMPORTANT IMPORTS
 const mongoose = require('mongoose');
 const configHandler = require('./../Utils/configHandler.js');
+const logger = require("../Utils/Logger");
+
 const guild = require('./models/guild.js');
 const config = configHandler.getConfig();
 
@@ -16,7 +18,7 @@ module.exports.connect = function () {
         useUnifiedTopology: true
     }, function (err) {
         if (err) throw err;
-        console.log("Connected to database")
+        logger.done("Connected to database!")
     });
 }
 
@@ -24,9 +26,9 @@ module.exports.connect = function () {
  * Loads and Inits the guildData for the specified guildID
  *
  * @param {string} guildID guild id
- * 
+ *
  * @returns {object} guild data
- * 
+ *
  */
 module.exports.loadGuildData = async function (guildID) {
     let doc = await Guild.findOne({
@@ -35,11 +37,40 @@ module.exports.loadGuildData = async function (guildID) {
 
     if (doc === null) {
         const newDoc = await new Guild({
-            guildID: guildID
+            guildID: guildID,
+            modules: {
+                auditLogging: false,
+                autoResponder: false,
+                autoMod: false,
+                announcements: false,
+                economy: false,
+                fun: false,
+                giveaway: false,
+                leveling: false,
+                moderation: false,
+                tickets: false,
+                polls: false,
+                timer: false,
+                warn: false
+            },
+            channels: {
+                auditLogChannel: "",
+                announcementChannel: ""
+            }
         });
 
         await newDoc.save().catch(err => console.log(err)).then(() => { doc = newDoc})
     }
 
     return doc;
+}
+
+/**
+ * Loads and Inits the guildData for the specified guildID
+ *
+ * @param {object} guildData guild data
+ *
+ */
+ module.exports.saveGuildData = async function (guildData) {
+    await guildData.save().catch(err => console.log(err));
 }
