@@ -7,8 +7,8 @@ module.exports = (client) => {
 
     client.ws.on('INTERACTION_CREATE', async (interaction) => {
         let commandName = interaction.data.name.toLowerCase();
-        let channel = await client.channels.fetch(interaction.channel_id)
-        let guildData = await db.loadGuildData(interaction.guild_id)
+        let channel = await client.channels.fetch(interaction.channel_id);
+        let guildData = await db.loadGuildData(interaction.guild_id);
 
         const command = client.commands.get(commandName)
         try {

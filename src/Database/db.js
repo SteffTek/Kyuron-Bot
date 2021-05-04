@@ -1,6 +1,7 @@
 //IMPORTANT IMPORTS
 const mongoose = require('mongoose');
 const configHandler = require('./../Utils/configHandler.js');
+const guild = require('./models/guild.js');
 const config = configHandler.getConfig();
 
 //MONGOOSE MODELS
@@ -28,16 +29,17 @@ module.exports.connect = function () {
  * 
  */
 module.exports.loadGuildData = async function (guildID) {
-    Guild.findOne({
+    let doc = await Guild.findOne({
         guildID: guildID
-    }).then(async function (doc) {
-        if (doc === null) {
-            const newDoc = new Guild({
-                guildID: guildID
-            })
-            newDoc.save().catch(err => console.log(err)).then(() => {return newDoc})
-        } else {
-            return doc
-        }
-    }).then((guildData) => {return guildData})
+    }).exec()
+
+    if (doc === null) {
+        const newDoc = await new Guild({
+            guildID: guildID
+        });
+
+        await newDoc.save().catch(err => console.log(err)).then(() => { doc = newDoc})
+    }
+
+    return doc;
 }
