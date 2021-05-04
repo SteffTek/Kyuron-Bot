@@ -7,6 +7,8 @@ const Discord = require('discord.js');
 /* EVENT IMPORTS */
 const ready = require("./Events/Ready");
 const message = require("./Events/Message");
+const messageDelete = require("./Events/MessageDelete");
+const messageUpdate = require("./Events/MessageUpdate");
 
 module.exports = (client) => {
 
@@ -32,11 +34,11 @@ module.exports = (client) => {
     });
 
     client.on('messageUpdate', (oldMessage, newMessage) => {
-
+        messageUpdate(client, oldMessage, newMessage);
     });
 
     client.on('messageDelete', message => {
-
+        messageDelete(client, message);
     });
 
     client.on('messageDeleteBulk', messages => {

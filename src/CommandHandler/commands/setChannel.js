@@ -26,6 +26,12 @@ module.exports = {
 		// Responding to the interaction with the client's websocket ping
         const channelType = data.args[0].value;
         const channelID = data.channel.id;
+        
+        //SET MODULE DATA
+        data.guildData.channels[channelType] = channelID;
+
+        //SAVE GUILD DATA
+        data.guildData.save().catch(err => console.log(err));
 
 		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("Channel Set!", "0xFF964F", "Channel ID:  **`" + channelID + "/" + channelType + "`**")]}, data.interaction)
 	}
