@@ -3,5 +3,8 @@
         "token":"",
         "appID":"",
         "testGuildID":""
+    },
+    "embedGen":{
+        "errorColor": "0xF52411"
     }
 }
