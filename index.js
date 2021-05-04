@@ -6,6 +6,7 @@ const Discord = require('discord.js');
 
 //MANAGERS
 const eventListener = require("./src/EventHandler/EventListener");
+const commandHandler = require('./src/CommandHandler/commandHandler.js')
 
 //VARS
 const client = new Discord.Client();
@@ -30,6 +31,9 @@ console.log(
 
 //Registering Managers
 eventListener(client);
+
+//Load commands
+commandHandler.getCommands(client)
 
 //Log in Client
 logger.info("Logging in...")
