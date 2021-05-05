@@ -11,6 +11,7 @@ const guildSchema = mongoose.Schema({
         economy: Boolean,
         fun: Boolean,
         giveaway: Boolean,
+        leaveNotice: Boolean,
         leveling: Boolean,
         moderation: Boolean,
         tickets: Boolean,
@@ -20,7 +21,14 @@ const guildSchema = mongoose.Schema({
     },
     channels: {
         auditLogChannel: String,
-        announcementChannel: String
+        announcementChannel: String,
+        leaveNoticeChannel: String,
+    },
+    settings: {
+
+    },
+    messages: {
+        leaveNotice: String
     }
 });
 

@@ -31,8 +31,6 @@ module.exports.connect = function () {
  *
  */
 module.exports.loadGuildData = async function (guildID) {
-    this.connect();
-
     let doc = await Guild.findOne({
         guildID: guildID
     }).exec().catch(err => console.log(err));
@@ -48,16 +46,24 @@ module.exports.loadGuildData = async function (guildID) {
                 economy: false,
                 fun: false,
                 giveaway: false,
+                leaveNotice: false,
                 leveling: false,
                 moderation: false,
                 tickets: false,
                 polls: false,
                 timer: false,
-                warn: false
+                warn: false,
             },
             channels: {
                 auditLogChannel: "",
-                announcementChannel: ""
+                announcementChannel: "",
+                leaveNoticeChannel: "",
+            },
+            settings: {
+
+            },
+            messages: {
+                leaveNotice: "",
             }
         });
 

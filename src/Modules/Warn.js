@@ -2,10 +2,11 @@ const embedGen = require('./../Utils/embedGenerator.js')
 const axios = require("axios");
 
 /**
- * Audit Log Module
+ * Warn Module
  *
  * @param {object} client discord client
  * @param {object} guildData guild data
+ * @param {object} user discord user
  *
  */
 module.exports = async (client, guildData, user) => {

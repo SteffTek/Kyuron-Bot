@@ -4,6 +4,7 @@ const configHandler = require("./src/Utils/ConfigHandler");
 const config = configHandler.getConfig();
 const Discord = require('discord.js');
 const APICalls = require('./src/Utils/APICalls.js')
+const db = require('./src/Database/db')
 
 //MANAGERS
 const eventListener = require("./src/EventHandler/EventListener");
@@ -30,6 +31,9 @@ console.log(
 
 /* STARTUP */
 
+//Load DB
+db.connect();
+
 //Registering Managers
 eventListener(client);
 
@@ -37,10 +41,10 @@ eventListener(client);
 commandHandler(client)
 
 //Initializing Debug Guild-Commands
-
+/*
 let debugCMD = client.commands.get("module")
 APICalls.createGuildCommand(config.discord.appID, config.discord.testGuildID, {name: debugCMD.name, description: debugCMD.description, options: debugCMD.options})
-
+*/
 
 //Log in Client
 logger.info("Logging in...")

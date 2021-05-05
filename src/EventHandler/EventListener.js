@@ -11,6 +11,7 @@ const messageDelete = require("./Events/MessageDelete");
 const messageUpdate = require("./Events/MessageUpdate");
 
 const guildMemberAdd = require("./Events/GuildMemberAdd");
+const guildMemberRemove = require("./Events/GuildMemberRemove");
 
 module.exports = (client) => {
 
@@ -82,11 +83,11 @@ module.exports = (client) => {
         GUILD MEMBER EVENTS
     */
     client.on('guildMemberAdd', member => {
-        guildMemberAdd(client,member);
+        guildMemberAdd(client, member);
     });
 
     client.on('guildMemberRemove', member => {
-
+        guildMemberRemove(client, member);
     });
 
     client.on('guildMemberUpdate', (oldMember, newMember) => {

@@ -19,6 +19,10 @@ module.exports = {
             {
                 "name":"Announcement Channel",
                 "value":"announcementChannel"
+            },
+            {
+                "name":"Leave Notice Channel",
+                "value":"leaveNoticeChannel"
             }
         ]
     }],
@@ -26,7 +30,7 @@ module.exports = {
 		// Responding to the interaction with the client's websocket ping
         const channelType = data.args[0].value;
         const channelID = data.channel.id;
-        
+
         //SET MODULE DATA
         data.guildData.channels[channelType] = channelID;
 
