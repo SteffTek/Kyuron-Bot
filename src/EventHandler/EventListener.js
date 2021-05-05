@@ -98,7 +98,7 @@ module.exports = (client) => {
         CHANNEL EVENTS
     */
     client.on("channelCreate", channel => {
-
+        
     });
 
     client.on("channelDelete", channel => {

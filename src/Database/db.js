@@ -55,6 +55,7 @@ module.exports.loadGuildData = async function (guildID) {
                 warn: false,
             },
             modRoles:[],
+            muteRole:"",
             channels: {
                 auditLogChannel: "",
                 announcementChannel: "",
