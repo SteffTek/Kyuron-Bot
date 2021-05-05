@@ -14,7 +14,7 @@ module.exports = async (client, guildData, user) => {
     client.guilds.fetch(guildData.guildID).then(guild => {
         let channel = guild.channels.resolve(guildData.channels.leaveNoticeChannel);
         if(channel.type === "text") {
-            channel.send(`**${user.tag} has left the server!**`);
+            channel.send(guildData?.messages?.leaveNotice.replace("%user%",`${user.tag}`));
         }
     });
 }

@@ -63,7 +63,7 @@ module.exports.loadGuildData = async function (guildID) {
 
             },
             messages: {
-                leaveNotice: "",
+                leaveNotice: "**%user% has left the server!**",
             }
         });
 
