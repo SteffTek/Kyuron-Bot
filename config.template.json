@@ -10,6 +10,9 @@
     "colors":{
         "embedGen": {
             "error": "0xF52411"
+        },
+        "auditLog": {
+            "CHANNEL CREATED": "0x21C468"
         }
     }
 }

@@ -5,8 +5,8 @@ const config = configHandler.getConfig();
 const APICalls = require('./APICalls.js')
 
 /**
- * Sends a simple Discord.MessageEmbed for error messages
- * If no client or interaction is specified then the embed will just be returned
+ * Sends a simple Discord.MessageEmbed for error messages.
+ * If no client or interaction is specified then the embed will just be returned.
  *
  * @param {string} message Error message
  * @param {Discord.Client} client Discord client
@@ -27,8 +27,8 @@ module.exports.error = function (message, client, interaction) {
 }
 
 /**
- * Sends a simple custom Discord.MessageEmbed
- * If no client or interaction is specified then the embed will just be returned
+ * Sends a simple custom Discord.MessageEmbed.
+ * If no client or interaction is specified then the embed will just be returned.
  * 
  * @param {string} title Embed title
  * @param {string} color Embed color (0xFFFFFF)
