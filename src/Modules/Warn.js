@@ -1,3 +1,6 @@
+//IMPRTANT IMPORTS
+const configHandler = require('./../Utils/configHandler.js');
+const config = configHandler.getConfig();
 const embedGen = require('./../Utils/embedGenerator.js')
 const axios = require("axios");
 
@@ -17,27 +20,26 @@ module.exports = async (client, guildData, user) => {
     let response = await axios.post('https://dvs.stefftek.de/api/bans', { data: { userID: user.id } });
     let res = await response.data;
 
-    let warn = "";
+    let warnings = []
 
     const createdAt = user.createdAt;
     const maxDays = 3;
     if(numDaysBetween(createdAt, new Date()) < maxDays) {
-        warn += "**User created less than " + maxDays + " days ago!**"
+        warnings.push("`Warning:` **User created less than " + maxDays + " days ago!**");
     }
 
     if (res.status === "success") {
         //HAS VS BAN
-        warn += "\n**User was found in Global Ban Database!**"
+        warnings.push("`Ban Check:` **User was banned for inappropriate behaviour on various discord servers. Visit https://dvs.stefftek.de/ for more information!**");
     }
 
     //DON'T WARN IF NOTHING FOUND
-    if(warn === "") {
+    if(warnings.length === 0) {
         return;
-    } else {
-        warn = `**${user} has joined!** \n` + warn;
     }
+    const warn = `**${user} has joined!** \n` + warnings.join("\n");
 
-    const embed = embedGen.custom("⚠️WARNING⚠️", "0xFF964F", warn);
+    const embed = embedGen.custom("⚠️WARNING⚠️", config.colors.auditLog.WARN, warn);
 
     //LOG
     client.guilds.fetch(guildData.guildID).then(guild => {

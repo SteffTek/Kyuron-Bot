@@ -73,15 +73,23 @@ module.exports = {
         }
     ],
 	async execute(data) {
+        //CHECK MODULE
+        if(!data.guildData.modules?.fun) {
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error("This module isn't activated.")]}, data.interaction)
+            return;
+        }
+
         //GET TYPE
         const type = data.args[0].name;
 
+        // MOCK TEXT
         if(type === "mock") {
             const text = mocking(data.args[0].options[0]?.value);
             APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("💢MOCK!💢", config.colors.fun.MOCK,`**${text}**`)]}, data.interaction)
             return;
         }
 
+        // SEND MEME
         if(type === "meme") {
             var subReddit = "";
             if(data?.args[0]?.options) {
@@ -102,13 +110,32 @@ module.exports = {
             return;
         }
 
-		//GET DATA
-        const roleType = data.args[0].options[0]?.value;
-        const roleID = data.args[0].options[1]?.value;
+        // GIVE COOKIE
+        if(type === "cookie") {
+            const userID = data.args[0].options[0]?.value;
+            const member = await data.channel.guild.members.fetch(userID);
 
+            if(userID === data.author.user.id) {
+                APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error("You cannot give a cookie to yourself! You gonna get fat!")]}, data.interaction)
+                return;
+            }
 
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🍪COOKIE!🍪", config.colors.fun.COOKIE,`**You gave ${member} a cookie :3**`)]}, data.interaction)
+            return;
+        }
 
-		//APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("FUN", "0xFF964F", "FUN")]}, data.interaction)
+        // RANDOM COLOR
+        if(type === "color") {
+            const color = randomColor();
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("✒️COLOR!✏️", color,`**${color}**`)]}, data.interaction)
+            return;
+        }
+
+        // SHIP IT
+
+        //MACHT CLARA :3
+        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error("Shippen macht Clara wahrscheinlich :3")]}, data.interaction)
+
 	}
 };
 
@@ -143,4 +170,11 @@ async function getMeme(reddit) {
         logger.error(error + " [Sub Reddit: " + reddit + "]");
         return null;
     }
+}
+
+/*
+    COLOR FUNCTION
+*/
+function randomColor() {
+    return "#" + Math.floor(Math.random()*16777215).toString(16);
 }

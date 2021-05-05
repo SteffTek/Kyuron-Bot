@@ -12,11 +12,13 @@
             "error": "0xF52411"
         },
         "auditLog": {
+            "WARN": "0xFF964F",
             "CHANNEL CREATED": "0x21C468"
         },
         "fun":{
             "MOCK":"0xf4fa84",
-            "MEME":"0xff7b00"
+            "MEME":"0xff7b00",
+            "COOKIE":"0xE6CEA0"
         }
     }
     }
