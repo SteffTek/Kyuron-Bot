@@ -1,6 +1,7 @@
 //IMPORTANT IMPORTS
 const APICalls = require('./../../Utils/APICalls.js')
-const embedGen = require('./../../Utils/embedGenerator.js')
+const embedGen = require('./../../Utils/embedGenerator.js');
+const permissionChecker = require('./../../Utils/permissionChecker.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -43,9 +44,12 @@ module.exports = {
         }
 ],
 	async execute(data) {
-		// Responding to the interaction with the client's websocket ping
-        //const channelType = data.args[0].value;
-        //const channelID = data.channel.id;
+        //CHECK PERMISSION
+        const member = await data.channel.guild.members.resolve(data.author.user.id);
+        if(!permissionChecker.isAdmin(member)) {
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error("**You don't have the permission to do this!**")]}, data.interaction)
+            return;
+        }
 
 		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("Announcement added", "0xFF964F", "")]}, data.interaction)
 	}

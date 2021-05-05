@@ -19,6 +19,7 @@ const guildSchema = mongoose.Schema({
         timer: Boolean,
         warn: Boolean
     },
+    modRoles: [String],
     channels: {
         auditLogChannel: String,
         announcementChannel: String,
