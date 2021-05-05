@@ -82,7 +82,7 @@ module.exports = {
         //GET DATA
         let module = data.args[0].value;
         let isEnabled = data.args[1].value;
-        
+
         //SET MODULE DATA
         data.guildData.modules[module] = isEnabled;
 
