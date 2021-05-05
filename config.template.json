@@ -13,6 +13,11 @@
         },
         "auditLog": {
             "CHANNEL CREATED": "0x21C468"
+        },
+        "fun":{
+            "MOCK":"0xf4fa84",
+            "MEME":"0xff7b00"
         }
+    }
     }
 }

@@ -49,3 +49,29 @@ module.exports.custom = function (title, color, message, client, interaction) {
         APICalls.sendInteraction(client, {"content": "","embeds": [embed]}, interaction)
     }
 }
+
+/**
+ * Sends a simple custom Discord.MessageEmbed.
+ * If no client or interaction is specified then the embed will just be returned.
+ *
+ * @param {string} title Embed title
+ * @param {string} color Embed color (0xFFFFFF)
+ * @param {string} message Embed message
+ * @param {string} imageURL Embed image
+ * @param {Discord.Client} client Discord client
+ * @param {object} interaction Interaction that this embed will be send as an response to
+ *
+ */
+ module.exports.image = function (title, color, message, imageURL, client, interaction) {
+    const embed = new Discord.MessageEmbed()
+        .setAuthor(title)
+        .setColor(color)
+        .setTimestamp()
+        .setImage(imageURL)
+        .setDescription(message);
+    if (!client || !interaction) {
+        return embed
+    } else {
+        APICalls.sendInteraction(client, {"content": "","embeds": [embed]}, interaction)
+    }
+}
