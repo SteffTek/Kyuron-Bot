@@ -99,6 +99,6 @@ module.exports = {
 
         //TODO: MODULE SPECIFIC UPDATES
 
-		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🛠️ MODULE SET 🛠️", "0x214aff", "**State:** `" + module + "/" + isEnabled + "`")]}, data.interaction)
+		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🛠️ MODULE SET 🛠️", "0x214aff", "`module:` **" + module + "**\n`state:` **" + (isEnabled ? "enabled" : "disabled") + "**")]}, data.interaction)
 	}
 };
