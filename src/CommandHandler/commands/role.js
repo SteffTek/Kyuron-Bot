@@ -62,6 +62,28 @@ module.exports = {
                     "required":true
                 }
             ]
+        },{
+            "name":"get",
+            "description":"Gets Role.",
+            "type":1,
+            "options":[
+                {
+                    "name":"type",
+                    "description":"Role Type",
+                    "required":true,
+                    "type":3,
+                    "choices":[
+                        {
+                            "name":"Mod Role",
+                            "value":"modRole"
+                        },
+                        {
+                            "name":"Mute Role",
+                            "value":"muteRole"
+                        }
+                    ]
+                }
+            ]
         }
     ],
 	async execute(data) {
@@ -76,10 +98,11 @@ module.exports = {
         const type = data.args[0].name;
 
 		//GET DATA
-        const roleType = data.args[0].options[0].value;
-        const roleID = data.args[0].options[1].value;
+        const roleType = data.args[0].options[0]?.value;
+        const roleID = data.args[0].options[1]?.value;
 
         var title = "Role Set!"
+        var message = "Role ID:  **`" + roleID + "/" + roleType + "`**";
 
         //SET MODULE DATA
         if(type === "set") {
@@ -110,10 +133,26 @@ module.exports = {
             }
         }
 
+        //GET MODULE DATA
+        if(type === "get") {
+            title = "Roles:"
+
+            if(roleType === "muteRole") {
+                message = "Role:  **`" + data.guildData.muteRole + "/" + roleType + "`**";
+            }
+
+            if(roleType === "modRole") {
+                message = "**Roles:** `" + roleType + "`"
+                for(let role in data.guildData.modRoles) {
+                    message += "\n" + data.guildData.modRoles[role];
+                }
+            }
+        }
+
         //SAVE GUILD DATA
         data.guildData.save().catch(err => console.log(err));
 
 
-		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom(title, "0xFF964F", "Role ID:  **`" + roleID + "/" + roleType + "`**")]}, data.interaction)
+		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom(title, "0xFF964F", message)]}, data.interaction)
 	}
 };
