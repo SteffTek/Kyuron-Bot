@@ -8,4 +8,6 @@ module.exports = async (client, message) => {
     //SENT TO LOGGER
     let desc = `**Message from ${message.author} sent in ${message.channel}**: \n\n ${message.content}`
     auditLogger(client, guildData, "MESSAGE DELETED", desc);
+
+    //CHECK IF MESSAGE WAS REACTION ROLE MESSAGE & REMOVE
 }

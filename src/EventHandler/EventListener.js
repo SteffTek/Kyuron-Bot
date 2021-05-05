@@ -6,12 +6,21 @@ const Discord = require('discord.js');
 
 /* EVENT IMPORTS */
 const ready = require("./Events/Ready");
+
 const message = require("./Events/Message");
 const messageDelete = require("./Events/MessageDelete");
 const messageUpdate = require("./Events/MessageUpdate");
 
 const guildMemberAdd = require("./Events/GuildMemberAdd");
 const guildMemberRemove = require("./Events/GuildMemberRemove");
+
+const channelCreate = require("./Events/ChannelCreate");
+const channelDelete = require("./Events/ChannelDelete");
+const channelUpdate = require("./Events/ChannelUpdate");
+
+const roleCreate = require("./Events/RoleCreate");
+const roleDelete = require("./Events/RoleDelete");
+const roleUpdate = require("./Events/RoleUpdate");
 
 module.exports = (client) => {
 
@@ -98,15 +107,15 @@ module.exports = (client) => {
         CHANNEL EVENTS
     */
     client.on("channelCreate", channel => {
-        
+        channelCreate(client, channel);
     });
 
     client.on("channelDelete", channel => {
-
+        channelDelete(client, channel);
     });
 
     client.on("channelUpdate", (oldChannel, newChannel) => {
-
+        channelUpdate(client, oldChannel, newChannel);
     });
 
     /*
@@ -150,14 +159,14 @@ module.exports = (client) => {
         ROLE EVENTS
     */
     client.on("roleCreate", role => {
-
+        roleCreate(client, role);
     });
 
     client.on("roleDelete", role => {
-
+        roleDelete(client, role);
     });
 
     client.on("roleUpdate", (oldRole, newRole) => {
-
+        roleUpdate(client, oldRole, newRole);
     });
 }

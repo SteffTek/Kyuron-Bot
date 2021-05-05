@@ -41,7 +41,7 @@ module.exports.custom = function (title, color, message, client, interaction) {
     const embed = new Discord.MessageEmbed()
         .setAuthor(title)
         .setColor(color)
-        .setTimestamp
+        .setTimestamp()
         .setDescription(message);
     if (!client || !interaction) {
         return embed
