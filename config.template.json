@@ -7,7 +7,9 @@
     "database":{
         "url":""
     },
-    "embedGen":{
-        "errorColor": "0xF52411"
+    "colors":{
+        "embedGen": {
+            "error": "0xF52411"
+        }
     }
 }
