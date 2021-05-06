@@ -187,11 +187,10 @@ module.exports = {
         data.channel.messages.fetch(messageData.id).then(async message => {
             //FILTER
             const filter = (reaction, user) => {
-                console.log(user.id === message.author.id);
                 return EMOJI.includes(reaction.emoji.name) && user.id === message.author.id;
             };
 
-            message.awaitReactions(filter, {time: timer * 10 * 1000}).then(collected => {
+            message.awaitReactions(filter, {time: timer * 60 * 1000}).then(collected => {
                 var winner = null;
                 //SELECT WINNER
                 collected.each(emote => {

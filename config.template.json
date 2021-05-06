@@ -26,6 +26,9 @@
         },
         "tickets":{
             "INFO":"0xf4fa84"
+        },
+        "giveaway": {
+            "BODY":"0x73168a"
         }
     }
 }

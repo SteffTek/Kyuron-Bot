@@ -81,15 +81,15 @@ module.exports = (client) => {
         GUILD EVENTS
     */
     client.on('guildCreate', guild => {
-
+        //TODO: ADD GUILD
     });
 
     client.on('guildDelete', guild => {
-
+        //TODO: DELETE GUILD
     });
 
     client.on('guildUpdate', (oldGuild, newGuild) => {
-
+        //... I don't f*ing know?
     });
 
     /*
