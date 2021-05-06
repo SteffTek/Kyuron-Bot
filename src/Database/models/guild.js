@@ -26,6 +26,7 @@ const guildSchema = mongoose.Schema({
         announcementChannel: String,
         leaveNoticeChannel: String,
         ticketSystemChannel: String,
+        levelSystemChannel: String
     },
     settings: {
 
@@ -33,7 +34,8 @@ const guildSchema = mongoose.Schema({
     messages: {
         leaveNotice: String,
         ticketSystem: String,
-        ticketIntro: String
+        ticketIntro: String,
+        levelSystem: String
     },
     messageIDs: {
         ticketSystem: String,

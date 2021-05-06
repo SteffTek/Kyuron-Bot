@@ -62,6 +62,7 @@ module.exports.loadGuildData = async function (guildID) {
                 announcementChannel: "",
                 leaveNoticeChannel: "",
                 ticketSystemChannel: "",
+                levelSystemChannel: ""
             },
             settings: {
 
@@ -69,7 +70,8 @@ module.exports.loadGuildData = async function (guildID) {
             messages: {
                 leaveNotice: "**%user% has left the server!**",
                 ticketSystem: "**React with %emote% to create a ticket!**",
-                ticketIntro: "**Hello %user%! Stay tuned, a moderator will watch your case soon!**"
+                ticketIntro: "**Hello %user%! Stay tuned, a moderator will watch your case soon!**",
+                levelSystem: "%user% achieved **`Level %level$`**, congrats!"
             },
             messageIDs: {
                 ticketSystem: "",

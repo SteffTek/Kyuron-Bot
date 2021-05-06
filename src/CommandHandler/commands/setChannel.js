@@ -28,6 +28,10 @@ module.exports = {
             {
                 "name":"Ticket System Channel",
                 "value":"ticketSystemChannel"
+            },
+            {
+                "name":"LevelUP Announcement Channel",
+                "value":"levelSystemChannel"
             }
         ]
     }],
