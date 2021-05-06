@@ -2,7 +2,9 @@
 const APICalls = require('./../../Utils/APICalls.js')
 const embedGen = require('./../../Utils/embedGenerator.js')
 const permissionChecker = require('./../../Utils/permissionChecker.js');
-const db = require('./../../Database/db.js')
+
+const configHandler = require("../../Utils/ConfigHandler");
+const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -97,8 +99,34 @@ module.exports = {
         //SAVE GUILD DATA
         data.guildData.save().catch(err => console.log(err));
 
-        //TODO: MODULE SPECIFIC UPDATES
-
+        //SEND RESPONSE FIRST
 		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🛠️ MODULE SET 🛠️", "0x214aff", "`module:` **" + module + "**\n`state:` **" + (isEnabled ? "enabled" : "disabled") + "**")]}, data.interaction)
-	}
+
+        //TODO: MODULE SPECIFIC UPDATES
+        if(module === "tickets") {
+            //CREATE TICKET CHANNEL
+            if(!isEnabled) return;
+            //CREATE CATEGORY
+            data.channel.guild.channels.create("🎫-Support", {type: "category"}).then(category => {
+                //CREATE CHANNEL
+                data.channel.guild.channels.create("🎫-Ticket", {type: "text", parent: category}).then(channel => {
+                    //SET CHANNEL TO GUILD DATA
+                    data.guildData.channels.ticketSystemChannel = channel.id;
+
+                    //COMMIT CHANNEL MESSAGE EMBED
+                    channel.send(embedGen.custom("🎫-Support Tickets",config.colors.tickets.INFO,data.guildData.messages.ticketSystem.replace("%emote%", "📩"))).then(message => {
+                        data.guildData.messageIDs.ticketSystem = message.id;
+                        message.react("📩");
+
+                        //SAVE GUILD DATA
+                        data.guildData.save().catch(err => console.log(err));
+                    }).catch(err => {
+                        APICalls.sendFollowUp({"content": "", "embeds": [embedGen.error("**I don't have the permission to send messages in the ticket channel!**")]}, data.interaction);
+                    })
+                });
+            }).catch(err => {
+                APICalls.sendFollowUp({"content": "", "embeds": [embedGen.error("**I don't have the permission to create channels!**")]}, data.interaction);
+            })
+        }
+    }
 };

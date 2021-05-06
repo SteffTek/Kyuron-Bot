@@ -32,6 +32,19 @@ module.exports.sendInteraction = async function (client, data, interaction, type
     })
 }
 
+module.exports.sendFollowUp = async function (data, interaction) {
+    let http_config = {
+        headers: {
+            "Authorization": "Bot " + config.discord.token
+        }
+    }
+
+    axios.post(`https://discordapp.com/api/v8/webhooks/${config.discord.appID}/${interaction.token}`, data, http_config)
+    .catch(function (error) {
+        console.log(error);
+    });
+}
+
 module.exports.getInteractionMessage = async function (interaction) {
     let http_config = {
         headers: {

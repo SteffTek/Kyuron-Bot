@@ -3,6 +3,9 @@ const APICalls = require('./../../Utils/APICalls.js')
 const embedGen = require('./../../Utils/embedGenerator.js')
 const permissionChecker = require('./../../Utils/permissionChecker.js');
 
+const configHandler = require("../../Utils/ConfigHandler");
+const config = configHandler.getConfig();
+
 // Exporting the command for the commandHandler
 module.exports = {
     name: 'setmessage',
@@ -17,6 +20,9 @@ module.exports = {
                 {
                     "name":"Leave Notice",
                     "value":"leaveNotice"
+                },{
+                    "name":"Ticket System Message",
+                    "value":"ticketSystem"
                 }
             ]
         },{
@@ -45,5 +51,15 @@ module.exports = {
         data.guildData.save().catch(err => console.log(err));
 
 		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("Custom Message Set!", "0xFF964F", "Message:  **`" + messageType + " / " + messageString + " `**")]}, data.interaction)
-	}
+
+        //TODO SPECIFIC UPDATES
+        if(messageType === "ticketSystem") {
+            if(data.guildData.messageIDs.ticketSystem === "") return;
+            if(data.guildData.channels.ticketSystemChannel === "") return;
+
+            data.channel.guild.channels.resolve(data.guildData.channels.ticketSystemChannel).messages.fetch(data.guildData.messageIDs.ticketSystem).then(message => {
+                message.edit(embedGen.custom("🎫-Support Tickets",config.colors.tickets.INFO,data.guildData.messages.ticketSystem.replace("%emote%", "📩")))
+            });
+        }
+    }
 };

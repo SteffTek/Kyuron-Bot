@@ -23,6 +23,9 @@
         "poll":{
             "VOTE":"0xf4fa84",
             "SURVEY":"0xff7b00"
+        },
+        "tickets":{
+            "INFO":"0xf4fa84"
         }
     }
 }

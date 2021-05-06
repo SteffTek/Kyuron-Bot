@@ -67,7 +67,7 @@ module.exports.loadGuildData = async function (guildID) {
             },
             messages: {
                 leaveNotice: "**%user% has left the server!**",
-                ticketSystem: "**React with 📩 to create a ticket!**"
+                ticketSystem: "**React with %emote% to create a ticket!**"
             },
             messageIDs: {
                 ticketSystem: "",

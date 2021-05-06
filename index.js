@@ -42,7 +42,7 @@ commandHandler(client)
 
 //Initializing Debug Guild-Commands
 /*
-let debugCMD = client.commands.get("poll")
+let debugCMD = client.commands.get("setmessage")
 APICalls.createGuildCommand(config.discord.appID, config.discord.testGuildID, {name: debugCMD.name, description: debugCMD.description, options: debugCMD.options})
 */
 

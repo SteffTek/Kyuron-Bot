@@ -24,6 +24,10 @@ module.exports = {
             {
                 "name":"Leave Notice Channel",
                 "value":"leaveNoticeChannel"
+            },
+            {
+                "name":"Ticket System Channel",
+                "value":"ticketSystemChannel"
             }
         ]
     }],
@@ -46,5 +50,5 @@ module.exports = {
         data.guildData.save().catch(err => console.log(err));
 
 		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("Channel Set!", "0xFF964F", "Channel ID:  **`" + channelID + "/" + channelType + "`**")]}, data.interaction)
-	}
+    }
 };

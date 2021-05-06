@@ -10,4 +10,13 @@ module.exports = async (client, channel) => {
     auditLogger(client, guildData, "CHANNEL DELETED", desc);
 
     //CHECK IF CHANNEL WAS SET IN GUILD DATA & REMOVE
+
+    //IF TICKET SUPPORT
+    if(guildData.channels.ticketSystemChannel === channel.id) {
+        guildData.channels.ticketSystemChannel = "";
+        guildData.messageIDs.ticketSystem = "";
+
+        //SAVE GUILD DATA
+        guildData.save().catch(err => console.log(err));
+    }
 }

@@ -9,6 +9,7 @@ const ready = require("./Events/Ready");
 
 const message = require("./Events/Message");
 const messageDelete = require("./Events/MessageDelete");
+const messageDeleteBulk = require("./Events/MessageDeleteBulk");
 const messageUpdate = require("./Events/MessageUpdate");
 
 const guildMemberAdd = require("./Events/GuildMemberAdd");
@@ -36,6 +37,7 @@ module.exports = (client) => {
     client.on('rateLimit', rateLimitInfo => {
         //logger.error("Rate Limit hit! See following log...");
         //console.log(rateLimitInfo);
+        //NOTE: Das ding feuert bei Reactions was ultra nervig ist
     });
 
     /*
@@ -54,7 +56,7 @@ module.exports = (client) => {
     });
 
     client.on('messageDeleteBulk', messages => {
-
+        messageDeleteBulk(client, messages);
     });
 
     client.on('messageReactionAdd', (messageReaction, user) => {
