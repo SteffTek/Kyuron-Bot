@@ -73,7 +73,8 @@ module.exports.loadGuildData = async function (guildID) {
                 ticketSystem: "",
                 reactionRoles: []
             },
-            reactionRoles: {}
+            reactionRoles: {},
+            tickets: {}
         });
 
         await newDoc.save().catch(err => console.log(err)).then(() => { doc = newDoc})
