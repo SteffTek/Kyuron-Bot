@@ -60,13 +60,20 @@ module.exports.loadGuildData = async function (guildID) {
                 auditLogChannel: "",
                 announcementChannel: "",
                 leaveNoticeChannel: "",
+                ticketSystemChannel: "",
             },
             settings: {
 
             },
             messages: {
                 leaveNotice: "**%user% has left the server!**",
-            }
+                ticketSystem: "**React with 📩 to create a ticket!**"
+            },
+            messageIDs: {
+                ticketSystem: "",
+                reactionRoles: []
+            },
+            reactionRoles: {}
         });
 
         await newDoc.save().catch(err => console.log(err)).then(() => { doc = newDoc})

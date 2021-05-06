@@ -25,13 +25,20 @@ const guildSchema = mongoose.Schema({
         auditLogChannel: String,
         announcementChannel: String,
         leaveNoticeChannel: String,
+        ticketSystemChannel: String,
     },
     settings: {
 
     },
     messages: {
-        leaveNotice: String
-    }
+        leaveNotice: String,
+        ticketSystem: String,
+    },
+    messageIDs: {
+        ticketSystem: String,
+        reactionRoles: Array
+    },
+    reactionRoles: Object
 });
 
 module.exports = mongoose.model("Guild", guildSchema, "guildData")
