@@ -23,6 +23,9 @@ module.exports = {
                 },{
                     "name":"Ticket System Message",
                     "value":"ticketSystem"
+                },{
+                    "name":"New Ticket Message",
+                    "value":"ticketIntro"
                 }
             ]
         },{

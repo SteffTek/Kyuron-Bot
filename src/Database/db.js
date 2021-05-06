@@ -4,9 +4,11 @@ const configHandler = require('./../Utils/configHandler.js');
 const logger = require("../Utils/Logger");
 const config = configHandler.getConfig();
 const LevelSystem = require('./../Modules/LevelSystem.js')
+const { v4: uuidv4 } = require('uuid');
 
 //MONGOOSE MODELS
 const Guild = require('./models/guild.js');
+const Ticket = require('./models/tickets.js');
 
 /*
  * Connects the client with MongoDB
@@ -66,14 +68,14 @@ module.exports.loadGuildData = async function (guildID) {
             },
             messages: {
                 leaveNotice: "**%user% has left the server!**",
-                ticketSystem: "**React with %emote% to create a ticket!**"
+                ticketSystem: "**React with %emote% to create a ticket!**",
+                ticketIntro: "**Hello %user%! Stay tuned, a moderator will watch your case soon!**"
             },
             messageIDs: {
                 ticketSystem: "",
                 reactionRoles: []
             },
             reactionRoles: {},
-            tickets: {},
             levelSystem: new LevelSystem()
         });
 
@@ -82,14 +84,75 @@ module.exports.loadGuildData = async function (guildID) {
 
     doc.levelSystem = LevelSystem.load(doc.levelSystem)
     return doc;
-}
+};
 
 /**
- * Loads and Inits the guildData for the specified guildID
+ * Loads and Inits the ticketData for the specified guildID
  *
- * @param {object} guildData guild data
+ * @param {string} guildID guild id
+ * @param {string} userID user id
+ * @returns {object} ticket data
  *
  */
- module.exports.saveGuildData = async function (guildData) {
-    await guildData.save().catch(err => console.log(err));
-}
+module.exports.loadTicketData = async function (guildID, userID) {
+    //GET TICKET
+    let doc = await Ticket.findOne({
+        guildID: guildID,
+        userID: userID
+    }).exec().catch(err => console.log(err));
+
+    //CREATE NEW IF NONE
+    if (doc === null) {
+        const newDoc = await new Ticket({
+            channelID: "",
+            guildID: guildID,
+            userID: userID,
+            isClosed: false
+        });
+
+        await newDoc.save().catch(err => console.log(err)).then(() => { doc = newDoc})
+    }
+    return doc;
+};
+
+/**
+ * Checks for duplicate Tickets
+ *
+ * @param {string} guildID guild id
+ * @param {string} userID user id
+ * @returns {boolean} hasTicket
+ *
+ */
+module.exports.hasTicket = async function (guildID, userID) {
+    //GET TICKET
+    let doc = await Ticket.findOne({
+        guildID: guildID,
+        userID: userID
+    }).exec().catch(err => console.log(err));
+
+    //CREATE NEW IF NONE
+    if (doc === null) {
+        return false;
+    }
+    return true;
+};
+
+/**
+ * Removes Ticket Data
+ *
+ * @param {string} guildID guild id
+ * @param {string} channelID channel id
+ *
+ */
+ module.exports.removeTicketData = async function (guildID, channelID) {
+    //GET TICKET
+    let doc = await Ticket.findOne({
+        guildID: guildID,
+        channelID: channelID
+    }).exec().catch(err => console.log(err));
+
+    //DO NOTING IF NOT FOUND
+    if (doc === null) return;
+
+    doc.remove();
+};

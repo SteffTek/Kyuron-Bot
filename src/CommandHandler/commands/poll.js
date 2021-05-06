@@ -22,6 +22,11 @@ module.exports = {
                     "description":"What's your poll about?",
                     "required":true,
                     "type":3,
+                },{
+                    "name":"timer",
+                    "description":"Time in Minutes (Default: 10)",
+                    "required":false,
+                    "type":4,
                 }
             ]
         },{
@@ -84,6 +89,11 @@ module.exports = {
                     "description":"Option 10",
                     "required":false,
                     "type":3,
+                },{
+                    "name":"timer",
+                    "description":"Time in Minutes (Default: 10)",
+                    "required":false,
+                    "type":4,
                 }
             ]
         }
@@ -117,15 +127,53 @@ module.exports = {
                 message.react("👍").then(() => {
                     message.react("👎");
                 })
-            })
 
+                //TIMER
+                var timer = 10;
+                if(data.args[0].options[1]) {
+                    timer = data.args[0].options[1].value;
+
+                    if(timer <= 0) {
+                        timer = 1;
+                    }
+                }
+
+                const filter = (reaction, user) => {
+                    return THUMBS.includes(reaction.emoji.name) && user.id === message.author.id;
+                };
+
+                message.awaitReactions(filter, {time: timer * 60 * 1000}).then(collected => {
+                    var winner = null;
+                    //SELECT WINNER
+                    collected.each(emote => {
+                        if(winner == null) { winner = emote; return;}
+
+                        if(winner.count < emote.count) {
+                            winner = emote;
+                        }
+                    })
+
+                    //ANNOUNCE WINNER
+                    if(winner !== null)
+                        message.channel.send(embedGen.custom("🎉RESULTS!🎉",config.colors.poll.VOTE,`**Go To [Poll](https://discord.com/channels/${message.channel.guild.id}/${message.channel.id}/${message.id})** \n\n**THE WINNER IS ${winner.emoji.name}**`))
+                });
+            });
             return;
         }
 
         //MULTI
         var answers = [];
+        var timer = 10;
         for(let i = 0; i < data.args[0].options.length; i++) {
-            answers.push(data.args[0].options[i].value);
+            if(data.args[0].options[i].name !== "timer") {
+                answers.push(data.args[0].options[i].value);
+            } else {
+                timer = data.args[0].options[i].value;
+
+                if(timer <= 0) {
+                    timer = 1;
+                }
+            }
         }
         let pollOptions = answers.slice(1);
 
@@ -137,6 +185,29 @@ module.exports = {
         //GET SENT MESSAGE
         let messageData = await APICalls.getInteractionMessage(data.interaction);
         data.channel.messages.fetch(messageData.id).then(async message => {
+            //FILTER
+            const filter = (reaction, user) => {
+                console.log(user.id === message.author.id);
+                return EMOJI.includes(reaction.emoji.name) && user.id === message.author.id;
+            };
+
+            message.awaitReactions(filter, {time: timer * 10 * 1000}).then(collected => {
+                var winner = null;
+                //SELECT WINNER
+                collected.each(emote => {
+                    if(winner == null) { winner = emote; return;}
+
+                    if(winner.count < emote.count) {
+                        winner = emote;
+                    }
+                })
+
+                //ANNOUNCE WINNER
+                if(winner !== null)
+                    message.channel.send(embedGen.custom("🎉RESULTS!🎉",config.colors.poll.SURVEY,`**Go To [Poll](https://discord.com/channels/${message.channel.guild.id}/${message.channel.id}/${message.id})** \n\n**THE WINNER IS ${winner.emoji.name}**`))
+            });
+
+            //ADD REACTIONS
             for (let i in pollOptions) await message.react(EMOJI[i]);
         });
 	}
@@ -169,3 +240,5 @@ const EMOJI = [
     "9️⃣",
     "🔟"
 ];
+
+const THUMBS = ['👍', '👎']

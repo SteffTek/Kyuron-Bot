@@ -33,13 +33,13 @@ const guildSchema = mongoose.Schema({
     messages: {
         leaveNotice: String,
         ticketSystem: String,
+        ticketIntro: String
     },
     messageIDs: {
         ticketSystem: String,
         reactionRoles: Array
     },
     reactionRoles: Object,
-    tickets: Object,
     levelSystem: Object
 });
 

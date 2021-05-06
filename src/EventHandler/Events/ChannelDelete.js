@@ -19,4 +19,7 @@ module.exports = async (client, channel) => {
         //SAVE GUILD DATA
         guildData.save().catch(err => console.log(err));
     }
+
+    //IF IN TICKET
+    db.removeTicketData(channel.guild.id, channel.id);
 }
