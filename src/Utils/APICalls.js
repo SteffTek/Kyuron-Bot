@@ -31,3 +31,21 @@ module.exports.sendInteraction = async function (client, data, interaction, type
         }
     })
 }
+
+module.exports.getInteractionMessage = async function (interaction) {
+    let http_config = {
+        headers: {
+            "Authorization": "Bot " + config.discord.token
+        }
+    }
+
+    const result = await axios.get(`https://discordapp.com/api/v8/webhooks/${config.discord.appID}/${interaction.token}/messages/@original`, {}, http_config)
+    .catch(function (error) {
+        console.log(error);
+        return null;
+    }).then(result => {
+        return result.data;
+    })
+
+    return result;
+}

@@ -19,7 +19,10 @@
             "MOCK":"0xf4fa84",
             "MEME":"0xff7b00",
             "COOKIE":"0xE6CEA0"
+        },
+        "poll":{
+            "VOTE":"0xf4fa84",
+            "SURVEY":"0xff7b00"
         }
-    }
     }
 }

@@ -34,8 +34,8 @@ module.exports = (client) => {
     });
 
     client.on('rateLimit', rateLimitInfo => {
-        logger.error("Rate Limit hit! See following log...");
-        console.log(rateLimitInfo);
+        //logger.error("Rate Limit hit! See following log...");
+        //console.log(rateLimitInfo);
     });
 
     /*
