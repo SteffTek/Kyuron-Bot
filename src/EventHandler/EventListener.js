@@ -12,6 +12,8 @@ const messageDelete = require("./Events/MessageDelete");
 const messageDeleteBulk = require("./Events/MessageDeleteBulk");
 const messageUpdate = require("./Events/MessageUpdate");
 
+const messageReactionAdd = require("./Events/MessageReactionAdd");
+
 const guildMemberAdd = require("./Events/GuildMemberAdd");
 const guildMemberRemove = require("./Events/GuildMemberRemove");
 
@@ -60,7 +62,7 @@ module.exports = (client) => {
     });
 
     client.on('messageReactionAdd', (messageReaction, user) => {
-
+        messageReactionAdd(client, messageReaction, user);
     });
 
     client.on('messageReactionRemove', (messageReaction, user) => {

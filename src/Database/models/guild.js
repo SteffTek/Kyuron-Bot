@@ -34,6 +34,7 @@ const guildSchema = mongoose.Schema({
     messages: {
         leaveNotice: String,
         ticketSystem: String,
+        ticketIntro: String,
         levelSystem: String
     },
     messageIDs: {
@@ -41,7 +42,6 @@ const guildSchema = mongoose.Schema({
         reactionRoles: Array
     },
     reactionRoles: Object,
-    tickets: Object,
     levelSystem: Object
 });
 
