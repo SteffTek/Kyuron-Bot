@@ -39,7 +39,8 @@ const guildSchema = mongoose.Schema({
         reactionRoles: Array
     },
     reactionRoles: Object,
-    tickets: Object
+    tickets: Object,
+    levelSystem: Object
 });
 
 module.exports = mongoose.model("Guild", guildSchema, "guildData")

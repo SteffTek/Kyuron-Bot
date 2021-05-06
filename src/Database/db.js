@@ -2,9 +2,8 @@
 const mongoose = require('mongoose');
 const configHandler = require('./../Utils/configHandler.js');
 const logger = require("../Utils/Logger");
-
-const guild = require('./models/guild.js');
 const config = configHandler.getConfig();
+const LevelSystem = require('./../Modules/LevelSystem.js')
 
 //MONGOOSE MODELS
 const Guild = require('./models/guild.js');
@@ -74,12 +73,14 @@ module.exports.loadGuildData = async function (guildID) {
                 reactionRoles: []
             },
             reactionRoles: {},
-            tickets: {}
+            tickets: {},
+            levelSystem: new LevelSystem()
         });
 
         await newDoc.save().catch(err => console.log(err)).then(() => { doc = newDoc})
     }
 
+    doc.levelSystem = LevelSystem.load(doc.levelSystem)
     return doc;
 }
 
