@@ -23,6 +23,9 @@ module.exports = {
                 },{
                     "name":"Ticket System Message",
                     "value":"ticketSystem"
+                },{
+                    "name":"LevelUP Message",
+                    "value":"levelSystem"
                 }
             ]
         },{

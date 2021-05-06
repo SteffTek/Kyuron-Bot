@@ -8,13 +8,14 @@ module.exports = class LevelSystem {
      * @returns {LevelSystem} The LevelSystem class
      */
     constructor(){
-        this.xpGain = {"min": 15, "max": 25, "every": 60}
-        this.xpBar = {"empty": "▱", "full": "▰", "amount": 20}
-        this.blackList = {"enabled": false, "channels": []}
-        this.whiteList = {"enabled": false, "channels": []}
+        this.xpGain = {min: 15, max: 25, every: 60}
+        this.xpBar = {empty: "▱", full: "▰", amount: 20}
+        this.blackList = {enabled: false, channels: []}
+        this.whiteList = {enabled: false, channels: []}
         this.roleRewards = []
         this.levelCurve = [5, 2, 50, 100]
         this.users = []
+        this.sendLevelUpMessage = false
     }
 
     /**
@@ -32,6 +33,7 @@ module.exports = class LevelSystem {
         ls.roleRewards = obj.roleRewards
         ls.levelCurve = obj.levelCurve
         ls.users = obj.users
+        ls.sendLevelUpMessage = obj.sendLevelUpMessage
         return ls
     }
 
@@ -39,23 +41,33 @@ module.exports = class LevelSystem {
      * Checks if the user is possible to gain XP and if yes, add XP and possible role rewards
      * 
      * @param {string} userID userID of the leveldata user
-     * @returns {boolean} if changes were made
+     * @returns {object} if something has changed, if a levelup message should be triggered and if a reward has to be given
      */
     gainXP (userID){
         let index = this.initUser(userID)
         let stamp = + new Date()
 
+        // I won't pay your eyecancer therapy
         if (stamp > this.users[index].nextGainStamp){
             let randomXP = parseFloat((Math.random() * (this.xpGain.max - this.xpGain.min) + this.xpGain.min).toFixed(2))
             this.users[index].xp += randomXP
             this.users[index].xpGes += randomXP
             this.users[index].nextGainStamp = stamp + this.xpGain.every * 1000
 
-            while (this.checkForLvlUp(index)){
-                //levelUp and rolereward check (WIP)
+            if(this.checkForLvlUp(index)){
+                this.users[index].xp -= this.getRequiredXP(this.users[index].lvl + 1)
+                this.users[index].lvl += 1
+
+                if (this.checkForReward(index)){
+                    return {save: true, lvlup: {trigger: true, level: this.users[index].lvl}, reward: {trigger: true, role: this.roleRewards.find(r => r.lvl === this.users[index].lvl).id}}
+                }else{
+                    return {save: true, lvlup: {trigger: true, level: this.users[index].lvl}, reward: {trigger: false, role: ""}}
+                }
+            }else{
+                return {save: true, lvlup: {trigger: false, level: 0}, reward: {trigger: false, role: ""}}
             }
         }else{
-            return false
+            return {save: false, lvlup: {trigger: false, level: 0}, reward: {trigger: false, role: ""}}
         }
     }
 
@@ -81,7 +93,17 @@ module.exports = class LevelSystem {
      * @returns {boolean} if the user is able to levelup
      */
     checkForLvlUp (index){
-        return this.users[index].xp >= this.getRequiredXP(this.users[index].level + 1)
+        return this.users[index].xp >= this.getRequiredXP(this.users[index].lvl + 1)
+    }
+
+    /**
+     * Checks if the specified index of this LevelSystem's users has a pending reward
+     * 
+     * @param {number} index index of the leveldata user
+     * @returns {boolean} if the user is has a pending reward
+     */
+     checkForReward (index){
+        return this.roleRewards.find(r => r.lvl === this.users[index].lvl) !== undefined
     }
 
     /**
