@@ -4,6 +4,12 @@
         "appID":"",
         "testGuildID":""
     },
+    "authentication": {
+        "twitch":"",
+        "twitchSecret":"",
+        "youtube":"",
+        "twitter":""
+    },
     "database":{
         "url":""
     },

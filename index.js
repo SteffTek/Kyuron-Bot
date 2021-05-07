@@ -10,6 +10,11 @@ const db = require('./src/Database/db')
 const eventListener = require("./src/EventHandler/EventListener");
 const commandHandler = require('./src/CommandHandler/commandHandler.js')
 
+//GLOBAL VARS
+global.announcements = {
+    // GUILDIDCHANNELIDURL: Announcement
+}
+
 //VARS
 const client = new Discord.Client();
 
@@ -41,10 +46,10 @@ eventListener(client);
 commandHandler(client)
 
 //Initializing Debug Guild-Commands
-/*
+
 let debugCMD = client.commands.get("announcement")
 APICalls.createGuildCommand(config.discord.appID, config.discord.testGuildID, {name: debugCMD.name, description: debugCMD.description, options: debugCMD.options})
-*/
+
 
 //Log in Client
 logger.info("Logging in...")
@@ -52,4 +57,6 @@ client.login(config.discord.token);
 
 //TESTS
 const Announcement = require("./src/Modules/Announcement");
-new Announcement("https://www.twitch.tv/videos/995657078","dddd","","");
+//new Announcement(client,"https://www.youtube.com/channel/UCOhCna0U64Re87lfZ4yj9VQ","youtube","838862599847542805","838862600473018380");
+//new Announcement(client,"https://twitter.com/unHoly_ger","twitter","838862599847542805","838862600473018380");
+//new Announcement(client,"https://www.twitch.tv/mrlutzig","twitch","838862599847542805","838862600473018380", "@everyone **Der %user% ist Live! Gönnt euch:** %link%");

@@ -9,6 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 //MONGOOSE MODELS
 const Guild = require('./models/guild.js');
 const Ticket = require('./models/tickets.js');
+const Announcement = require('./models/announcement.js');
 
 /*
  * Connects the client with MongoDB
@@ -156,4 +157,85 @@ module.exports.hasTicket = async function (guildID, userID) {
     if (doc === null) return;
 
     doc.remove();
+};
+
+/**
+ * Removes Announcement Data
+ *
+ * @param {string} guildID guild id
+ * @param {string} channelID channel id
+ * @param {string} url announcement channel
+ *
+ */
+ module.exports.removeAnnouncement = async function (guildID, channelID, url) {
+    //GET TICKET
+    let doc = await Announcement.findOne({
+        channelURL: url,
+        discordChannelID: channelID,
+        discordGuildID: guildID
+    }).exec().catch(err => console.log(err));
+
+    //DO NOTING IF NOT FOUND
+    if (doc === null) return;
+
+    doc.remove();
+};
+
+/**
+ * Adds Announcement Data
+ *
+ * @param {string} guildID guild id
+ * @param {string} channelID channel id
+ * @param {string} channelID channel id
+ * @param {string} channelID channel id
+ * @param {string} url announcement channel
+ *
+ */
+ module.exports.loadAnnouncement = async function (guildID, channelID, url, type, displayText) {
+    //GET ANNOUNCEMENT
+    let doc = await Announcement.findOne({
+        channelType: type,
+        channelURL: url,
+        discordChannelID: channelID,
+        discordGuildID: guildID,
+        displayText: displayText
+    }).exec().catch(err => console.log(err));
+
+    //CREATE NEW IF NONE
+    if (doc === null) {
+        const newDoc = await new Announcement({
+            channelType: type,
+            channelURL: url,
+            discordChannelID: channelID,
+            discordGuildID: guildID,
+            displayText: displayText
+        });
+
+        await newDoc.save().catch(err => console.log(err)).then(() => { doc = newDoc})
+    }
+    return doc;
+};
+
+/**
+ * Checks for duplicate Announcements
+ *
+ * @param {string} guildID guild id
+ * @param {string} channelID channel id
+ * @param {string} url announcement channel
+ * @returns {boolean} hasTicket
+ *
+ */
+ module.exports.hasAnnouncement = async function (guildID, channelID, url) {
+    //GET TICKET
+    let doc = await Announcement.findOne({
+        channelURL: url,
+        discordChannelID: channelID,
+        discordGuildID: guildID
+    }).exec().catch(err => console.log(err));
+
+    //CREATE NEW IF NONE
+    if (doc === null) {
+        return false;
+    }
+    return true;
 };
