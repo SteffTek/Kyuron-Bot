@@ -42,10 +42,14 @@ commandHandler(client)
 
 //Initializing Debug Guild-Commands
 /*
-let debugCMD = client.commands.get("giveaway")
+let debugCMD = client.commands.get("announcement")
 APICalls.createGuildCommand(config.discord.appID, config.discord.testGuildID, {name: debugCMD.name, description: debugCMD.description, options: debugCMD.options})
 */
 
 //Log in Client
 logger.info("Logging in...")
 client.login(config.discord.token);
+
+//TESTS
+const Announcement = require("./src/Modules/Announcement");
+new Announcement("https://www.twitch.tv/videos/995657078","dddd","","");

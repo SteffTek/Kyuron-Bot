@@ -25,10 +25,6 @@ module.exports = {
                 {
                     "name":"Twitter",
                     "value":"twitter"
-                },
-                {
-                    "name":"TikTok",
-                    "value":"tiktok"
                 }
             ]
         },{

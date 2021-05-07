@@ -59,7 +59,6 @@ module.exports.loadGuildData = async function (guildID) {
             muteRole:"",
             channels: {
                 auditLogChannel: "",
-                announcementChannel: "",
                 leaveNoticeChannel: "",
                 ticketSystemChannel: "",
                 levelSystemChannel: ""

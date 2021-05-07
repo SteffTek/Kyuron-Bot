@@ -18,10 +18,6 @@ module.exports = {
                 "value":"auditLogChannel"
             },
             {
-                "name":"Announcement Channel",
-                "value":"announcementChannel"
-            },
-            {
                 "name":"Leave Notice Channel",
                 "value":"leaveNoticeChannel"
             },

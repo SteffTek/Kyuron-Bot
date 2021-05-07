@@ -23,7 +23,6 @@ const guildSchema = mongoose.Schema({
     muteRole: String,
     channels: {
         auditLogChannel: String,
-        announcementChannel: String,
         leaveNoticeChannel: String,
         ticketSystemChannel: String,
         levelSystemChannel: String
