@@ -27,6 +27,9 @@ const roleCreate = require("./Events/RoleCreate");
 const roleDelete = require("./Events/RoleDelete");
 const roleUpdate = require("./Events/RoleUpdate");
 
+const inviteCreate = require("./Events/InviteCreate");
+const inviteDelete = require("./Events/InviteDelete");
+
 module.exports = (client) => {
 
     /* CLIENT EVENTS*/
@@ -154,11 +157,11 @@ module.exports = (client) => {
         INVITE EVENTS
     */
     client.on("inviteCreate", invite => {
-
+        inviteCreate(client, invite);
     });
 
     client.on("inviteDelete", invite => {
-
+        inviteDelete(client, invite);
     });
 
     /*
