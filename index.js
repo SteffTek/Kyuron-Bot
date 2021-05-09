@@ -10,6 +10,9 @@ const db = require('./src/Database/db')
 const eventListener = require("./src/EventHandler/EventListener");
 const commandHandler = require('./src/CommandHandler/commandHandler.js')
 
+//GLOBAL VARS
+global.announcements = {} //GLOBAL ACCESSIBLE LIST OF ANNOUNCEMENTS
+
 //VARS
 const client = new Discord.Client();
 
