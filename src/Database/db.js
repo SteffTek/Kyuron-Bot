@@ -1,7 +1,7 @@
 //IMPORTANT IMPORTS
 const mongoose = require('mongoose');
 const configHandler = require('./../Utils/configHandler.js');
-const logger = require("../Utils/Logger");
+const logger = require("../Utils/logger");
 const config = configHandler.getConfig();
 const LevelSystem = require('./../Modules/LevelSystem.js')
 const { v4: uuidv4 } = require('uuid');

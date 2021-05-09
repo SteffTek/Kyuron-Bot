@@ -1,6 +1,6 @@
 "use strict";
 // IMPORTANT IMPORTS
-const configHandler = require("../Utils/ConfigHandler");
+const configHandler = require("../Utils/configHandler");
 const config = configHandler.getConfig();
 
 // Core Modules

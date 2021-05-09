@@ -4,7 +4,7 @@ const embedGen = require('./../../Utils/embedGenerator.js')
 const permissionChecker = require('./../../Utils/permissionChecker.js');
 const auditLogger = require("../../Modules/AuditLog");
 
-const configHandler = require("../../Utils/ConfigHandler");
+const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler

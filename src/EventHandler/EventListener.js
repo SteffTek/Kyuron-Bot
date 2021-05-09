@@ -1,6 +1,6 @@
 //IMPORTANT IMPORTS
-const logger = require("../Utils/Logger");
-const configHandler = require("../Utils/ConfigHandler");
+const logger = require("../Utils/logger");
+const configHandler = require("../Utils/configHandler");
 const config = configHandler.getConfig();
 const Discord = require('discord.js');
 

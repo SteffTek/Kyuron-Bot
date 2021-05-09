@@ -1,10 +1,10 @@
 //IMPORTANT IMPORTS
-const logger = require("../../Utils/Logger");
+const logger = require("../../Utils/logger");
 const db = require('./../../Database/db.js');
 const AnnouncementClass = require('../../Modules/Announcement');
 const announcement = require("../../Database/models/announcement.js");
 
-const configHandler = require("../../Utils/ConfigHandler");
+const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
 
 

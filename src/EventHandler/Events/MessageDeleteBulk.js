@@ -2,7 +2,7 @@ const auditLogger = require("../../Modules/AuditLog");
 const embedGen = require('./../../Utils/embedGenerator.js')
 const db = require('./../../Database/db.js')
 
-const configHandler = require("../../Utils/ConfigHandler");
+const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
 
 module.exports = async (client, messages) => {

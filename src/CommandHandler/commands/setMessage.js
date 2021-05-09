@@ -3,7 +3,7 @@ const APICalls = require('./../../Utils/APICalls.js')
 const embedGen = require('./../../Utils/embedGenerator.js')
 const permissionChecker = require('./../../Utils/permissionChecker.js');
 
-const configHandler = require("../../Utils/ConfigHandler");
+const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler
