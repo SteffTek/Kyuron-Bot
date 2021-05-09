@@ -93,11 +93,14 @@ module.exports = {
         let module = data.args[0].value;
         let isEnabled = data.args[1].value;
 
+        var guild = data.channel.guild;
+        var guildData = data.guildData;
+
         //SET MODULE DATA
-        data.guildData.modules[module] = isEnabled;
+        guildData.modules[module] = isEnabled;
 
         //SAVE GUILD DATA
-        data.guildData.save().catch(err => console.log(err));
+        guildData.save().catch(err => console.log(err));
 
         //SEND RESPONSE FIRST
 		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🛠️ MODULE SET 🛠️", "0x214aff", "`module:` **" + module + "**\n`state:` **" + (isEnabled ? "enabled" : "disabled") + "**")]}, data.interaction)
@@ -107,24 +110,45 @@ module.exports = {
             //CREATE TICKET CHANNEL
             if(!isEnabled) return;
             //CREATE CATEGORY
-            data.channel.guild.channels.create("🎫-Support", {type: "category"}).then(category => {
+            guild.channels.create("🎫-Support", {type: "category"}).then(async category => {
+
+                var permissions = [
+                    {
+                        id: guild.roles.everyone.id,
+                        deny: ["SEND_MESSAGES","ADD_REACTIONS"],
+                        allow: ["VIEW_CHANNEL", "READ_MESSAGE_HISTORY"]
+                    }
+                ];
+
+                //PUSH MOD ROLES
+                for(let i = 0; i < guildData.modRoles.length; i++) {
+                    permissions.push({
+                        id: guildData.modRoles[i],
+                        allow: ["SEND_MESSAGES", "ADD_REACTIONS"]
+                    })
+                }
+
+                //SET PERMISSIONS
+                await category.overwritePermissions(permissions);
+
                 //CREATE CHANNEL
-                data.channel.guild.channels.create("🎫-Ticket", {type: "text", parent: category}).then(channel => {
+                guild.channels.create("🎫-Ticket", {type: "text", parent: category}).then(channel => {
                     //SET CHANNEL TO GUILD DATA
-                    data.guildData.channels.ticketSystemChannel = channel.id;
+                    guildData.channels.ticketSystemChannel = channel.id;
 
                     //COMMIT CHANNEL MESSAGE EMBED
-                    channel.send(embedGen.custom("🎫-Support Tickets",config.colors.tickets.INFO,data.guildData.messages.ticketSystem.replace("%emote%", "📩"))).then(message => {
-                        data.guildData.messageIDs.ticketSystem = message.id;
+                    channel.send(embedGen.custom("🎫-Support Tickets",config.colors.tickets.INFO,guildData.messages.ticketSystem.replace("%emote%", "📩"))).then(message => {
+                        guildData.messageIDs.ticketSystem = message.id;
                         message.react("📩");
 
                         //SAVE GUILD DATA
-                        data.guildData.save().catch(err => console.log(err));
+                        guildData.save().catch(err => console.log(err));
                     }).catch(err => {
                         APICalls.sendFollowUp({"content": "", "embeds": [embedGen.error("**I don't have the permission to send messages in the ticket channel!**")]}, data.interaction);
                     })
                 });
             }).catch(err => {
+                console.log(err);
                 APICalls.sendFollowUp({"content": "", "embeds": [embedGen.error("**I don't have the permission to create channels!**")]}, data.interaction);
             })
         }
