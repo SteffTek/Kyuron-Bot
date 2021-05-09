@@ -4,6 +4,10 @@ const db = require('./../../Database/db.js');
 const AnnouncementClass = require('../../Modules/Announcement');
 const announcement = require("../../Database/models/announcement.js");
 
+const configHandler = require("../../Utils/ConfigHandler");
+const config = configHandler.getConfig();
+
+
 module.exports = (client) => {
     logger.done(`Logged in as ${client.user.tag}!`);
 
@@ -45,4 +49,20 @@ module.exports = (client) => {
             channel.send("An error occured while trying to execute that command.");
         }
     });
+
+    //PRESENCE
+    var presences = config.presences;
+    var index = 0;
+    setInterval(() => {
+        client.user.setPresence({
+            status: 'online',
+            activity: {
+                name: "/help | " + presences[index],
+                type: "PLAYING"
+            }
+        });
+
+        index++;
+        if(index >= presences.length) index = 0;
+    }, 5 * 60 * 1000); //EVERY 5 MINUTES CHANGE PRESENCE
 }

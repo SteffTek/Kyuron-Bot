@@ -35,6 +35,15 @@
         },
         "giveaway": {
             "BODY":"0x73168a"
+        },
+        "moderation":{
+            "KICK":"0xF52411",
+            "BAN":"0x000000"
         }
-    }
+    },
+    "presences": [
+        "Hellowo :3",
+        "made by Clara & Steff :3",
+        "NodeJS > Python"
+    ]
 }
