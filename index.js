@@ -10,11 +10,6 @@ const db = require('./src/Database/db')
 const eventListener = require("./src/EventHandler/EventListener");
 const commandHandler = require('./src/CommandHandler/commandHandler.js')
 
-//GLOBAL VARS
-global.announcements = {
-    // GUILDIDCHANNELIDURL: Announcement
-}
-
 //VARS
 const client = new Discord.Client();
 
