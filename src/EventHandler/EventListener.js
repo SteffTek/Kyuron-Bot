@@ -16,6 +16,8 @@ const messageReactionAdd = require("./Events/MessageReactionAdd");
 
 const guildMemberAdd = require("./Events/GuildMemberAdd");
 const guildMemberRemove = require("./Events/GuildMemberRemove");
+const guildBanAdd = require("./Events/GuildBanAdd");
+const guildBanRemove = require("./Events/GuildBanRemove");
 
 const channelCreate = require("./Events/ChannelCreate");
 const channelDelete = require("./Events/ChannelDelete");
@@ -85,7 +87,7 @@ module.exports = (client) => {
     });
 
     client.on('guildDelete', guild => {
-        //TODO: DELETE GUILD
+        //TODO: DELETE GUILD, TICKETS AND SO ON
     });
 
     client.on('guildUpdate', (oldGuild, newGuild) => {
@@ -141,11 +143,11 @@ module.exports = (client) => {
         BAN EVENTS
     */
     client.on("guildBanAdd", (guild, user) => {
-
+        guildBanAdd(client, guild, user);
     });
 
     client.on("guildBanRemove", (guild, user) => {
-
+        guildBanRemove(client, guild, user);
     });
 
     /*
