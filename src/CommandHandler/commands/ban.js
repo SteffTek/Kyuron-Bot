@@ -34,7 +34,7 @@ module.exports = {
         //CHECK PERMISSION
         const member = await data.channel.guild.members.fetch(data.author.user.id);
         if(!permissionChecker.isModerator(data.guildData, member)) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error("**You don't have the permission to do this!**")]}, data.interaction)
+            embedGen.error("**You need the `MODERATOR` permission to do this!**",data.client,data.interaction)
             return;
         }
 
