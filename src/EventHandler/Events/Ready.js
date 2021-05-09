@@ -52,16 +52,24 @@ module.exports = (client) => {
 
     //PRESENCE
     var presences = config.presences;
-    var index = 0;
-    setInterval(() => {
+    function setPresence(message) {
         client.user.setPresence({
             status: 'online',
             activity: {
-                name: "/help | " + presences[index],
+                name: "/help | " + message,
                 type: "PLAYING"
             }
         });
 
+    }
+
+    //STARTUP MESSAGE
+    setPresence(presences[0]);
+
+    //AUTO MESSAGE
+    var index = 0;
+    setInterval(() => {
+        setPresence(presences[index]);
         index++;
         if(index >= presences.length) index = 0;
     }, 5 * 60 * 1000); //EVERY 5 MINUTES CHANGE PRESENCE
