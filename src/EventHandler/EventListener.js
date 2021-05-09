@@ -30,6 +30,10 @@ const roleUpdate = require("./Events/RoleUpdate");
 const inviteCreate = require("./Events/InviteCreate");
 const inviteDelete = require("./Events/InviteDelete");
 
+const emojiCreate = require("./Events/EmojiCreate");
+const emojiDelete = require("./Events/EmojiDelete");
+const emojiUpdate = require("./Events/EmojiUpdate");
+
 module.exports = (client) => {
 
     /* CLIENT EVENTS*/
@@ -131,15 +135,15 @@ module.exports = (client) => {
         EMOJI EVENTS
     */
     client.on("emojiCreate", emoji => {
-
+        emojiCreate(client, emoji);
     });
 
     client.on("emojiDelete", emoji => {
-
+        emojiDelete(client, emoji);
     });
 
     client.on("emojiUpdate", (oldEmoji, newEmoji) => {
-
+        emojiUpdate(client, oldEmoji, newEmoji);
     });
 
     /*
