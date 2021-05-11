@@ -54,7 +54,7 @@ module.exports = {
         var description = "**__A new giveaway has started!__**";
 
         //ADD USER
-        description += `\n\nThe user ${member} started a new giveaway!\nEnter now to get a chance of winning: **${price}**!`;
+        description += `\n\nThe user ${member} started a new giveaway!\nEnter now to get a chance of winning: **${price}**! \nEnter by reacting with: 🎉`;
 
         //ADD TIMER
         description += `\n\n_This giveaway lasts for ${timer} minutes since started!_\n**End is at ${endDate}!**`
