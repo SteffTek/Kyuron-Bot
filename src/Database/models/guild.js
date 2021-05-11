@@ -16,6 +16,7 @@ const guildSchema = mongoose.Schema({
         moderation: Boolean,
         tickets: Boolean,
         polls: Boolean,
+        reactionRoles: Boolean,
         timer: Boolean,
         warn: Boolean
     },
@@ -40,7 +41,6 @@ const guildSchema = mongoose.Schema({
         ticketSystem: String,
         reactionRoles: Array
     },
-    reactionRoles: Object,
     levelSystem: Object
 });
 

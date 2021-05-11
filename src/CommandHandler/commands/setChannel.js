@@ -22,10 +22,6 @@ module.exports = {
                 "value":"leaveNoticeChannel"
             },
             {
-                "name":"Ticket System Channel",
-                "value":"ticketSystemChannel"
-            },
-            {
                 "name":"LevelUP Announcement Channel",
                 "value":"levelSystemChannel"
             }

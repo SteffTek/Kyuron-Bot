@@ -9,6 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 //MONGOOSE MODELS
 const Guild = require('./models/guild.js');
 const Ticket = require('./models/tickets.js');
+const Reaction = require('./models/reaction.js');
 const Announcement = require('./models/announcement.js');
 
 /*
@@ -53,6 +54,7 @@ module.exports.loadGuildData = async function (guildID) {
                 moderation: false,
                 tickets: false,
                 polls: false,
+                reactionRoles: false,
                 timer: false,
                 warn: false,
             },
@@ -77,7 +79,6 @@ module.exports.loadGuildData = async function (guildID) {
                 ticketSystem: "",
                 reactionRoles: []
             },
-            reactionRoles: {},
             levelSystem: new LevelSystem()
         });
 
@@ -186,9 +187,9 @@ module.exports.hasTicket = async function (guildID, userID) {
  *
  * @param {string} guildID guild id
  * @param {string} channelID channel id
- * @param {string} channelID channel id
- * @param {string} channelID channel id
- * @param {string} url announcement channel
+ * @param {string} url url
+ * @param {string} type type
+ * @param {string} displayText display text
  *
  */
  module.exports.loadAnnouncement = async function (guildID, channelID, url, type, displayText) {
@@ -231,6 +232,123 @@ module.exports.hasTicket = async function (guildID, userID) {
         channelURL: url,
         discordChannelID: channelID,
         discordGuildID: guildID
+    }).exec().catch(err => console.log(err));
+
+    //CREATE NEW IF NONE
+    if (doc === null) {
+        return false;
+    }
+    return true;
+};
+
+/**
+ * Adds Reaction Data
+ *
+ * @param {string} guildID guild id
+ * @param {string} channelID channel id
+ * @param {string} messageID message id
+ * @param {string} name name
+ *
+ */
+ module.exports.loadReaction = async function (guildID, channelID, messageID, name) {
+    //GET ANNOUNCEMENT
+    let doc = await Reaction.findOne({
+        guildID: guildID,
+        channelID: channelID,
+        messageID: messageID,
+        name: name
+    }).exec().catch(err => console.log(err));
+
+    //CREATE NEW IF NONE
+    if (doc === null) {
+        const newDoc = await new Reaction({
+            guildID: guildID,
+            channelID: channelID,
+            messageID: messageID,
+            name: name,
+            roles: {}
+        });
+
+        await newDoc.save().catch(err => console.log(err)).then(() => { doc = newDoc})
+    }
+    return doc;
+};
+
+/**
+ * Adds Reaction Data
+ *
+ * @param {string} guildID guild id
+ * @param {string} channelID channel id
+ * @param {string} messageID message id
+ * @param {string} name name
+ *
+ */
+ module.exports.getReaction = async function (guildID, channelID, messageID) {
+    //GET ANNOUNCEMENT
+    let doc = await Reaction.findOne({
+        guildID: guildID,
+        channelID: channelID,
+        messageID: messageID
+    }).exec().catch(err => console.log(err));
+    return doc;
+};
+
+/**
+ * Adds Reaction Data
+ *
+ * @param {string} guildID guild id
+ * @param {string} channelID channel id
+ * @param {string} messageID message id
+ * @param {string} name name
+ *
+ */
+ module.exports.getReactionByName = async function (guildID, channelID, name) {
+    //GET ANNOUNCEMENT
+    let doc = await Reaction.findOne({
+        guildID: guildID,
+        channelID: channelID,
+        name: name
+    }).exec().catch(err => console.log(err));
+    return doc;
+};
+
+/**
+ * Adds Reaction Data
+ *
+ * @param {string} guildID guild id
+ * @param {string} channelID channel id
+ * @param {string} messageID message id
+ *
+ */
+ module.exports.hasReaction = async function (guildID, channelID, messageID) {
+    //GET ANNOUNCEMENT
+    let doc = await Reaction.findOne({
+        guildID: guildID,
+        channelID: channelID,
+        messageID: messageID
+    }).exec().catch(err => console.log(err));
+
+    //CREATE NEW IF NONE
+    if (doc === null) {
+        return false;
+    }
+    return true;
+};
+
+/**
+ * Adds Reaction Data
+ *
+ * @param {string} guildID guild id
+ * @param {string} channelID channel id
+ * @param {string} messageID message id
+ *
+ */
+ module.exports.hasReactionByName = async function (guildID, channelID, name) {
+    //GET ANNOUNCEMENT
+    let doc = await Reaction.findOne({
+        guildID: guildID,
+        channelID: channelID,
+        name: name
     }).exec().catch(err => console.log(err));
 
     //CREATE NEW IF NONE

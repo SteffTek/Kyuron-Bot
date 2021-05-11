@@ -66,6 +66,10 @@ module.exports = {
                     "value":"polls"
                 },
                 {
+                    "name":"Reaction Roles",
+                    "value":"reactionRoles"
+                },
+                {
                     "name":"Timed Messages",
                     "value":"timer"
                 },

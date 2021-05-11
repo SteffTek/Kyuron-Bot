@@ -101,7 +101,7 @@ module.exports = {
 	async execute(data) {
         //CHECK MODULE
         if(!data.guildData.modules?.polls) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error("This module isn't activated.")]}, data.interaction)
+            embedGen.error("**This module isn't activated.**",data.client,data.interaction)
             return;
         }
 
@@ -136,6 +136,10 @@ module.exports = {
                     if(timer <= 0) {
                         timer = 1;
                     }
+                    if(timer > 1440) {
+                        timer = 1440;
+                    }
+            
                 }
 
                 const filter = (reaction, user) => {
@@ -173,6 +177,10 @@ module.exports = {
                 if(timer <= 0) {
                     timer = 1;
                 }
+                if(timer > 1440) {
+                    timer = 1440;
+                }
+        
             }
         }
         let pollOptions = answers.slice(1);

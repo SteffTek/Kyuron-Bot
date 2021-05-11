@@ -13,6 +13,7 @@ const messageDeleteBulk = require("./Events/MessageDeleteBulk");
 const messageUpdate = require("./Events/MessageUpdate");
 
 const messageReactionAdd = require("./Events/MessageReactionAdd");
+const messageReactionRemove = require("./Events/MessageReactionRemove");
 
 const guildMemberAdd = require("./Events/GuildMemberAdd");
 const guildMemberRemove = require("./Events/GuildMemberRemove");
@@ -33,6 +34,7 @@ const inviteDelete = require("./Events/InviteDelete");
 const emojiCreate = require("./Events/EmojiCreate");
 const emojiDelete = require("./Events/EmojiDelete");
 const emojiUpdate = require("./Events/EmojiUpdate");
+
 
 module.exports = (client) => {
 
@@ -75,7 +77,7 @@ module.exports = (client) => {
     });
 
     client.on('messageReactionRemove', (messageReaction, user) => {
-
+        messageReactionRemove(client, messageReaction, user);
     });
 
     client.on('messageReactionRemoveAll', message => {

@@ -14,7 +14,7 @@ const commandHandler = require('./src/CommandHandler/commandHandler.js')
 global.announcements = {} //GLOBAL ACCESSIBLE LIST OF ANNOUNCEMENTS
 
 //VARS
-const client = new Discord.Client();
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'USER'] }); //PARTIALS FOR REACTION ON OLD MESSAGES
 
 // APP INFO
 let version = configHandler.getVersion();
@@ -45,7 +45,7 @@ commandHandler(client)
 
 //Initializing Debug Guild-Commands
 /*
-let debugCMD = client.commands.get("ban")
+let debugCMD = client.commands.get("module")
 APICalls.createGuildCommand(config.discord.appID, config.discord.testGuildID, {name: debugCMD.name, description: debugCMD.description, options: debugCMD.options})
 */
 

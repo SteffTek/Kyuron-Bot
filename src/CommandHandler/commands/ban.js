@@ -27,7 +27,7 @@ module.exports = {
 	async execute(data) {
         //CHECK MODULE
         if(!data.guildData.modules?.moderation) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error("This module isn't activated.")]}, data.interaction)
+            embedGen.error("**This module isn't activated.**",data.client,data.interaction)
             return;
         }
 

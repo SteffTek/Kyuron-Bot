@@ -3,6 +3,8 @@ const embedGen = require('./../../Utils/embedGenerator.js')
 const db = require('./../../Database/db.js')
 
 const configHandler = require("../../Utils/configHandler");
+const reaction = require("../../Database/models/reaction");
+const { ReactionEmoji } = require("discord.js");
 const config = configHandler.getConfig();
 
 module.exports = async (client, messageReaction, user) => {
@@ -11,6 +13,10 @@ module.exports = async (client, messageReaction, user) => {
 
     //GET GUILD DATA
     const guildData = await db.loadGuildData(messageReaction.message.guild.id);
+
+    //GET UTIL
+    const guild = messageReaction.message.channel.guild;
+    const message = messageReaction.message;
 
     //SENT TO LOGGER
     //let desc = `**Message from ${message.author} sent in ${message.channel}**: \n\n ${message.content}`
@@ -26,7 +32,6 @@ module.exports = async (client, messageReaction, user) => {
         //REMOVE REACTION
         messageReaction.users.remove(user);
 
-        const guild = messageReaction.message.channel.guild;
         const parentChannel = messageReaction.message.channel.parent;
 
         //CHECK IF DUPLICATE
@@ -67,6 +72,37 @@ module.exports = async (client, messageReaction, user) => {
 
         //SEND MESSAGE
         channel.send((guildData.messages.ticketIntro).replace("%user%",`${user}`))
+        return;
+    }
+
+    //IF REACTION ROLE
+    if(await db.hasReaction(guild.id, message.channel.id, message.id)) {
+        var reactionData = await db.getReaction(guild.id, message.channel.id, message.id);
+        var emojiName = messageReaction.emoji.name;
+
+        if(messageReaction.emoji.identifier) {
+            emojiName = "<:" + messageReaction.emoji.identifier + ">"
+        }
+
+        if(!reactionData.roles) { return; }
+
+        var roleID = reactionData.roles[emojiName];
+
+        if(roleID === undefined) {
+            messageReaction.users.remove(user.id);
+            return;
+        }
+
+        //FETCH ROLE
+        var role = await guild.roles.fetch(roleID);
+        if(role === null) { return; }
+
+        //ADD ROLE
+        guild.members.fetch(user.id).then(member => {
+            member.roles.add(role).catch(err => {
+                auditLogger(client, guildData, "PERMISSION ERROR", "**Couldn't add role to user. Missing permission!**");
+            })
+        })
     }
 }
 

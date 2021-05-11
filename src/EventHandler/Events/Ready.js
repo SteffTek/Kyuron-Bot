@@ -1,8 +1,12 @@
 //IMPORTANT IMPORTS
 const logger = require("../../Utils/logger");
 const db = require('./../../Database/db.js');
+
 const AnnouncementClass = require('../../Modules/Announcement');
-const announcement = require("../../Database/models/announcement.js");
+
+const announcement = require("../../Database/models/announcement");
+const reactions = require("../../Database/models/reaction");
+
 
 const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
@@ -12,13 +16,14 @@ module.exports = (client) => {
     logger.done(`Logged in as ${client.user.tag}!`);
 
     //GUILD STARTUP
-    client.guilds.cache.each(guild => {
+    //EDIT: CAN BE IGNORED. Due partials initialized on startup message reactions working for non cached messages. Keeping this code just in case!
+    /*client.guilds.cache.each(guild => {
         db.loadGuildData(guild.id).then(guildData => {
             const channel = client.channels.resolve(guildData.channels.ticketSystemChannel);
             if(!channel) return;
             channel.messages.fetch(guildData.messageIDs.ticketSystem);
         });
-    });
+    });*/
 
     //ANNOUNCEMENT STARTUP
     announcement.find({}).then(loadedAnnouncements => {

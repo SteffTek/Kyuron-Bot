@@ -7,14 +7,15 @@ const config = configHandler.getConfig();
 
 module.exports = async (client, messages) => {
     //GET GUILD DATA
-    const guildData = await db.loadGuildData(messages.get(0).guild.id);
+    const guildData = await db.loadGuildData(messages.first().guild.id);
 
     //SENT TO LOGGER
-    let desc = `**${messages.array().length} Messages deleted!**`
+    let desc = `**${messages.array().length} Messages deleted in ${messages.first().channel}!**`
     auditLogger(client, guildData, "MESSAGE DELETED", desc);
 
     //CHECK IF MESSAGE WAS REACTION ROLE MESSAGE & REMOVE
-    messages.each(message => {
+    messages.each(async message => {
+
         //IF TICKET SUPPORT
         if(guildData.messageIDs.ticketSystem === message.id) {
             //COMMIT CHANNEL MESSAGE EMBED
@@ -27,6 +28,12 @@ module.exports = async (client, messages) => {
             }).catch(err => {
                 //IGNORE LOL
             })
+        }
+
+        //IF REACTION ROLE
+        if(await db.hasReaction(message.channel.guild.id, message.channel.id, message.id)) {
+            var reactionData = await db.getReaction(message.channel.guild.id, message.channel.id, message.id);
+            reactionData.remove();
         }
     });
 }
