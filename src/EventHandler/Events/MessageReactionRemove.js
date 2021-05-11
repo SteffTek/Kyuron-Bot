@@ -29,7 +29,7 @@ module.exports = async (client, messageReaction, user) => {
         var reactionData = await db.getReaction(guild.id, message.channel.id, message.id);
         var emojiName = messageReaction.emoji.name;
 
-        if(messageReaction.emoji.identifier) {
+        if(messageReaction.emoji.id) {
             emojiName = "<:" + messageReaction.emoji.identifier + ">"
         }
 
