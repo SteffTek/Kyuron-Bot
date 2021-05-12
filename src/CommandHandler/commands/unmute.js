@@ -5,6 +5,7 @@ const permissionChecker = require('./../../Utils/permissionChecker.js');
 const auditLogger = require("../../Modules/AuditLog");
 
 const db = require("../../Database/db");
+const modAction = require('../../Database/models/modAction.js');
 const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
 
@@ -78,11 +79,16 @@ module.exports = {
         db.addModerationData(guild.id, userMember.id, member.id, "", "unmute");
 
         //CHECK FOR RECENT TEMP MUTE THATS NOT CLEARED
-        modAction.findOne({guildID: guild.id, userID: userObj.id, action: "mute", isTemp: true, isDone: false}).sort({x:-1}).then(modActionData => {
-            if(!modActionData) { return; }
+        let doc = await modAction.findOne({
+            guildID: guild.id,
+            userID: userMember.id,
+            action: "mute",
+            isTemp: true,
+            isDone: false
+        }).sort({x:-1}).exec().catch(err => console.log(err));
+        if(doc === null) { return; }
 
-            modActionData.isDone = true;
-            modActionData.save().catch(err => console.log(err));
-        })
+        doc.isDone = true;
+        doc.save().catch(err => console.log(err));
     }
 };

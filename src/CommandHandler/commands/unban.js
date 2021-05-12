@@ -63,13 +63,18 @@ module.exports = {
             //SENT TO MOD LOG
             db.addModerationData(guild.id, userObj.id, member.id, "", "unban");
 
-            //CHECK FOR RECENT TEMP BAN THATS NOT CLEARED
-            modAction.findOne({guildID: guild.id, userID: userObj.id, action: "ban", isTemp: true, isDone: false}).sort({x:-1}).then(modActionData => {
-                if(!modActionData) { return; }
+            //CHECK FOR RECENT TEMP MUTE THATS NOT CLEARED
+            let doc = await modAction.findOne({
+                guildID: guild.id,
+                userID: userMember.id,
+                action: "ban",
+                isTemp: true,
+                isDone: false
+            }).sort({x:-1}).exec().catch(err => console.log(err));
+            if(doc === null) { return; }
+            doc.isDone = true;
+            doc.save().catch(err => console.log(err));
 
-                modActionData.isDone = true;
-                modActionData.save().catch(err => console.log(err));
-            })
         }).catch(err => {
             /* User wasn't banned, lol! */
             embedGen.error("**User isn't banned!**",data.client,data.interaction);

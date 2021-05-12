@@ -3,13 +3,13 @@ const logger = require("../../Utils/logger");
 const db = require('./../../Database/db.js');
 
 const AnnouncementClass = require('../../Modules/Announcement');
-
 const announcement = require("../../Database/models/announcement");
 const reactions = require("../../Database/models/reaction");
-
+const auditLogger = require("../../Modules/AuditLog");
 
 const configHandler = require("../../Utils/configHandler");
 const tickets = require("../../Database/models/tickets");
+const modAction = require("../../Database/models/modAction");
 const config = configHandler.getConfig();
 
 
@@ -51,6 +51,64 @@ module.exports = (client) => {
 
             let announcementObj = new AnnouncementClass(client, url, platform, guildID, channelID, message);
             announcements[guildID + channelID + url] = announcementObj;
+        }
+    });
+
+    //TEMP MUTE ACTION STARTUP
+    modAction.find({isTemp: true, isDone: false, action: "mute"}).then(loadedModActions => {
+        for(let i = 0; i < loadedModActions.length; i++) {
+            client.guilds.fetch(loadedModActions[i].guildID).then(guild => {
+                db.loadGuildData(loadedModActions[i].guildID).then(guildData => {
+                    guild.roles.fetch(guildData.muteRole).then(role => {
+                        guild.members.fetch(loadedModActions[i].userID).then(member => {
+                            if(!member) {
+                                return;
+                            }
+
+                            var until = loadedModActions[i].until;
+                            if(until < Date.now()) {
+                                //UNMUTE INSTANTLY
+                                member.roles.remove(role);
+
+                                //SAVE
+                                loadedModActions[i].isDone = true;
+                                loadedModActions[i].save().catch(err => {console.log(err)})
+
+                                //ADD AUTOMATIC UNMUTE TO MODLOG
+                                db.addModerationData(guild.id, member.id, "", "automatically unmuted", "unmute");
+
+                                //SEND TO AUDIT LOGGER
+                                auditLogger(client, guildData, "🗡️USER UNMUTED🗡️", `**User ${member} got automatically unmuted!**`);
+                                return;
+                            }
+
+                            //TIMEOUT
+                            setTimeout(function() {
+                                //CHECK FOR UNMUTE
+                                modAction.findOne({_id: loadedModActions[i]._id}).then(modActionData => {
+                                    if(modActionData.isDone) {
+                                        return;
+                                    }
+
+                                    //SAVE
+                                    modActionData.isDone = true;
+                                    modActionData.save().catch(err => {console.log(err)})
+
+                                    //REMOVE ROLE
+                                    member.roles.remove(role);
+
+                                    //ADD AUTOMATIC UNMUTE TO MODLOG
+                                    db.addModerationData(guild.id, member.id, "", "automatically unmuted", "unmute");
+
+                                    //SEND TO AUDIT LOGGER
+                                    auditLogger(client, guildData, "🗡️USER UNMUTED🗡️", `**User ${member} got automatically unmuted!**`);
+                                }).catch(err => {console.log(err); /* ERROR LOL */ })
+                            }, until - Date.now());
+
+                        }).catch(err => {console.log(err); /* IGNORE */ })
+                    }).catch(err => {console.log(err); /* IGNORE */ })
+                })
+            }).catch(err => {console.log(err);/* IGNORE */})
         }
     });
 
