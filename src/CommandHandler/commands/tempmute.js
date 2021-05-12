@@ -147,7 +147,7 @@ module.exports = {
                 duration *= 24 * 60 * 60 * 1000;
                 break;
             case "yes":
-                duration *= 60 * 60 * 1000 * Math.floor(Math.random() * 1024);
+                duration = 60 * 60 * 1000 * Math.floor(Math.random() * 356);
                 break;
             default:
                 break;
