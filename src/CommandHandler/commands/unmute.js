@@ -76,5 +76,13 @@ module.exports = {
 
         //SENT TO MOD LOG
         db.addModerationData(guild.id, userMember.id, member.id, "", "unmute");
+
+        //CHECK FOR RECENT TEMP MUTE THATS NOT CLEARED
+        modAction.findOne({guildID: guild.id, userID: userObj.id, action: "mute", isTemp: true, isDone: false}).sort({x:-1}).then(modActionData => {
+            if(!modActionData) { return; }
+
+            modActionData.isDone = true;
+            modActionData.save().catch(err => console.log(err));
+        })
     }
 };
