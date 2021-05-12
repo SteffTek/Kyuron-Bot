@@ -74,7 +74,7 @@ module.exports = {
         //KICK & BAN THE USER
         userMember.ban({reason: reason});
 
-        let desc = `**User ${userMember} got banned by ${member} for reason: ${reason}**`
+        let desc = `**User ${userMember} got banned by ${member} for reason:**` + "\n`" + reason + "`";
         APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🚫USER BANNED🚫", config.colors.moderation.BAN, desc)]}, data.interaction)
 
         //SEND TO AUDIT LOGGER

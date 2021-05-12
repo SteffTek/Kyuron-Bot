@@ -101,7 +101,9 @@ module.exports = {
         const roleType = data.args[0].options[0]?.value;
         const roleID = data.args[0].options[1]?.value;
 
-        var title = "Role Set!"
+        const guild = data.client.guilds.resolve(data.channel.guild.id);
+
+        var title = "ROLE SET"
         var message = "Role ID:  **`" + roleID + "/" + roleType + "`**";
 
         //SET MODULE DATA
@@ -118,7 +120,7 @@ module.exports = {
 
         //REMOVE MODULE DATA
         if(type === "remove") {
-            title = "Role Removed!"
+            title = "ROLE REMOVED!"
 
             if(roleType === "muteRole") {
                 if(roleID === data.guildData.muteRole)
@@ -135,24 +137,24 @@ module.exports = {
 
         //GET MODULE DATA
         if(type === "get") {
-            title = "Roles:"
+            title = "ROLE CONFIGURATION"
 
             if(roleType === "muteRole") {
-                message = "Role:  **`" + data.guildData.muteRole + "/" + roleType + "`**";
+                let role = await guild.roles.fetch(data.guildData.muteRole).catch(err => { /* ROLE NOT FOUND */ });
+                message = `**Currently, the mute role is set to be ${role}!**`;
             }
 
             if(roleType === "modRole") {
-                message = "**Roles:** `" + roleType + "`"
+                message = "**Currently, following Roles are considered mod roles:**"
                 for(let role in data.guildData.modRoles) {
-                    message += "\n" + data.guildData.modRoles[role];
+                    role = await guild.roles.fetch(data.guildData.modRoles[role]).catch(err => { /* ROLE NOT FOUND */ });
+                    message += `\n${role}`;
                 }
             }
         }
 
         //SAVE GUILD DATA
         data.guildData.save().catch(err => console.log(err));
-
-
 		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom(title, "0xFF964F", message)]}, data.interaction)
 	}
 };

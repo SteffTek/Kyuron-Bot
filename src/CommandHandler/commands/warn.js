@@ -1,7 +1,7 @@
 //IMPORTANT IMPORTS
-const APICalls = require('./../../Utils/APICalls.js')
-const embedGen = require('./../../Utils/embedGenerator.js')
-const permissionChecker = require('./../../Utils/permissionChecker.js');
+const APICalls = require('../../Utils/APICalls.js')
+const embedGen = require('../../Utils/embedGenerator.js')
+const permissionChecker = require('../../Utils/permissionChecker.js');
 const auditLogger = require("../../Modules/AuditLog");
 
 const db = require("../../Database/db");
@@ -10,8 +10,8 @@ const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler
 module.exports = {
-	name: 'kick',
-	description: 'Kick a user.',
+	name: 'warn',
+	description: 'Warn a user.',
 	options: [
         {
             "name":"user",
@@ -22,7 +22,7 @@ module.exports = {
             "name":"reason",
             "description":"Reason",
             "type":	3,
-            "required": false
+            "required": true
         }
     ],
 	async execute(data) {
@@ -52,17 +52,12 @@ module.exports = {
 
         //ANTI KICK CHECKS
         if(permissionChecker.isModerator(data.guildData, userMember)) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**${userMember} is a moderator and cant be kicked!**`)]}, data.interaction)
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**${userMember} is a moderator and cant be warned!**`)]}, data.interaction)
             return;
         }
 
         if(client.user.id === userID) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**Why do you want to kick me? :(**`)]}, data.interaction)
-            return;
-        }
-
-        if(!userMember.kickable) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**I cannot kick this user!**`)]}, data.interaction)
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**Why do you want to warn me? :(**`)]}, data.interaction)
             return;
         }
 
@@ -71,16 +66,13 @@ module.exports = {
             reason = "No reason specified!";
         }
 
-        //KICK THE USER
-        userMember.kick(reason);
-
-        let desc = `**User ${userMember} got kicked by ${member} for reason:**` + "\n`" + reason + "`";
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER KICKED🗡️", config.colors.moderation.KICK, desc)]}, data.interaction)
+        let desc = `**User ${userMember} got a warning by ${member} for reason:**` + "\n`" + reason + "`";
+        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER WARNED🗡️", config.colors.moderation.WARN, desc)]}, data.interaction)
 
         //SEND TO AUDIT LOGGER
-        auditLogger(client, data.guildData, "🗡️USER KICKED🗡️", desc);
+        auditLogger(client, data.guildData, "🗡️USER WARNED🗡️", desc);
 
         //SENT TO MOD LOG
-        db.addModerationData(guild.id, userMember.id, member.id, reason, "kick");
+        db.addModerationData(guild.id, userMember.id, member.id, reason, "warn");
     }
 };

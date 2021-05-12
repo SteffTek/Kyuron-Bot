@@ -10,19 +10,14 @@ const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler
 module.exports = {
-	name: 'kick',
-	description: 'Kick a user.',
+	name: 'unmute',
+	description: 'Removes a mute from a user.',
 	options: [
         {
             "name":"user",
             "description":"User",
             "type":	6,
             "required": true,
-        },{
-            "name":"reason",
-            "description":"Reason",
-            "type":	3,
-            "required": false
         }
     ],
 	async execute(data) {
@@ -50,37 +45,36 @@ module.exports = {
         let guild = client.guilds.resolve(data.channel.guild.id);
         let userMember = await guild.members.fetch(userID);
 
-        //ANTI KICK CHECKS
-        if(permissionChecker.isModerator(data.guildData, userMember)) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**${userMember} is a moderator and cant be kicked!**`)]}, data.interaction)
+        //GET MUTE ROLE
+        var roleID = data.guildData.muteRole;
+        var role = null;
+        if(roleID.length > 0) {
+            //FETCH ROLE
+            role = await guild.roles.fetch(roleID).catch(err => { /* ROLE NOT FOUND */ });
+        }
+
+        //IF NO ROLE FOUND, HE CANT BE MUTED, CAN HE?
+        if(!role) {
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**No mute role exists!**`)]}, data.interaction)
             return;
         }
 
-        if(client.user.id === userID) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**Why do you want to kick me? :(**`)]}, data.interaction)
+        //CHECK IF USER IS MUTED
+        if(!userMember.roles.cache.find(r => r.id === role.id)) {
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**User isn't muted!**`)]}, data.interaction)
             return;
         }
 
-        if(!userMember.kickable) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**I cannot kick this user!**`)]}, data.interaction)
-            return;
-        }
+        //SET MUTED ROLE
+        userMember.roles.remove(role);
 
-        //REASON
-        if(reason === null) {
-            reason = "No reason specified!";
-        }
-
-        //KICK THE USER
-        userMember.kick(reason);
-
-        let desc = `**User ${userMember} got kicked by ${member} for reason:**` + "\n`" + reason + "`";
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER KICKED🗡️", config.colors.moderation.KICK, desc)]}, data.interaction)
+        let desc = `**User ${userMember} got unmuted by ${member}!**`;
+        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("✅USER UNMUTED✅", config.colors.moderation.MUTE, desc)]}, data.interaction)
 
         //SEND TO AUDIT LOGGER
-        auditLogger(client, data.guildData, "🗡️USER KICKED🗡️", desc);
+        auditLogger(client, data.guildData, "✅USER UNMUTED✅", desc);
 
         //SENT TO MOD LOG
-        db.addModerationData(guild.id, userMember.id, member.id, reason, "kick");
+        db.addModerationData(guild.id, userMember.id, member.id, "", "unmute");
     }
 };
