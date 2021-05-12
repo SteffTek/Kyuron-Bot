@@ -24,6 +24,12 @@ module.exports = async (client, channel) => {
     //IF IN TICKET
     db.removeTicketData(channel.guild.id, channel.id);
 
+    //IF IS TEMPORARY
+    if(autoVoiceChannels.includes(channel.id)) {
+        //DELETE FROM GLOBAL ARRAY
+        autoVoiceChannels.splice(autoVoiceChannels.indexOf(channel.id),1)[0];
+    }
+
     //IF HAS REACTION ROLES
     reaction.find({guildID: channel.guild.id, channelID: channel.id}).then(loadedReactions => {
         for(let i = 0; i < loadedReactions.length; i++) {

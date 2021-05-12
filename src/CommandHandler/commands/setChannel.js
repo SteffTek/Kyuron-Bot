@@ -7,26 +7,37 @@ const permissionChecker = require('./../../Utils/permissionChecker.js');
 module.exports = {
 	name: 'setchannel',
 	description: 'Sets current Channel for specified use.',
-	options: [{
-        "name":"type",
-        "description":"The type of usage.",
-        "type":3,
-        "required": true,
-        "choices":[
-            {
-                "name":"Audit Log Channel",
-                "value":"auditLogChannel"
-            },
-            {
-                "name":"Leave Notice Channel",
-                "value":"leaveNoticeChannel"
-            },
-            {
-                "name":"LevelUP Announcement Channel",
-                "value":"levelSystemChannel"
-            }
-        ]
-    }],
+	options: [
+        {
+            "name":"type",
+            "description":"The type of usage.",
+            "type":3,
+            "required": true,
+            "choices":[
+                {
+                    "name":"Audit Log Channel",
+                    "value":"auditLogChannel"
+                },
+                {
+                    "name":"Leave Notice Channel",
+                    "value":"leaveNoticeChannel"
+                },
+                {
+                    "name":"LevelUP Announcement Channel",
+                    "value":"levelSystemChannel"
+                },
+                {
+                    "name":"Auto Voice Channel",
+                    "value":"autoVoiceChannel"
+                }
+            ]
+        },{
+            "name":"channel",
+            "description":"The channel of choice.",
+            "type":7,
+            "required": false
+        }
+    ],
 	async execute(data) {
         //CHECK PERMISSION
         const member = await data.channel.guild.members.resolve(data.author.user.id);
@@ -37,9 +48,15 @@ module.exports = {
 
 		//GET DATA
         const channelType = data.args[0].value;
-        const channelID = data.channel.id;
+        var channelID = data.channel.id;
+
+        //IF CHANNEL ID SPECIFIED
+        if(data.args[1]) {
+            channelID = data.args[1].value;
+        }
 
         //SET MODULE DATA
+        data.guildData.markModified("channels");
         data.guildData.channels[channelType] = channelID;
 
         //SAVE GUILD DATA

@@ -12,6 +12,7 @@ const commandHandler = require('./src/CommandHandler/commandHandler.js')
 
 //GLOBAL VARS
 global.announcements = {} //GLOBAL ACCESSIBLE LIST OF ANNOUNCEMENTS
+global.autoVoiceChannels = [] //GLOBAL LIST OF VOICE CHANNEL IDs THAT ARE TEMPORARY
 
 //VARS
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'USER'] }); //PARTIALS FOR REACTION ON OLD MESSAGES

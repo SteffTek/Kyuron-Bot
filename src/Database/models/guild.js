@@ -7,6 +7,7 @@ const guildSchema = mongoose.Schema({
         auditLogging: Boolean,
         autoResponder: Boolean,
         autoMod: Boolean,
+        autoVoiceChannel: Boolean,
         announcements: Boolean,
         economy: Boolean,
         fun: Boolean,
@@ -26,7 +27,8 @@ const guildSchema = mongoose.Schema({
         auditLogChannel: String,
         leaveNoticeChannel: String,
         ticketSystemChannel: String,
-        levelSystemChannel: String
+        levelSystemChannel: String,
+        autoVoiceChannel: String
     },
     settings: {
 

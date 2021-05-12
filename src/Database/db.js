@@ -45,6 +45,7 @@ module.exports.loadGuildData = async function (guildID) {
                 auditLogging: false,
                 autoResponder: false,
                 autoMod: false,
+                autoVoiceChannel: false,
                 announcements: false,
                 economy: false,
                 fun: false,
@@ -64,7 +65,8 @@ module.exports.loadGuildData = async function (guildID) {
                 auditLogChannel: "",
                 leaveNoticeChannel: "",
                 ticketSystemChannel: "",
-                levelSystemChannel: ""
+                levelSystemChannel: "",
+                autoVoiceChannel: ""
             },
             settings: {
 

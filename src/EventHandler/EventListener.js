@@ -35,6 +35,7 @@ const emojiCreate = require("./Events/EmojiCreate");
 const emojiDelete = require("./Events/EmojiDelete");
 const emojiUpdate = require("./Events/EmojiUpdate");
 
+const voiceStateUpdate = require("./Events/VoiceStateUpdate");
 
 module.exports = (client) => {
 
@@ -131,6 +132,13 @@ module.exports = (client) => {
 
     client.on("channelUpdate", (oldChannel, newChannel) => {
         channelUpdate(client, oldChannel, newChannel);
+    });
+
+    /*
+        VOICE EVENTS
+    */
+    client.on('voiceStateUpdate', (oldMember, newMember) => {
+        voiceStateUpdate(client, oldMember, newMember);
     });
 
     /*

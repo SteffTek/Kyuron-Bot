@@ -30,6 +30,10 @@ module.exports = {
                     "value":"autoMod"
                 },
                 {
+                    "name":"Auto Voice Channel",
+                    "value":"autoVoiceChannel"
+                },
+                {
                     "name":"Announcements",
                     "value":"announcements"
                 },
@@ -104,6 +108,7 @@ module.exports = {
         guildData.modules[module] = isEnabled;
 
         //SAVE GUILD DATA
+        guildData.markModified("modules");
         guildData.save().catch(err => console.log(err));
 
         //SEND RESPONSE FIRST
