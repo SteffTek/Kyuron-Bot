@@ -38,7 +38,9 @@
         },
         "moderation":{
             "KICK":"0xF52411",
-            "BAN":"0x000000"
+            "BAN":"0x000000",
+            "CLEAR":"0x000000",
+            "UNBAN":"0x000000"
         }
     },
     "presences": [

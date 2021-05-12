@@ -10,6 +10,7 @@ const { v4: uuidv4 } = require('uuid');
 const Guild = require('./models/guild.js');
 const Ticket = require('./models/tickets.js');
 const Reaction = require('./models/reaction.js');
+const ModAction = require('./models/modAction.js');
 const Announcement = require('./models/announcement.js');
 
 /*
@@ -358,4 +359,36 @@ module.exports.hasTicket = async function (guildID, userID) {
         return false;
     }
     return true;
+};
+
+/**
+ * Adds ModAction Data
+ *
+ * @param {string} guildID guild id
+ * @param {string} userID user id
+ * @param {string} moderatorID user id
+ * @param {string} reason reason
+ * @param {string} action action
+ * @param {boolean} isTemp is temporary
+ * @param {number} until timestamp when action will be lifted
+ * @param {boolean} isDone is lifted
+ *
+ */
+ module.exports.addModerationData = async function (guildID, userID, moderatorID, reason, action, isTemp = false, until = null, isDone = true) {
+    //CREATE NEW
+    const newDoc = await new ModAction({
+        guildID: guildID,
+        userID: userID,
+        moderatorID: moderatorID,
+        reason: reason,
+        timestamp: Date.now(),
+        action: action,
+        isTemp: isTemp,
+        isDone: isDone,
+        until: until
+    });
+
+    await newDoc.save().catch(err => console.log(err)).then(() => { doc = newDoc})
+
+    return doc;
 };

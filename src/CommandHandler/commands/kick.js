@@ -4,6 +4,7 @@ const embedGen = require('./../../Utils/embedGenerator.js')
 const permissionChecker = require('./../../Utils/permissionChecker.js');
 const auditLogger = require("../../Modules/AuditLog");
 
+const db = require("../../Database/db");
 const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
 
@@ -78,5 +79,8 @@ module.exports = {
 
         //SEND TO AUDIT LOGGER
         auditLogger(client, data.guildData, "🗡️USER KICKED🗡️", desc);
+
+        //SENT TO MOD LOG
+        db.addModerationData(guild.id, userMember.id, member.id, reason, "kick");
     }
 };
