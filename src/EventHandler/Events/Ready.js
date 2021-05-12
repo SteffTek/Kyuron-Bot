@@ -9,6 +9,7 @@ const reactions = require("../../Database/models/reaction");
 
 
 const configHandler = require("../../Utils/configHandler");
+const tickets = require("../../Database/models/tickets");
 const config = configHandler.getConfig();
 
 
@@ -24,6 +25,19 @@ module.exports = (client) => {
             channel.messages.fetch(guildData.messageIDs.ticketSystem);
         });
     });*/
+
+    //TICKET STARTUP
+    tickets.find({}).then(loadedTickets => {
+        for(let i = 0; i < loadedTickets.length; i++) {
+            client.guilds.fetch(loadedTickets[i].guildID).then(guild => {
+                const channel = guild.channels.resolve(loadedTickets[i].channelID);
+                //IF CHANNEL GOT DELETED DURING LAST START => DELETE TICKET
+                if(!channel) {
+                    loadedTickets[i].remove();
+                }
+            }).catch(err => {/* IGNORE */})
+        }
+    });
 
     //ANNOUNCEMENT STARTUP
     announcement.find({}).then(loadedAnnouncements => {
