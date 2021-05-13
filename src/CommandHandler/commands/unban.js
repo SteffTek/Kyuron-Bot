@@ -18,7 +18,7 @@ module.exports = {
         {
             "name":"user",
             "description":"User ID",
-            "type":	3,
+            "type":	6,
             "required": true,
         }
     ],
@@ -78,7 +78,6 @@ module.exports = {
 
         }).catch(err => {
             /* User wasn't banned, lol! */
-            console.log(err);
             embedGen.error("**User isn't banned!**",data.client,data.interaction);
             return;
         })

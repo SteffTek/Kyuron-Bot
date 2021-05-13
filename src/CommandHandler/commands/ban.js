@@ -48,23 +48,28 @@ module.exports = {
 
         let client = data.client;
         let guild = client.guilds.resolve(data.channel.guild.id);
-        let userMember = await guild.members.fetch(userID);
+        let userMember = await guild.members.fetch(userID).catch(err => { /* */});
+        let user = await client.users.fetch(userID);
 
-        //ANTI KICK CHECKS
-        if(permissionChecker.isModerator(data.guildData, userMember)) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**${userMember} is a moderator and cant be banned!**`)]}, data.interaction)
-            return;
+        //ONLY CHECK IF USER IS IN THE GUILD => HE CAN BE BANNED LOL
+        if(userMember) {
+            //ANTI KICK CHECKS
+            if(permissionChecker.isModerator(data.guildData, userMember)) {
+                APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**${userMember} is a moderator and cant be banned!**`)]}, data.interaction)
+                return;
+            }
+
+            if(client.user.id === userID) {
+                APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**Why do you want to ban me? :(**`)]}, data.interaction)
+                return;
+            }
+
+            if(!userMember.bannable) {
+                APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**I cannot ban this user!**`)]}, data.interaction)
+                return;
+            }
         }
 
-        if(client.user.id === userID) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**Why do you want to ban me? :(**`)]}, data.interaction)
-            return;
-        }
-
-        if(!userMember.bannable) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**I cannot ban this user!**`)]}, data.interaction)
-            return;
-        }
 
         //REASON
         if(reason === null) {
@@ -72,15 +77,15 @@ module.exports = {
         }
 
         //KICK & BAN THE USER
-        userMember.ban({reason: reason});
+        guild.members.ban(userID, {reason: reason});
 
-        let desc = `**User ${userMember} got banned by ${member} for reason:**` + "\n`" + reason + "`";
+        let desc = `**User ${user} got banned by ${member} for reason:**` + "\n`" + reason + "`";
         APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🚫USER BANNED🚫", config.colors.moderation.BAN, desc)]}, data.interaction)
 
         //SEND TO AUDIT LOGGER
         auditLogger(client, data.guildData, "🚫USER BANNED🚫", desc);
 
         //SENT TO MOD LOG
-        db.addModerationData(guild.id, userMember.id, member.id, reason, "ban");
+        db.addModerationData(guild.id, user.id, member.id, reason, "ban");
     }
 };

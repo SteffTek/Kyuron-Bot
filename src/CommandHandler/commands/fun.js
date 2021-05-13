@@ -113,7 +113,12 @@ module.exports = {
         // GIVE COOKIE
         if(type === "cookie") {
             const userID = data.args[0].options[0]?.value;
-            const member = await data.channel.guild.members.fetch(userID);
+            const member = await data.channel.guild.members.fetch(userID).catch(err => { /* */});
+
+            if(!member) {
+                embedGen.error(`**User couldn't be found!**`, data.client, data.interaction);
+                return;
+            }
 
             if(userID === data.author.user.id) {
                 APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error("You cannot give a cookie to yourself! You gonna get fat!")]}, data.interaction)

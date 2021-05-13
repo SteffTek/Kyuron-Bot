@@ -44,7 +44,12 @@ module.exports = {
 
         let client = data.client;
         let guild = client.guilds.resolve(data.channel.guild.id);
-        let userMember = await guild.members.fetch(userID);
+        let userMember = await guild.members.fetch(userID).catch(err => { /* */});
+
+        if(!userMember) {
+            embedGen.error(`**User couldn't be found!**`, data.client, data.interaction);
+            return;
+        }
 
         //GET MUTE ROLE
         var roleID = data.guildData.muteRole;
