@@ -170,11 +170,21 @@ module.exports = (client) => {
 
     //INTERACTION LISTENER
     client.ws.on('INTERACTION_CREATE', async (interaction) => {
+        //CHECK IF PRIVATE MESSAGE
+        if(!interaction.guild_id) {
+            channel.send("Commands cannot be used in private messages.");
+            return;
+        }
+
+        //FETCH INFORMATION
         let commandName = interaction.data.name.toLowerCase();
         let channel = await client.channels.fetch(interaction.channel_id);
         let guildData = await db.loadGuildData(interaction.guild_id);
 
+        //FETCH COMMAND
         const command = client.commands.get(commandName)
+
+        //EXECUTE COMMAND
         try {
             command.execute({"client": client, "author": interaction.member, "channel": channel, "guildData": guildData, "args": interaction.data.options, "interaction": interaction});
         } catch (error) {

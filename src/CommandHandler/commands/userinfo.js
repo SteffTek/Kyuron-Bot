@@ -7,22 +7,18 @@ const embedGen = require('../../Utils/embedGenerator.js')
 const permissionChecker = require('../../Utils/permissionChecker.js');
 const modAction = require('../../Database/models/modAction.js');
 const logger = require('../../Utils/logger.js');
+const axios = require("axios");
 
 // Exporting the command for the commandHandler
 module.exports = {
-	name: 'modlog',
-	description: 'List all mod actions for a specific user in this guild.',
+	name: 'userinfo',
+	description: 'Show useful information about a user.',
 	options: [
         {
             "name":"user",
             "description":"User",
             "type":6,
             "required":true
-        },{
-            "name":"page",
-            "description":"Page of the mod log.",
-            "type":4,
-            "required":false
         }
     ],
 	async execute(data) {
@@ -42,21 +38,10 @@ module.exports = {
 
         //GET DATA
         let userID = data.args[0].value;
-        let page = 0;
-        if(data.args.length > 1) {
-            page = data.args[1].value;
-
-            page -= 1;
-            if(page < 0) {
-                page = 0;
-            }
-        }
-
-        const size = 9;
-        const offset = page * size;
 
         let client = data.client;
         let guild = client.guilds.resolve(data.channel.guild.id);
+        let userMember = await guild.members.fetch(userID).catch(err => { /* User not Found! */ })
         let user = await client.users.fetch(userID);
 
         if(!user) {
@@ -64,37 +49,51 @@ module.exports = {
             return;
         }
 
-        //GETTING MOD LOG
-        const docs = await modAction.find({
-            guildID: guild.id,
-            userID: user.id,
-        }).sort({timestamp:-1}).limit(size).skip(offset).exec().catch(err => console.log(err));
-
         //GETTING MOD LOG COUNT
         const count = await modAction.countDocuments({
             guildID: guild.id,
             userID: user.id,
         });
 
+        //GET DVS DATA
+        let response = await axios.post('https://dvs.stefftek.de/api/bans', { data: { userID: user.id } });
+        let res = await response.data;
+
         //CREATE EMBED
-        var embed = embedGen.custom("MODLOG",config.colors.moderation.MODLOG,`**Showing ${docs.length} results of ${count} for user ${user}!**`);
+        var embed = embedGen.custom("USERINFO",config.colors.moderation.USERINFO,`**Showing user info for user ${user}!**`);
 
-        //POPULATE EMBED
-        for(let i = 0; i < docs.length; i++) {
-            let doc = docs[i];
+        //EMBED INFOS
+        embed.setThumbnail(user.displayAvatarURL());
+        embed.addField("User ID","`" + user.id + "`");
+        embed.addField("Tag","`" + user.tag + "`");
+        embed.addField("Creation Date",user.createdAt,false);
 
-            //GET DATA
-            let moderator = await client.users.fetch(doc.moderatorID).catch(err => { /* */});
-            if(!moderator) {
-                moderator = client.user;
-            }
+        //HAS VS BAN
+        if (res?.status === "success") {
+            embed.addField("⚠️Ban Check⚠️", "**User was banned for inappropriate behaviour on various discord servers. Visit https://dvs.stefftek.de/ for more information!**", false);
+        }
 
-            //POPULATE FIELD
-            let title = (doc.isTemp ? "TEMP" : "") + doc.action.toUpperCase();
-            let desc = `${new Date(doc.timestamp)}\n**By:** ${moderator}` + (doc.isTemp ? `\n**For:** ${((doc.until - doc.timestamp) / 1000 / 60).toFixed(2)} minutes.` : "") + (doc.reason === "" ? "" : "\n**Reason:** " + doc.reason);
+        embed.addField("\u200B","\u200B",false);
 
-            //ADD FIELD
-            embed.addField(title,desc,true);
+        //CHECK IF BOT
+        if(user.bot) {
+            embed.addField("Is Bot?","`Yes`", true);
+        }
+
+        //SET IF HAS MOD LOG ACTIONS
+        embed.addField("Mod Log Activity", `**${count} events found!**`, true)
+
+        //IF MEMBER ADD FIELDS
+        if(userMember) {
+            embed.addField("Joined Server at",userMember.joinedAt, true);
+
+            if(userMember.nickname)
+                embed.addField("Nickname", "`" + userMember.nickname + "`", true);
+
+            if(userMember.premiumSince)
+                embed.addField("Boosting since", "`" + userMember.premiumSince + "`", true);
+        } else {
+            embed.addField("Server status","`User is currently not on this server!`", true)
         }
 
         //SEND MODLOG

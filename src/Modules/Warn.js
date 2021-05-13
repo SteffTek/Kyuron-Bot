@@ -28,7 +28,7 @@ module.exports = async (client, guildData, user) => {
         warnings.push("`Warning:` **User created less than " + maxDays + " days ago!**");
     }
 
-    if (res.status === "success") {
+    if (res?.status === "success") {
         //HAS VS BAN
         warnings.push("`Ban Check:` **User was banned for inappropriate behaviour on various discord servers. Visit https://dvs.stefftek.de/ for more information!**");
     }
