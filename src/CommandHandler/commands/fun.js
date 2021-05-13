@@ -106,7 +106,7 @@ module.exports = {
                 return;
             }
 
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.image("😂MEME!🤣", config.colors.fun.MEME,`**${meme.title}**`,meme.url)]}, data.interaction)
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.image("😂MEME!🤣", config.colors.fun.MEME,`[**${meme.title}**](${meme.postLink})`,meme.url)]}, data.interaction)
             return;
         }
 
