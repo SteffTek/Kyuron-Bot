@@ -9,6 +9,8 @@ const configHandler = require("../../Utils/configHandler");
 const modAction = require('../../Database/models/modAction.js');
 const config = configHandler.getConfig();
 
+const setTimeout = require('safe-timers').setTimeout;
+
 // Exporting the command for the commandHandler
 module.exports = {
 	name: 'tempmute',

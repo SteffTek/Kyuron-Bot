@@ -12,6 +12,7 @@ const tickets = require("../../Database/models/tickets");
 const modAction = require("../../Database/models/modAction");
 const config = configHandler.getConfig();
 
+const setTimeout = require('safe-timers').setTimeout;
 
 module.exports = (client) => {
     logger.done(`Logged in as ${client.user.tag}!`);

@@ -7,6 +7,7 @@ const embedGen = require('../../Utils/embedGenerator.js')
 const permissionChecker = require('../../Utils/permissionChecker.js');
 const modAction = require('../../Database/models/modAction.js');
 const logger = require('../../Utils/logger.js');
+const TimeSpan = require('../../Utils/TimeSpan.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -89,9 +90,11 @@ module.exports = {
                 moderator = client.user;
             }
 
+            let time = new TimeSpan(doc.until - doc.timestamp).getBeautifiedTime();
+
             //POPULATE FIELD
             let title = (doc.isTemp ? "TEMP" : "") + doc.action.toUpperCase();
-            let desc = `${new Date(doc.timestamp)}\n**By:** ${moderator}` + (doc.isTemp ? `\n**For:** ${((doc.until - doc.timestamp) / 1000 / 60).toFixed(2)} minutes.` : "") + (doc.reason === "" ? "" : "\n**Reason:** " + doc.reason);
+            let desc = `${new Date(doc.timestamp)}\n**By:** ${moderator}` + (doc.isTemp ? `\n**For:** ${time}` : "") + (doc.reason === "" ? "" : "\n**Reason:** " + doc.reason);
 
             //ADD FIELD
             embed.addField(title,desc,true);
