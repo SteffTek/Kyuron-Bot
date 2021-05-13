@@ -1,6 +1,7 @@
 //IMPORTANT IMPORTS
 const db = require('./../../Database/db.js')
 const embedGen = require('./../../Utils/embedGenerator.js')
+const permissionChecker = require("../../Utils/permissionChecker");
 
 module.exports = async (client, message) => {
     // return if author is a bot or if the message was sent via DM
@@ -8,7 +9,20 @@ module.exports = async (client, message) => {
         return;
     }
     let guildData = await db.loadGuildData(message.guild.id);
-    
+
+    //BLACKLIST REMOVE MESSAGE
+    if (new RegExp(guildData.blacklist.join("|")).test(message.content.toLowerCase())) {
+
+        let member = message.member;
+        if(permissionChecker.isModerator(guildData, member)) {
+            return;
+        }
+
+        message.reply("you can't use that here!⚠️")
+        message.delete();
+        return;
+    }
+
     // LEVELSYSTEM
     if (guildData.modules.leveling){
         let lvlInfo = guildData.levelSystem.gainXP(message.author.id)

@@ -45,7 +45,8 @@
             "MUTE":"0x000000",
             "UNMUTE":"0x000000",
             "MODLOG":"0x4957d1",
-            "USERINFO":"0x6270f0"
+            "USERINFO":"0x6270f0",
+            "BLACKLIST":"0x000000"
         }
     },
     "presences": [

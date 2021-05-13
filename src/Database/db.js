@@ -79,10 +79,10 @@ module.exports.loadGuildData = async function (guildID) {
                 levelSystem: "%user% achieved **`Level %level%`**, congrats!"
             },
             messageIDs: {
-                ticketSystem: "",
-                reactionRoles: []
+                ticketSystem: ""
             },
-            levelSystem: new LevelSystem()
+            levelSystem: new LevelSystem(),
+            blacklist: []
         });
 
         await newDoc.save().catch(err => console.log(err)).then(() => { doc = newDoc})

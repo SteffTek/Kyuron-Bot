@@ -40,10 +40,10 @@ const guildSchema = mongoose.Schema({
         levelSystem: String
     },
     messageIDs: {
-        ticketSystem: String,
-        reactionRoles: Array
+        ticketSystem: String
     },
-    levelSystem: Object
+    levelSystem: Object,
+    blacklist: Array
 });
 
 module.exports = mongoose.model("Guild", guildSchema, "guildData")
