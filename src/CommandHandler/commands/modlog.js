@@ -94,7 +94,7 @@ module.exports = {
 
             //POPULATE FIELD
             let title = (doc.isTemp ? "TEMP" : "") + doc.action.toUpperCase();
-            let desc = `${new Date(doc.timestamp)}\n**By:** ${moderator}` + (doc.isTemp ? `\n**For:** ${time}` : "") + (doc.reason === "" ? "" : "\n**Reason:** " + doc.reason);
+            let desc = `${new Date(doc.timestamp)}\n**By:** ${moderator}` + (doc.isTemp ? "\n**For:** `" + time + "`" : "") + (doc.reason === "" ? "" : "\n**Reason:** `" + doc.reason + "`");
 
             //ADD FIELD
             embed.addField(title,desc,true);
