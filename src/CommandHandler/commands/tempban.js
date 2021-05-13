@@ -11,8 +11,8 @@ const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler
 module.exports = {
-	name: 'tempmute',
-	description: 'Temporarily mutes a user.',
+	name: 'tempban',
+	description: 'Temporarily bans a user.',
 	options: [
         {
             "name":"user",
@@ -88,48 +88,23 @@ module.exports = {
 
         //ANTI KICK CHECKS
         if(permissionChecker.isModerator(data.guildData, userMember)) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**${userMember} is a moderator and cant be kicked!**`)]}, data.interaction)
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**${userMember} is a moderator and cant be banned!**`)]}, data.interaction)
             return;
         }
 
         if(client.user.id === userID) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**Why do you want to kick me? :(**`)]}, data.interaction)
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**Why do you want to ban me? :(**`)]}, data.interaction)
+            return;
+        }
+
+        if(!userMember.bannable) {
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.error(`**I cannot ban this user!**`)]}, data.interaction)
             return;
         }
 
         //REASON
         if(reason === null) {
             reason = "No reason specified!";
-        }
-
-        //GET MUTE ROLE
-        var roleID = data.guildData.muteRole;
-        var role = null;
-        if(roleID.length > 0) {
-            //FETCH ROLE
-            role = await guild.roles.fetch(roleID).catch(err => { /* ROLE NOT FOUND */ });
-        }
-
-        //CREATE ROLE IF NOT FOUND
-        if(!role) {
-            role = await guild.roles.create({
-                data: {
-                    name: 'Muted',
-                    color: 'GREY',
-                }
-            })
-
-            let permissions = [{
-                id: role.id,
-                deny: ["SEND_MESSAGES","ADD_REACTIONS","SEND_TTS_MESSAGES","CHANGE_NICKNAME","ATTACH_FILES","CONNECT","EMBED_LINKS","USE_VAD"]
-            }]
-
-            guild.channels.cache.each(channel => {
-                channel.overwritePermissions(permissions);
-            })
-
-            data.guildData.muteRole = role.id;
-            data.guildData.save().catch(err => {console.log(err)});
         }
 
         //CALC DURATION
@@ -154,22 +129,22 @@ module.exports = {
         }
         let until = Date.now() + duration;
 
-        //SET MUTED ROLE
-        userMember.roles.add(role);
+        //KICK & BAN THE USER
+        userMember.ban({reason: reason});
 
-        let desc = `**User ${userMember} got muted by ${member} for reason:**` + "\n`" + reason + "`" + `\n**Muted Until: ${new Date(until)}** `;
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER MUTED🗡️", config.colors.moderation.MUTE, desc)]}, data.interaction)
+        let desc = `**User ${userMember} got banned by ${member} for reason:**` + "\n`" + reason + "`" + `\n**Banned Until: ${new Date(until)}** `;
+        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🚫USER BANNED🚫", config.colors.moderation.BAN, desc)]}, data.interaction)
 
         //SEND TO AUDIT LOGGER
-        auditLogger(client, data.guildData, "🗡️USER MUTED🗡️", desc);
+        auditLogger(client, data.guildData, "🚫USER BANNED🚫", desc);
 
         //SENT TO MOD LOG
-        var tempMute = await db.addModerationData(guild.id, userMember.id, member.id, reason, "mute", true, until, false);
+        var tempBan = await db.addModerationData(guild.id, userMember.id, member.id, reason, "ban", true, until, false);
 
         //TIMEOUT
         setTimeout(function() {
             //CHECK FOR UNMUTE
-            modAction.findOne({_id: tempMute._id}).then(modActionData => {
+            modAction.findOne({_id: tempBan._id}).then(modActionData => {
                 if(modActionData.isDone) {
                     return;
                 }
@@ -178,14 +153,14 @@ module.exports = {
                 modActionData.isDone = true;
                 modActionData.save().catch(err => {console.log(err)})
 
-                //REMOVE ROLE
-                userMember.roles.remove(role);
+                //REMOVE BAN
+                guild.members.unban(modActionData.userID);
 
                 //ADD AUTOMATIC UNMUTE TO MODLOG
-                db.addModerationData(guild.id, userMember.id, "", "automatically unmuted", "unmute");
+                db.addModerationData(guild.id, userMember.id, "", "automatically unbanned", "unban");
 
                 //SEND TO AUDIT LOGGER
-                auditLogger(client, data.guildData, "✅USER UNMUTED✅", `**User ${userMember} got automatically unmuted!**`);
+                auditLogger(client, data.guildData, "✅USER UNBANNED✅", `**User ${userMember} got automatically unbanned!**`);
             }).catch(err => { /* ERROR LOL */ })
         }, duration);
     }

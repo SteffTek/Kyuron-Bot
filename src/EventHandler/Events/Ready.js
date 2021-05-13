@@ -112,6 +112,62 @@ module.exports = (client) => {
         }
     });
 
+    //TEMP BAN ACTION STARTUP
+    modAction.find({isTemp: true, isDone: false, action: "ban"}).then(loadedModActions => {
+        for(let i = 0; i < loadedModActions.length; i++) {
+            client.guilds.fetch(loadedModActions[i].guildID).then(guild => {
+                db.loadGuildData(loadedModActions[i].guildID).then(guildData => {
+                    client.users.fetch(loadedModActions[i].userID).then(user => {
+                        if(!user) {
+                            return;
+                        }
+
+                        var until = loadedModActions[i].until;
+                        if(until < Date.now()) {
+                            //SAVE
+                            loadedModActions[i].isDone = true;
+                            loadedModActions[i].save().catch(err => {console.log(err)})
+
+                            //REMOVE ROLE
+                            guild.members.unban(user.id).catch(err => { /* IGNORE LOL */ });
+
+                            //ADD AUTOMATIC UNMUTE TO MODLOG
+                            db.addModerationData(guild.id, user.id, "", "automatically unbanned", "unban");
+
+                            //SEND TO AUDIT LOGGER
+                            auditLogger(client, guildData, "✅USER UNBANNED✅", `**User ${user} got automatically unbanned!**`);
+                            return;
+                        }
+
+                        //TIMEOUT
+                        setTimeout(function() {
+                            //CHECK FOR UNMUTE
+                            modAction.findOne({_id: loadedModActions[i]._id}).then(modActionData => {
+                                if(modActionData.isDone) {
+                                    return;
+                                }
+
+                                //SAVE
+                                loadedModActions[i].isDone = true;
+                                loadedModActions[i].save().catch(err => {console.log(err)})
+
+                                //REMOVE ROLE
+                                guild.members.unban(user.id).catch(err => { /* IGNORE LOL */ });
+
+                                //ADD AUTOMATIC UNMUTE TO MODLOG
+                                db.addModerationData(guild.id, user.id, "", "automatically unbanned", "unban");
+
+                                //SEND TO AUDIT LOGGER
+                                auditLogger(client, guildData, "✅USER UNBANNED✅", `**User ${user} got automatically unbanned!**`);
+                            }).catch(err => {console.log(err); /* ERROR LOL */ })
+                        }, until - Date.now());
+
+                    }).catch(err => {console.log(err); /* IGNORE */ })
+                })
+            }).catch(err => {console.log(err);/* IGNORE */})
+        }
+    });
+
     //INTERACTION LISTENER
     client.ws.on('INTERACTION_CREATE', async (interaction) => {
         let commandName = interaction.data.name.toLowerCase();

@@ -66,17 +66,19 @@ module.exports = {
             //CHECK FOR RECENT TEMP MUTE THATS NOT CLEARED
             let doc = await modAction.findOne({
                 guildID: guild.id,
-                userID: userMember.id,
+                userID: userObj.id,
                 action: "ban",
                 isTemp: true,
                 isDone: false
             }).sort({x:-1}).exec().catch(err => console.log(err));
             if(doc === null) { return; }
+
             doc.isDone = true;
             doc.save().catch(err => console.log(err));
 
         }).catch(err => {
             /* User wasn't banned, lol! */
+            console.log(err);
             embedGen.error("**User isn't banned!**",data.client,data.interaction);
             return;
         })
