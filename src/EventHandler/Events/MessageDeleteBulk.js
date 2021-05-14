@@ -11,7 +11,7 @@ module.exports = async (client, messages) => {
 
     //SENT TO LOGGER
     let desc = `**${messages.array().length} Messages deleted in ${messages.first().channel}!**`
-    auditLogger(client, guildData, "MESSAGE DELETED", desc);
+    if(!guildData.channels.auditLogIgnore.includes(messages.first().channel.id)) auditLogger(client, guildData, "MESSAGE DELETED", desc);
 
     //CHECK IF MESSAGE WAS REACTION ROLE MESSAGE & REMOVE
     messages.each(async message => {

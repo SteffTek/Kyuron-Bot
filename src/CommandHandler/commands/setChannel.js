@@ -19,6 +19,10 @@ module.exports = {
                     "value":"auditLogChannel"
                 },
                 {
+                    "name":"Audit Log Ignored Channels",
+                    "value":"auditLogIgnore"
+                },
+                {
                     "name":"Leave Notice Channel",
                     "value":"leaveNoticeChannel"
                 },
@@ -55,13 +59,29 @@ module.exports = {
             channelID = data.args[1].value;
         }
 
+        //VARS
+        var title = "Channel Set!"
+        var description = "Channel ID:  **`" + channelID + "/" + channelType + "`**";
+
         //SET MODULE DATA
-        data.guildData.markModified("channels");
-        data.guildData.channels[channelType] = channelID;
+        if(channelType === "auditLogIgnore") {
+            if(data.guildData.channels[channelType].includes(channelID)) {
+                //REMOVE
+                title = "Channel Removed!"
+                let index = data.guildData.channels[channelType].indexOf(channelID);
+                data.guildData.channels[channelType].splice(index, 1);
+            } else {
+                //ADD
+                data.guildData.channels[channelType].push(channelID);
+            }
+        } else {
+            data.guildData.channels[channelType] = channelID;
+        }
 
         //SAVE GUILD DATA
+        data.guildData.markModified("channels");
         data.guildData.save().catch(err => console.log(err));
 
-		APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("Channel Set!", "0xFF964F", "Channel ID:  **`" + channelID + "/" + channelType + "`**")]}, data.interaction)
+		embedGen.custom(title, "0xFF964F", description, data.client, data.interaction)
     }
 };

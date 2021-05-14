@@ -14,7 +14,11 @@ module.exports = async (client, message) => {
 
     //SENT TO LOGGER
     let desc = `**Message from ${(message.author ? message.author : "`UNDEFINED`")} sent in ${message.channel}**` + (message.content ? "\n\n" + message.content : "");
-    if(message.author?.id !== client.user.id) auditLogger(client, guildData, "MESSAGE DELETED", desc);
+    if(message.author?.id !== client.user.id) {
+        if(!guildData.channels.auditLogIgnore.includes(message.channel.id)) {
+            auditLogger(client, guildData, "MESSAGE DELETED", desc);
+        }
+    }
 
     //CHECK IF MESSAGE WAS REACTION ROLE MESSAGE & REMOVE
 

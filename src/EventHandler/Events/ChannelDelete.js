@@ -8,7 +8,7 @@ module.exports = async (client, channel) => {
 
     //SENT TO LOGGER
     let desc = "**Channel `" + channel.name + "` deleted!**"
-    auditLogger(client, guildData, "CHANNEL DELETED", desc);
+    if(!guildData.channels.auditLogIgnore.includes(channel.id)) auditLogger(client, guildData, "CHANNEL DELETED", desc);
 
     //CHECK IF CHANNEL WAS SET IN GUILD DATA & REMOVE
 

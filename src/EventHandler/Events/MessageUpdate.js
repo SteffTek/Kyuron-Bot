@@ -7,5 +7,5 @@ module.exports = async (client, oldMessage, newMessage) => {
 
     //SENT TO LOGGER
     let desc = `**Message from ${oldMessage.author} sent in ${oldMessage.channel}**: \n\n **__OLD:__** ${oldMessage.content}\n**__NEW:__** ${newMessage.content}`
-    auditLogger(client, guildData, "MESSAGE EDITED", desc);
+    if(!guildData.channels.auditLogIgnore.includes(oldMessage.channel.id)) auditLogger(client, guildData, "MESSAGE EDITED", desc);
 }

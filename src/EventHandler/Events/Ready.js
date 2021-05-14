@@ -103,13 +103,13 @@ module.exports = (client) => {
 
                                     //SEND TO AUDIT LOGGER
                                     auditLogger(client, guildData, "🗡️USER UNMUTED🗡️", `**User ${member} got automatically unmuted!**`);
-                                }).catch(err => {console.log(err); /* ERROR LOL */ })
+                                }).catch(err => {/* ERROR LOL */ })
                             }, until - Date.now());
 
-                        }).catch(err => {console.log(err); /* IGNORE */ })
-                    }).catch(err => {console.log(err); /* IGNORE */ })
+                        }).catch(err => {/* IGNORE */ })
+                    }).catch(err => {/* IGNORE */ })
                 })
-            }).catch(err => {console.log(err);/* IGNORE */})
+            }).catch(err => {/* IGNORE */})
         }
     });
 
@@ -160,12 +160,12 @@ module.exports = (client) => {
 
                                 //SEND TO AUDIT LOGGER
                                 auditLogger(client, guildData, "✅USER UNBANNED✅", `**User ${user} got automatically unbanned!**`);
-                            }).catch(err => {console.log(err); /* ERROR LOL */ })
+                            }).catch(err => {/* ERROR LOL */ })
                         }, until - Date.now());
 
-                    }).catch(err => {console.log(err); /* IGNORE */ })
+                    }).catch(err => {/* IGNORE */ })
                 })
-            }).catch(err => {console.log(err);/* IGNORE */})
+            }).catch(err => {/* IGNORE */})
         }
     });
 

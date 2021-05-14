@@ -7,5 +7,5 @@ module.exports = async (client, oldChannel, newChannel) => {
 
     //SENT TO LOGGER
     let desc = "**Channel `" + oldChannel.name + "` updated!**" + (oldChannel.name === newChannel.name ? "": "\n New Channel: " + `${newChannel}`);
-    auditLogger(client, guildData, "CHANNEL UPDATED", desc);
+    if(!guildData.channels.auditLogIgnore.includes(oldChannel.id)) auditLogger(client, guildData, "CHANNEL UPDATED", desc);
 }

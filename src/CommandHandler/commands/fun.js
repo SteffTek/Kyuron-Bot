@@ -160,6 +160,7 @@ function mocking(string) {
 
 function transform(char) {
     if (char === "ß" || char === "ẞ") return char;
+    if (char === "I" || char === "i") return char.toLowerCase();
     return Math.random() < 0.5 ? char.toLowerCase() : char.toUpperCase();
 }
 
