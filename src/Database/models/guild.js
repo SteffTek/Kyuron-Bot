@@ -44,6 +44,7 @@ const guildSchema = mongoose.Schema({
         ticketSystem: String
     },
     levelSystem: Object,
+    autoMod: Object,
     blacklist: Array
 });
 

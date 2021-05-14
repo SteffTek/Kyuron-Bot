@@ -12,6 +12,7 @@ const Ticket = require('./models/tickets.js');
 const Reaction = require('./models/reaction.js');
 const ModAction = require('./models/modAction.js');
 const Announcement = require('./models/announcement.js');
+const AutoMod = require('../Modules/AutoMod.js');
 
 /*
  * Connects the client with MongoDB
@@ -83,13 +84,15 @@ module.exports.loadGuildData = async function (guildID) {
                 ticketSystem: ""
             },
             levelSystem: new LevelSystem(),
+            autoMod: new AutoMod(),
             blacklist: []
         });
 
         await newDoc.save().catch(err => console.log(err)).then(() => { doc = newDoc})
     }
 
-    doc.levelSystem = LevelSystem.load(doc.levelSystem)
+    doc.levelSystem = LevelSystem.load(doc.levelSystem);
+    doc.autoMod = AutoMod.load(doc.autoMod);
     return doc;
 };
 

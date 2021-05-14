@@ -8,30 +8,93 @@ module.exports = class AutoMod {
      * @returns {AutoMod} The AutoMod class
      */
     constructor(){
-        this.ruleSets = { /* ID:RULESET */};
+        this.actionSets = [ /* ACTION_SET */ ];
+        this.enabledRules = {
+            blacklist:{
+                enabled: false,
+                action: "delete",
+                whitelist: []
+            },
+            invite:{
+                enabled: false,
+                action: "delete",
+                whitelist: []
+            },
+            links:{
+                enabled: false,
+                action: "delete",
+                whitelist: []
+            },
+            caps:{
+                enabled: false,
+                action: "delete",
+                whitelist: []
+            },
+            emotes:{
+                enabled: false,
+                action: "delete",
+                whitelist: []
+            },
+            mentions:{
+                enabled: false,
+                action: "delete",
+                whitelist: []
+            },
+            spam:{
+                enabled: false,
+                action: "delete",
+                whitelist: []
+            }
+        }
     }
 
     /**
-     * Loads a LevelSystem class from an already existing object
+     * Loads a AutoMod class from an already existing object
      *
      * @param {object} obj AutoMod object
      * @returns {AutoMod} AutoMod class
      */
     static load(obj){
         let am = new this()
-        am.ruleSets = obj.ruleSets;
+        am.actionSets = obj.actionSets;
+        am.enabledRules = obj.enabledRules;
         return am;
     }
 
+    /**
+     * Handles incoming warns by the defined action set
+     *
+     * @param {object} guildData guildData object
+     * @param {object} member member object
+     */
+    handleWarn(guildData, member) {
+        console.log(member);
+    }
 
+    /**
+     * Handles incoming messages by the defined rules
+     *
+     * @param {object} guildData guildData object
+     * @param {object} message message object
+     */
+    handleMessage(guildData, message) {
+        console.log(message);
+
+        var warned = false;
+
+        //HANDLE USER AFTER INFRACTIONS
+        if(warned) {
+            this.handleWarn(guildData, message.member);
+        }
+    }
 }
 
 /*
-    RULE SET EXAMPLE
+    ACTION SET EXAMPLE
 */
-const default_rule_set = {
-    "what":"warn/blacklisted word/link/mass emoji",
-    "amount":3, /* After 3 warns, more than 3 emojis (Ignored for links and blacklisted words) */
-    "where": ["ignored channels"],
-    "what":"warn/mute/ban/tempmute/tempban/kick"
+const action_set = {
+    "what": "ban/kick/mute/tempban/tempmute",
+    "for": 2839389, //TIME
+    "if": 4, //AMOUNT WARNS
+    "in": 30303 //TIME
 }
