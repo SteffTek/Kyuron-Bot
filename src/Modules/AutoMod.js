@@ -94,7 +94,8 @@ module.exports = class AutoMod {
 */
 const action_set = {
     "what": "ban/kick/mute/tempban/tempmute",
-    "for": 2839389, //TIME
-    "if": 4, //AMOUNT WARNS
-    "in": 30303 //TIME
+    "timespan": 30, //TIME MINUTES
+    "warns": 4, //AMOUNT WARNS
+    "duration": 30,
+    "durationType": "minutes"
 }

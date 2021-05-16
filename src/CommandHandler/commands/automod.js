@@ -177,7 +177,7 @@ module.exports = {
                     ]
                 },{
                     "name":"set",
-                    "description":"Option 1",
+                    "description":"Create and set a new trigger.",
                     "type":1,
                     "options":[
                         {
@@ -204,20 +204,43 @@ module.exports = {
                                 },
                             ]
                         },{
-                            "name":"if",
+                            "name":"warns",
                             "description":"How many warns are needed to trigger this event.",
                             "type":4,
                             "required":true
                         },{
-                            "name":"in",
-                            "description":"The timespan in minutes the user have to been warned.",
+                            "name":"timespan",
+                            "description":"The time span in minutes the user have to been warned.",
                             "type":4,
                             "required":true
                         },{
-                            "name":"for",
-                            "description":"For what time period the action should last (Temp Ban/Mute)",
+                            "name":"duration",
+                            "description":"For what time period the action should last. (Temp Ban/Mute)",
                             "type":4,
                             "required":false
+                        },{
+                            "name":"durationtype",
+                            "description":"Type of the duration. Default: Minutes",
+                            "type":3,
+                            "required":false,
+                            "choices": [
+                                {
+                                    "name":"Seconds",
+                                    "value":"seconds"
+                                },
+                                {
+                                    "name":"Minutes",
+                                    "value":"minutes"
+                                },
+                                {
+                                    "name":"Hours",
+                                    "value":"hours"
+                                },
+                                {
+                                    "name":"Days",
+                                    "value":"days"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -225,8 +248,6 @@ module.exports = {
         }
     ],
 	async execute(data) {
-        console.log(JSON.stringify(data.args));
-
         //CHECK MODULE
         if(!data.guildData.modules?.autoMod) {
             embedGen.error("**This module isn't activated.**",data.client,data.interaction)
@@ -243,6 +264,8 @@ module.exports = {
         //GET DATA
         var command = data.args[0].name;
         var subCommand = data.args[0].options[0].name;
+
+        var guildData = data.guildData;
 
         //IF RULES COMMAND
         if(command === "rules") {
@@ -280,7 +303,90 @@ module.exports = {
 
         //IF TRIGGER COMMAND
         if(command === "trigger") {
-            
+
+            //SET COMMAND
+            if(subCommand === "set") {
+                var what = data.args[0].options[0].options[0].value;
+                var warns = data.args[0].options[0].options[1].value;
+                var timeSpan = data.args[0].options[0].options[2].value;
+                var duration = data.args[0].options[0].options[3]?.value;
+                var durationType = data.args[0].options[0].options[4]?.value;
+
+                if(what === "tempban" || what === "tempmute") {
+                    if(!duration) {
+                        embedGen.error("**Temp Ban/Mute needs a duration specified.**",data.client,data.interaction)
+                        return;
+                    }
+                }
+
+                //FALLBACK
+                if(!durationType) {
+                    durationType = "minutes";
+                }
+
+                if(!duration) {
+                    duration = 0;
+                }
+
+                //CREATE ACTION SET
+                const action_set = {
+                    "what": what,
+                    "timespan": timeSpan,
+                    "warns": warns,
+                    "duration": duration,
+                    "durationType": durationType
+                }
+
+                //DON'T ALLOW MORE THAN 4 SETS
+                if(guildData.autoMod.actionSets.length > 5) {
+                    embedGen.error("**You can only define 5 triggers!**",data.client,data.interaction)
+                    return;
+                }
+
+                guildData.autoMod.actionSets.push(action_set);
+
+                //SAVE GUILDDATA
+                guildData.markModified("autoMod");
+                guildData.save().catch(err => { console.log(err)});
+
+                //SEND MESSAGE
+                embedGen.custom("AUTOMOD TRIGGER","","Trigger created successfully! \nWhat to do: `" + what.toUpperCase() + "`\nWarns needed: `" + warns + "`\nTime span needed: `" + timeSpan + "`" + (duration ? "\nDuration: `" + duration + " " + durationType.toUpperCase() + "`" : ""),data.client, data.interaction);
+                return;
+            }
+
+            //GET COMMAND
+            if(subCommand === "get") {
+
+                var embed = embedGen.custom("AUTOMOD TRIGGERS","","List of active triggers:");
+
+                for(let i = 0; i < guildData.autoMod.actionSets.length; i++) {
+                    let set = guildData.autoMod.actionSets[i];
+
+                    embed.addField("ID: " + i + " | " + set.what.toUpperCase(), "Warns needed: `" + set.warns + "`\nTime span needed: `" + set.timespan + "`" + (set.duration == 0 ? "" : "\nDuration: `" + set.duration + " " + set.durationType.toUpperCase() + "`"))
+                }
+
+                //SEND
+                APICalls.sendInteraction(data.client, {"content": "", "embeds": [embed]}, data.interaction)
+            }
+
+            //REMOVE COMMAND
+            if(subCommand === "remove") {
+                var trigger = data.args[0].options[0].options[0].value;
+
+                if(!guildData.autoMod.actionSets[trigger]) {
+                    embedGen.error("**Trigger not found! Use `/automod trigger get` to see all current triggers.**",data.client,data.interaction)
+                    return;
+                }
+
+                guildData.autoMod.actionSets.splice(trigger, 1);
+
+                //SAVE GUILDDATA
+                guildData.markModified("autoMod");
+                guildData.save().catch(err => { console.log(err)});
+
+                //SEND MESSAGE
+                embedGen.custom("AUTOMOD TRIGGERS","","**Trigger with ID `" + trigger + "` removed!**", data.client, data.interaction);
+            }
         }
 	}
 };
