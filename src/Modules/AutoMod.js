@@ -1,3 +1,8 @@
+const db = require("../Database/db");
+const emojiRegex = require('emoji-regex/RGI_Emoji.js');
+const embedGen = require("../Utils/embedGenerator");
+const configHandler = require('../Utils/configHandler.js');
+const config = configHandler.getConfig();
 /**
  * The AutoMod class for guildData
  */
@@ -46,6 +51,8 @@ module.exports = class AutoMod {
                 whitelist: []
             }
         }
+
+
     }
 
     /**
@@ -77,10 +84,110 @@ module.exports = class AutoMod {
      * @param {object} guildData guildData object
      * @param {object} message message object
      */
-    handleMessage(guildData, message) {
-        console.log(message);
-
+    handleMessage(client, guildData, message, lastMessage) {
         var warned = false;
+
+        //VARS
+        var channel = message.channel;
+        var member = message.member;
+
+        //HANDLE RULES
+        for(let rule in this.enabledRules) {
+            const ruleSettings = this.enabledRules[rule];
+
+            //IGNORE NOT ENABLED RULES
+            if(!ruleSettings.enabled) {
+                continue;
+            }
+
+            //SKIP RULE IF WHITELISTED
+            if(ruleSettings.whitelist.includes(channel.id)) {
+                continue;
+            }
+
+            //CHECK FOR RULE BREAK
+            if(rule === "blacklist")
+                if (!new RegExp(guildData.blacklist.join("|")).test(message.content.toLowerCase())) {
+                    //BLACKLIST NOT VIOLATED
+                    continue;
+                }
+
+            if(rule === "invite")
+                if(!new RegExp("(https?://)?(www.)?(discord.(gg|io|me|li)|discordapp.com/invite)/[^\s/]+?(?=\b)").test(message.content)){
+                    //INVITE NOT VIOLATED
+                    continue;
+                }
+
+            if(rule === "links")
+                if(!new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?").test(message.content)) {
+                    //LINK NOT VIOLATED
+                    continue;
+                }
+
+            if(rule === "caps")
+                if(!isMostlyUppercase(message.content)) {
+                    //CAPS NOT VIOLATED
+                    continue;
+                }
+
+            if(rule === "emotes") {
+                var count = 0;
+
+                //FETCH CUSTOM EMOTES
+                var custom = message.content.match(/<a:.+?:\d+>|<:.+?:\d+>/g)?.length;
+                if(custom) {
+                    count += custom;
+                }
+
+                //FETCH NORMAL EMOTES
+                const regex = emojiRegex();
+                let match;
+                while (match = regex.exec(message.content)) {
+                    count++;
+                }
+
+                if(count < 10) {
+                    //EMOTES NOT VIOLATED
+                    continue;
+                }
+            }
+
+            if(rule === "mentions") {
+                var count = message.mentions.roles.array().length;
+                count += message.mentions.members.array().length;
+
+                if(count < 4) {
+                    //MENTIONS NOT VIOLATED
+                    continue;
+                }
+            }
+
+            if(rule === "spam") {
+                if(lastMessage) {
+                    if(message.content != lastMessage.content) {
+                        //SPAM NOT VIOLATED
+                        continue;
+                    }
+                }
+            }
+
+            if(ruleSettings.action === "delete" || ruleSettings.action === "both") {
+                //DELETE MESSAGE
+                message.delete();
+            }
+
+            if(ruleSettings.action === "warn" || ruleSettings.action === "both") {
+                //WARN USER
+                db.addModerationData(channel.guild.id, member.id, client.user.id, "AutoMod Rule Violation: " + rule.toUpperCase(), "warn");
+                warned = true;
+
+                //SEND MESSAGE TO CHANNEL ABOUT WARN
+                var embed = embedGen.custom("WARN",config.colors.moderation.WARN,`**${member} you can't do that here!**` + "\nAutoMod Rule Violation: `" + rule.toUpperCase() + "`");
+                message.channel.send(embed)
+            }
+
+            break;
+        }
 
         //HANDLE USER AFTER INFRACTIONS
         if(warned) {
@@ -98,4 +205,50 @@ const action_set = {
     "warns": 4, //AMOUNT WARNS
     "duration": 30,
     "durationType": "minutes"
+}
+
+/*
+    UTILS FUNCTIONS NOT NECESSARY FOR CLASS
+*/
+
+/**
+     * Checks if string is mostly capitalized
+     *
+     * @param {string} text test
+     * @returns {boolean} mostlyUppercase boolean
+     */
+function isMostlyUppercase(string) {
+    //REMOVE EMOJIS FIRST
+    const regex = emojiRegex();
+    let match;
+    while (match = regex.exec(string)) {
+        string = string.replace(match,"");
+    }
+
+    //TOTAL COUNT
+    var total = string.length;
+    var uppercase = 0;
+
+    for(let i = 0; i < string.length; i++) {
+        character = string.charAt(i);
+
+        //NUMBER
+        if (!isNaN(character * 1)){
+            //total -= 1; //REMOVE 1 FROM TOTAL
+            continue
+        }
+
+        //IS UPPER CASE? IF YES => INCREASE
+        if (character == character.toUpperCase()) {
+            uppercase++;
+        }
+    }
+
+    //MATH
+    var percent = (uppercase / total) * 100;
+
+    if(percent >= 70) {
+        return true;
+    }
+    return false;
 }

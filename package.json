@@ -20,6 +20,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "discord.js": "^12.5.3",
+    "emoji-regex": "^9.2.2",
     "mongoose": "^5.12.7",
     "safe-timers": "^1.1.0",
     "twitch.tv-api": "^1.2.4",

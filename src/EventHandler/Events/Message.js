@@ -4,6 +4,11 @@ const embedGen = require('./../../Utils/embedGenerator.js')
 const permissionChecker = require("../../Utils/permissionChecker");
 const AutoMod = require('../../Modules/AutoMod.js');
 
+//VARS
+const lastUserMessages = {
+    /* USERID: MESSAGE */
+}
+
 module.exports = async (client, message) => {
     // return if author is a bot or if the message was sent via DM
     if (message.author.bot || message.guild === null){
@@ -13,9 +18,16 @@ module.exports = async (client, message) => {
 
     //SEND TO AUTO MOD
     if(guildData?.modules?.autoMod) {
+        if(permissionChecker.isModerator(guildData, message.member)) {
+            return;
+        }
+
         let autoMod = AutoMod.load(guildData.autoMod);
-        autoMod.handleMessage(guildData, message);
+        autoMod.handleMessage(client, guildData, message, lastUserMessages[message.author.id]);
     }
+
+    //SET LAST USER MESSAGE
+    lastUserMessages[message.author.id] = message;
 
     // LEVELSYSTEM
     if (guildData.modules.leveling){
