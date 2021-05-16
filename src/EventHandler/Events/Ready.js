@@ -197,6 +197,10 @@ module.exports = (client) => {
     //PRESENCE
     var presences = config.presences;
     function setPresence(message) {
+        //HANDLE MESSAGE
+        message = message.replace("%servers%", client.guilds.cache.array().length);
+
+        //SET MESSAGE
         client.user.setPresence({
             status: 'online',
             activity: {
