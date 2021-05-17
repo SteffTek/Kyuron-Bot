@@ -312,18 +312,43 @@ module.exports = {
                 var duration = data.args[0].options[0].options[3]?.value;
                 var durationType = data.args[0].options[0].options[4]?.value;
 
-                if(what === "tempban" || what === "tempmute") {
-                    if(!duration) {
-                        embedGen.error("**Temp Ban/Mute needs a duration specified.**",data.client,data.interaction)
-                        return;
-                    }
-                }
-
                 //FALLBACK
                 if(!durationType) {
                     durationType = "minutes";
                 }
 
+                if(what === "tempban" || what === "tempmute") {
+                    if(!duration) {
+                        embedGen.error("**Temp Ban/Mute needs a duration specified.**",data.client,data.interaction)
+                        return;
+                    }
+
+                    //CALC DURATION
+                    var testDuration = duration;
+                    switch(durationType) {
+                        case "seconds":
+                            testDuration *= 1000;
+                            break;
+                        case "minutes":
+                            testDuration *= 60 * 1000;
+                            break;
+                        case "hours":
+                            testDuration *= 60 * 60 * 1000;
+                            break;
+                        case "days":
+                            testDuration *= 24 * 60 * 60 * 1000;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if(testDuration > 30758400000) {
+                        embedGen.error(`**You tried to create an trigger with a ban or mute duration of over an year. You know, thats pretty long. Maybe you should try banning or muting indefinitely instead!**`, data.client, data.interaction)
+                        return;
+                    }
+                }
+
+                //OTHER FALLBACK
                 if(!duration) {
                     duration = 0;
                 }

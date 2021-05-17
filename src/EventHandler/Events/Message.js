@@ -19,7 +19,7 @@ module.exports = async (client, message) => {
     //SEND TO AUTO MOD
     if(guildData?.modules?.autoMod) {
         if(permissionChecker.isModerator(guildData, message.member)) {
-            return;
+            //return;
         }
 
         let autoMod = AutoMod.load(guildData.autoMod);

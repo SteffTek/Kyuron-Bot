@@ -6,6 +6,7 @@ const auditLogger = require("../../Modules/AuditLog");
 
 const db = require("../../Database/db");
 const configHandler = require("../../Utils/configHandler");
+const UserManagement = require('../../Utils/UserManagement.js');
 const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler
@@ -76,16 +77,7 @@ module.exports = {
             reason = "No reason specified!";
         }
 
-        //KICK THE USER
-        userMember.kick(reason);
-
-        let desc = `**User ${userMember} got kicked by ${member} for reason:**` + "\n`" + reason + "`";
+        let desc = await UserManagement.kickUser(client, guild, data.guildData, userMember, member, reason);
         APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER KICKED🗡️", config.colors.moderation.KICK, desc)]}, data.interaction)
-
-        //SEND TO AUDIT LOGGER
-        auditLogger(client, data.guildData, "🗡️USER KICKED🗡️", desc);
-
-        //SENT TO MOD LOG
-        db.addModerationData(guild.id, userMember.id, member.id, reason, "kick");
     }
 };

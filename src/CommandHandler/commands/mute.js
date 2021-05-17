@@ -6,6 +6,7 @@ const auditLogger = require("../../Modules/AuditLog");
 
 const db = require("../../Database/db");
 const configHandler = require("../../Utils/configHandler");
+const UserManagement = require('../../Utils/UserManagement.js');
 const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler
@@ -71,46 +72,7 @@ module.exports = {
             reason = "No reason specified!";
         }
 
-        //GET MUTE ROLE
-        var roleID = data.guildData.muteRole;
-        var role = null;
-        if(roleID.length > 0) {
-            //FETCH ROLE
-            role = await guild.roles.fetch(roleID).catch(err => { /* ROLE NOT FOUND */ });
-        }
-
-        //CREATE ROLE IF NOT FOUND
-        if(!role) {
-            role = await guild.roles.create({
-                data: {
-                    name: 'Muted',
-                    color: 'GREY',
-                }
-            })
-
-            let permissions = [{
-                id: role.id,
-                deny: ["SEND_MESSAGES","ADD_REACTIONS","SEND_TTS_MESSAGES","CHANGE_NICKNAME","ATTACH_FILES","CONNECT","EMBED_LINKS","USE_VAD"]
-            }]
-
-            guild.channels.cache.each(channel => {
-                channel.overwritePermissions(permissions);
-            })
-
-            data.guildData.muteRole = role.id;
-            data.guildData.save().catch(err => {console.log(err)});
-        }
-
-        //SET MUTED ROLE
-        userMember.roles.add(role);
-
-        let desc = `**User ${userMember} got muted by ${member} for reason:**` + "\n`" + reason + "`";
+        let desc = await UserManagement.muteUser(data.client, data.guildData, guild, userMember, member, reason);
         APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER MUTED🗡️", config.colors.moderation.MUTE, desc)]}, data.interaction)
-
-        //SEND TO AUDIT LOGGER
-        auditLogger(client, data.guildData, "🗡️USER MUTED🗡️", desc);
-
-        //SENT TO MOD LOG
-        db.addModerationData(guild.id, userMember.id, member.id, reason, "mute");
     }
 };

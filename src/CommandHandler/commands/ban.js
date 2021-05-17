@@ -6,6 +6,7 @@ const auditLogger = require("../../Modules/AuditLog");
 
 const db = require("../../Database/db");
 const configHandler = require("../../Utils/configHandler");
+const UserManagement = require('../../Utils/UserManagement.js');
 const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler
@@ -76,16 +77,7 @@ module.exports = {
             reason = "No reason specified!";
         }
 
-        //KICK & BAN THE USER
-        guild.members.ban(userID, {reason: reason});
-
-        let desc = `**User ${user} got banned by ${member} for reason:**` + "\n`" + reason + "`";
+        let desc = await UserManagement.banUser(data.client, guild, data.guildData, user, member, reason);
         APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🚫USER BANNED🚫", config.colors.moderation.BAN, desc)]}, data.interaction)
-
-        //SEND TO AUDIT LOGGER
-        auditLogger(client, data.guildData, "🚫USER BANNED🚫", desc);
-
-        //SENT TO MOD LOG
-        db.addModerationData(guild.id, user.id, member.id, reason, "ban");
     }
 };

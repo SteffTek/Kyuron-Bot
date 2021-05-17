@@ -3,6 +3,8 @@ const emojiRegex = require('emoji-regex/RGI_Emoji.js');
 const embedGen = require("../Utils/embedGenerator");
 const configHandler = require('../Utils/configHandler.js');
 const config = configHandler.getConfig();
+const modAction = require("../Database/models/modAction");
+const UserManagement = require("../Utils/UserManagement");
 /**
  * The AutoMod class for guildData
  */
@@ -74,8 +76,83 @@ module.exports = class AutoMod {
      * @param {object} guildData guildData object
      * @param {object} member member object
      */
-    handleWarn(guildData, member) {
-        console.log(member);
+    async handleWarn(client, guildData, member) {
+
+        //GET GUILD
+        var guild = client.guilds.resolve(guildData.guildID);
+
+        if(!guild) {
+            return;
+        }
+
+        //VAR CONSTANT VARS
+        var reason = "AutoMod Violation. Too many warns!";
+
+        //GO TROUGH RULES
+        for(let action in this.actionSets) {
+            action = this.actionSets[action];
+
+            //GET VARS
+            let minutes = action.timespan * 60 * 1000; //TIMESPAN IN MILLIES
+            let what = action.what;
+            let warns = action.warns;
+            let duration = action.duration;
+            let durationType = action.durationType;
+
+            //GET DURATION IN MILLIES
+            if(what === "tempmute" || what === "tempban") {
+                switch(durationType) {
+                    case "seconds":
+                        duration *= 1000;
+                        break;
+                    case "minutes":
+                        duration *= 60 * 1000;
+                        break;
+                    case "hours":
+                        duration *= 60 * 60 * 1000;
+                        break;
+                    case "days":
+                        duration *= 24 * 60 * 60 * 1000;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            //GETTING X LAST MOD LOGS
+            const docs = await modAction.find({
+                guildID: guildData.guildID,
+                userID: member.user.id,
+                action: "warn",
+                timestamp: {$gte: Date.now() - minutes}
+            }).sort({timestamp:-1}).limit(warns).exec().catch(err => console.log(err));
+
+            //IF NOT ENOUGH MOD LOGS => SKIP
+            if(docs.length < warns) {
+                continue;
+            }
+
+            //IF ENOUGH MOD LOGS => MAKE ACTION
+            if(what === "mute") {
+                UserManagement.muteUser(client, guildData, guild, member, client.user, reason);
+            }
+
+            if(what === "ban") {
+                UserManagement.banUser(client, guild, guildData, member, client.user, reason);
+            }
+
+            if(what === "kick") {
+                UserManagement.kickUser(client, guild, guildData, member, client.user, reason);
+            }
+
+            if(what === "tempmute") {
+                UserManagement.tempMute(client, guildData, guild, member, client.user, reason, duration, function(desc){})
+            }
+
+            if(what === "tempban") {
+                UserManagement.tempBan(client, guild, guildData, member, client.user, reason, duration, function(desc){})
+            }
+        }
     }
 
     /**
@@ -118,11 +195,27 @@ module.exports = class AutoMod {
                     continue;
                 }
 
-            if(rule === "links")
-                if(!new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?").test(message.content)) {
-                    //LINK NOT VIOLATED
-                    continue;
+            if(rule === "links") {
+                var matches = message.content.match(/(https?:\/\/[^\s]+)/g);
+                var skip = true;
+
+                for(let match in matches) {
+                    match = matches[match];
+
+                    //ALLOW DISCORD LINKS (USE INVITE BLOCKER FOR INVITES)
+                    var checkDC = match.match(/(https?:\/\/)?(www.|cdn.)?(discord.(gg|io|me|li)|discordapp.com)\/[^\s/]+?(?=\b)/g);
+                    if(!checkDC){
+                        skip = false;
+                        break;
+                    }
                 }
+                if(skip)
+                    continue;
+            }
+
+            //OLD LINK SYNTAX
+            //if(!new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?").test(message.content)) {}
+
 
             if(rule === "caps")
                 if(!isMostlyUppercase(message.content)) {
@@ -168,6 +261,8 @@ module.exports = class AutoMod {
                         //SPAM NOT VIOLATED
                         continue;
                     }
+                } else {
+                    continue;
                 }
             }
 
@@ -191,7 +286,7 @@ module.exports = class AutoMod {
 
         //HANDLE USER AFTER INFRACTIONS
         if(warned) {
-            this.handleWarn(guildData, message.member);
+            this.handleWarn(client, guildData, message.member);
         }
     }
 }

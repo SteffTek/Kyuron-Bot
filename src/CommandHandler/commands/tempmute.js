@@ -10,6 +10,7 @@ const modAction = require('../../Database/models/modAction.js');
 const config = configHandler.getConfig();
 
 const setTimeout = require('safe-timers').setTimeout;
+const UserManagement = require('../../Utils/UserManagement.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -109,36 +110,6 @@ module.exports = {
             reason = "No reason specified!";
         }
 
-        //GET MUTE ROLE
-        var roleID = data.guildData.muteRole;
-        var role = null;
-        if(roleID.length > 0) {
-            //FETCH ROLE
-            role = await guild.roles.fetch(roleID).catch(err => { /* ROLE NOT FOUND */ });
-        }
-
-        //CREATE ROLE IF NOT FOUND
-        if(!role) {
-            role = await guild.roles.create({
-                data: {
-                    name: 'Muted',
-                    color: 'GREY',
-                }
-            })
-
-            let permissions = [{
-                id: role.id,
-                deny: ["SEND_MESSAGES","ADD_REACTIONS","SEND_TTS_MESSAGES","CHANGE_NICKNAME","ATTACH_FILES","CONNECT","EMBED_LINKS","USE_VAD"]
-            }]
-
-            guild.channels.cache.each(channel => {
-                channel.overwritePermissions(permissions);
-            })
-
-            data.guildData.muteRole = role.id;
-            data.guildData.save().catch(err => {console.log(err)});
-        }
-
         //CALC DURATION
         switch(durationType) {
             case "seconds":
@@ -159,41 +130,14 @@ module.exports = {
             default:
                 break;
         }
-        let until = Date.now() + duration;
 
-        //SET MUTED ROLE
-        userMember.roles.add(role);
+        if(duration > 30758400000) {
+            embedGen.error(`**You tried to temp mute ${userMember} longer than a year. This duration is pretty long. You should try muting this user permanently. Use: **` + "`/mute <user> <reason>`", data.client, data.interaction)
+            return;
+        }
 
-        let desc = `**User ${userMember} got muted by ${member} for reason:**` + "\n`" + reason + "`" + `\n**Muted Until: ${new Date(until)}** `;
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER MUTED🗡️", config.colors.moderation.MUTE, desc)]}, data.interaction)
-
-        //SEND TO AUDIT LOGGER
-        auditLogger(client, data.guildData, "🗡️USER MUTED🗡️", desc);
-
-        //SENT TO MOD LOG
-        var tempMute = await db.addModerationData(guild.id, userMember.id, member.id, reason, "mute", true, until, false);
-
-        //TIMEOUT
-        setTimeout(function() {
-            //CHECK FOR UNMUTE
-            modAction.findOne({_id: tempMute._id}).then(modActionData => {
-                if(modActionData.isDone) {
-                    return;
-                }
-
-                //SAVE
-                modActionData.isDone = true;
-                modActionData.save().catch(err => {console.log(err)})
-
-                //REMOVE ROLE
-                userMember.roles.remove(role);
-
-                //ADD AUTOMATIC UNMUTE TO MODLOG
-                db.addModerationData(guild.id, userMember.id, "", "automatically unmuted", "unmute");
-
-                //SEND TO AUDIT LOGGER
-                auditLogger(client, data.guildData, "✅USER UNMUTED✅", `**User ${userMember} got automatically unmuted!**`);
-            }).catch(err => { /* ERROR LOL */ })
-        }, duration);
+        UserManagement.tempMute(client, data.guildData, guild, userMember, member, reason, duration, function(desc) {
+            embedGen.custom("🗡️USER MUTED🗡️", config.colors.moderation.MUTE, desc, data.client, data.interaction);
+        });
     }
 };

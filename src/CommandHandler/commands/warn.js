@@ -81,7 +81,7 @@ module.exports = {
         //SEND TO AUTO MOD IF ACTIVE
         if(data.guildData.modules?.autoMod) {
             var autoMod = AutoMod.load(data.guildData.autoMod);
-            autoMod.handleWarn(data.guildData, userMember);
+            autoMod.handleWarn(data.client, data.guildData, userMember);
         }
 
         //SENT TO MOD LOG

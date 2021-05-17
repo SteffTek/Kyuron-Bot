@@ -10,6 +10,7 @@ const modAction = require('../../Database/models/modAction.js');
 const config = configHandler.getConfig();
 
 const setTimeout = require('safe-timers').setTimeout;
+const UserManagement = require('../../Utils/UserManagement.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -134,41 +135,14 @@ module.exports = {
             default:
                 break;
         }
-        let until = Date.now() + duration;
 
-        //KICK & BAN THE USER
-        userMember.ban({reason: reason});
+        if(duration > 30758400000) {
+            embedGen.error(`**You tried to temp ban ${userMember} longer than a year. This duration is pretty long. You should try banning this user permanently. Use: **` + "`/ban <user> <reason>`", data.client, data.interaction)
+            return;
+        }
 
-        let desc = `**User ${userMember} got banned by ${member} for reason:**` + "\n`" + reason + "`" + `\n**Banned Until: ${new Date(until)}** `;
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🚫USER BANNED🚫", config.colors.moderation.BAN, desc)]}, data.interaction)
-
-        //SEND TO AUDIT LOGGER
-        auditLogger(client, data.guildData, "🚫USER BANNED🚫", desc);
-
-        //SENT TO MOD LOG
-        var tempBan = await db.addModerationData(guild.id, userMember.id, member.id, reason, "ban", true, until, false);
-
-        //TIMEOUT
-        setTimeout(function() {
-            //CHECK FOR UNMUTE
-            modAction.findOne({_id: tempBan._id}).then(modActionData => {
-                if(modActionData.isDone) {
-                    return;
-                }
-
-                //SAVE
-                modActionData.isDone = true;
-                modActionData.save().catch(err => {console.log(err)})
-
-                //REMOVE BAN
-                guild.members.unban(modActionData.userID);
-
-                //ADD AUTOMATIC UNMUTE TO MODLOG
-                db.addModerationData(guild.id, userMember.id, "", "automatically unbanned", "unban");
-
-                //SEND TO AUDIT LOGGER
-                auditLogger(client, data.guildData, "✅USER UNBANNED✅", `**User ${userMember} got automatically unbanned!**`);
-            }).catch(err => { /* ERROR LOL */ })
-        }, duration);
+        UserManagement.tempBan(client, guild, data.guildData, userMember, member, reason, duration, function(desc) {
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🚫USER BANNED🚫", config.colors.moderation.BAN, desc)]}, data.interaction);
+        })
     }
 };
