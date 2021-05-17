@@ -6,6 +6,7 @@ const config = configHandler.getConfig();
 const modAction = require("../Database/models/modAction");
 const UserManagement = require("../Utils/UserManagement");
 const utils = require('../Utils/utils.js');
+const guild = require("../Database/models/guild");
 /**
  * The AutoMod class for guildData
  */
@@ -199,11 +200,17 @@ module.exports = class AutoMod {
             }
 
             //CHECK FOR RULE BREAK
-            if(rule === "blacklist")
+            if(rule === "blacklist"){
+                //NOTING ON BLACKLIST
+                if(guildData.blacklist.length == 0) {
+                    continue;
+                }
+
                 if (!new RegExp(guildData.blacklist.join("|")).test(message.content.toLowerCase())) {
                     //BLACKLIST NOT VIOLATED
                     continue;
                 }
+            }
 
             if(rule === "invite")
                 if(!new RegExp("(https?://)?(www.)?(discord.(gg|io|me|li)|discordapp.com/invite)/[^\s/]+?(?=\b)").test(message.content)){
@@ -277,7 +284,13 @@ module.exports = class AutoMod {
                         //SPAM NOT VIOLATED
                         continue;
                     } else {
-                        if(message.createdTimestamp - lastMessage.createdTimestamp > 5 * 60 * 1000) { //IF MESSAGE SENT TWICE IN 5 MINUTES => SPAM
+                        //IF MESSAGE SENT TWICE IN 5 MINUTES => SPAM
+                        if(message.createdTimestamp - lastMessage.createdTimestamp > 5 * 60 * 1000) {
+                            continue;
+                        }
+
+                        //CHECK FOR SAME GUILD
+                        if(message.channel.guild.id !== lastMessage.channel.guild.id) {
                             continue;
                         }
                     }
