@@ -19,7 +19,6 @@
             "default": "0xFF964F"
         },
         "auditLog": {
-            "WARN": "0x000000",
             "CHANNEL CREATED": "0x21C468",
             "MESSAGE EDITED": "0x21C468",
             "MESSAGE DELETED": "0x21C468"
