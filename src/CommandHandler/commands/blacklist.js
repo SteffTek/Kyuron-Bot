@@ -8,6 +8,7 @@ const permissionChecker = require('../../Utils/permissionChecker.js');
 
 const axios = require("axios");
 const guild = require('../../Database/models/guild.js');
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -80,7 +81,7 @@ module.exports = {
             guildData.markModified("blacklist");
             guildData.save().catch(err => { /* */ })
 
-            embedGen.custom("🏴BLACKLIST TERM ADDED🏴", config.colors.moderation.BLACKLIST, "Term successfully added to blacklist!", data.client, data.interaction)
+            embedGen.custom("🏴BLACKLIST TERM ADDED🏴", utils.getColor("moderation","BLACKLIST"), "Term successfully added to blacklist!", data.client, data.interaction)
 
             return;
         }
@@ -99,7 +100,7 @@ module.exports = {
             guildData.markModified("blacklist");
             guildData.save().catch(err => { /* */ })
 
-            embedGen.custom("🏴BLACKLIST TERM REMOVED🏴", config.colors.moderation.BLACKLIST, "Term successfully removed from blacklist!", data.client, data.interaction)
+            embedGen.custom("🏴BLACKLIST TERM REMOVED🏴", utils.getColor("moderation","BLACKLIST"), "Term successfully removed from blacklist!", data.client, data.interaction)
 
             return;
         }
@@ -116,6 +117,6 @@ module.exports = {
         }
 
         //SEND
-        embedGen.custom("🏴BLACKLIST TERMS🏴", config.colors.moderation.BLACKLIST, description, data.client, data.interaction)
+        embedGen.custom("🏴BLACKLIST TERMS🏴", utils.getColor("moderation","BLACKLIST"), description, data.client, data.interaction)
 	}
 };

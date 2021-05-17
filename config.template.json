@@ -15,11 +15,14 @@
     },
     "colors":{
         "embedGen": {
-            "error": "0xF52411"
+            "error": "0xF52411",
+            "default": "0xFF964F"
         },
         "auditLog": {
-            "WARN": "0xFF964F",
-            "CHANNEL CREATED": "0x21C468"
+            "WARN": "0x000000",
+            "CHANNEL CREATED": "0x21C468",
+            "MESSAGE EDITED": "0x21C468",
+            "MESSAGE DELETED": "0x21C468"
         },
         "fun":{
             "MOCK":"0xf4fa84",
@@ -35,6 +38,14 @@
         },
         "giveaway": {
             "BODY":"0x73168a"
+        },
+        "reactionRole":{
+            "ROLE": "0xFF964F",
+            "EDIT": "0xFF964F"
+        },
+        "autoMod": {
+            "RULES":"0xFF964F",
+            "TRIGGERS":"0xFF964F"
         },
         "moderation":{
             "KICK":"0xF52411",

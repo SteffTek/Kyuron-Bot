@@ -8,6 +8,7 @@ const db = require("../../Database/db");
 const configHandler = require("../../Utils/configHandler");
 const modAction = require('../../Database/models/modAction.js');
 const config = configHandler.getConfig();
+const utils = require('../../Utils/utils.js');
 
 const setTimeout = require('safe-timers').setTimeout;
 const UserManagement = require('../../Utils/UserManagement.js');
@@ -142,7 +143,7 @@ module.exports = {
         }
 
         UserManagement.tempBan(client, guild, data.guildData, userMember, member, reason, duration, function(desc) {
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🚫USER BANNED🚫", config.colors.moderation.BAN, desc)]}, data.interaction);
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🚫USER BANNED🚫", utils.getColor("moderation","BAN"), desc)]}, data.interaction);
         })
     }
 };

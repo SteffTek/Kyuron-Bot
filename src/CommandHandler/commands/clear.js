@@ -5,6 +5,7 @@ const permissionChecker = require('./../../Utils/permissionChecker.js');
 const auditLogger = require("../../Modules/AuditLog");
 
 const configHandler = require("../../Utils/configHandler");
+const utils = require('../../Utils/utils.js');
 const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler
@@ -45,6 +46,6 @@ module.exports = {
         data.channel.bulkDelete(amount);
 
         //SEND INTERACTION
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("CLEAR", config.colors.giveaway.CLEAR, "**Deleting last `" + amount + "` messages!**")]}, data.interaction)
+        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("CLEAR", utils.getColor("moderation","CLEAR"), "**Deleting last `" + amount + "` messages!**")]}, data.interaction)
     }
 };

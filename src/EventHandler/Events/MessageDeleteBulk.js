@@ -4,6 +4,7 @@ const db = require('./../../Database/db.js')
 
 const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
+const utils = require('../../Utils/utils.js');
 
 module.exports = async (client, messages) => {
     //GET GUILD DATA
@@ -19,7 +20,7 @@ module.exports = async (client, messages) => {
         //IF TICKET SUPPORT
         if(guildData.messageIDs.ticketSystem === message.id) {
             //COMMIT CHANNEL MESSAGE EMBED
-            message.channel.send(embedGen.custom("🎫-Support Tickets",config.colors.tickets.INFO, guildData.messages.ticketSystem.replace("%emote%", "📩"))).then(message => {
+            message.channel.send(embedGen.custom("🎫-Support Tickets",utils.getColor("tickets","INFO"), guildData.messages.ticketSystem.replace("%emote%", "📩"))).then(message => {
                 guildData.messageIDs.ticketSystem = message.id;
                 message.react("📩");
 

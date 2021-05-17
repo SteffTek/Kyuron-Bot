@@ -8,6 +8,7 @@ const permissionChecker = require('../../Utils/permissionChecker.js');
 const modAction = require('../../Database/models/modAction.js');
 const logger = require('../../Utils/logger.js');
 const TimeSpan = require('../../Utils/TimeSpan.js');
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -78,7 +79,7 @@ module.exports = {
         });
 
         //CREATE EMBED
-        var embed = embedGen.custom("MODLOG",config.colors.moderation.MODLOG,`**Showing ${docs.length} results of ${count} for user ${user}!**`);
+        var embed = embedGen.custom("MODLOG",utils.getColor("moderation","MODLOG"),`**Showing ${docs.length} results of ${count} for user ${user}!**`);
 
         //POPULATE EMBED
         for(let i = 0; i < docs.length; i++) {

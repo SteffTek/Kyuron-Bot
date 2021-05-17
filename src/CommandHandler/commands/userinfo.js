@@ -1,6 +1,7 @@
 //IMPORTANT IMPORTS
 const configHandler = require('../../Utils/configHandler.js');
 const config = configHandler.getConfig();
+const utils = require('../../Utils/utils.js');
 
 const APICalls = require('../../Utils/APICalls.js')
 const embedGen = require('../../Utils/embedGenerator.js')
@@ -60,7 +61,7 @@ module.exports = {
         let res = await response.data;
 
         //CREATE EMBED
-        var embed = embedGen.custom("USERINFO",config.colors.moderation.USERINFO,`**Showing user info for user ${user}!**`);
+        var embed = embedGen.custom("USERINFO",utils.getColor("moderation","USERINFO"),`**Showing user info for user ${user}!**`);
 
         //EMBED INFOS
         embed.setThumbnail(user.displayAvatarURL());

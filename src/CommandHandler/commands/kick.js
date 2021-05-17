@@ -8,6 +8,7 @@ const db = require("../../Database/db");
 const configHandler = require("../../Utils/configHandler");
 const UserManagement = require('../../Utils/UserManagement.js');
 const config = configHandler.getConfig();
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -78,6 +79,6 @@ module.exports = {
         }
 
         let desc = await UserManagement.kickUser(client, guild, data.guildData, userMember, member, reason);
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER KICKED🗡️", config.colors.moderation.KICK, desc)]}, data.interaction)
+        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER KICKED🗡️", utils.getColor("moderation","KICK"), desc)]}, data.interaction)
     }
 };

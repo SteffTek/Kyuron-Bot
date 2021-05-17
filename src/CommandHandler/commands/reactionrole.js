@@ -5,6 +5,7 @@ const embedGen = require('../../Utils/embedGenerator.js')
 const permissionChecker = require('../../Utils/permissionChecker.js');
 
 const configHandler = require("../../Utils/configHandler");
+const utils = require('../../Utils/utils');
 const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler
@@ -109,7 +110,7 @@ module.exports = {
                 return;
             }
 
-            await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom(name,"0x000000","")]}, data.interaction)
+            await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom(name,utils.getColor("reactionRole","EDIT"),"")]}, data.interaction)
             let messageData = await APICalls.getInteractionMessage(data.interaction);
             db.loadReaction(guildID, channelID, messageData.id, name);
             return;
@@ -123,7 +124,7 @@ module.exports = {
                 return;
             }
 
-            await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("REACTION ROLE DELETED","0x000000","")]}, data.interaction)
+            await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("REACTION ROLE DELETED",utils.getColor("reactionRole","EDIT"),"")]}, data.interaction)
 
             db.getReactionByName(guildID, channelID, name).then(async reactionData => {
                 var message = await channel.messages.fetch(reactionData.messageID);
@@ -163,7 +164,7 @@ module.exports = {
                 //CHECK EMOTE
                 await message.react(emote).then(async () => {
                     //MESSAGE CAN BE SENT NOW
-                    await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("REACTION ROLE EDITED","0x000000","")]}, data.interaction)
+                    await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("REACTION ROLE EDITED",utils.getColor("reactionRole","EDIT"),"")]}, data.interaction)
 
                     //FALLBACK
                     if(!reactionData.roles) reactionData.roles = {};
@@ -181,7 +182,7 @@ module.exports = {
                         desc += emoji + " - " + reactRole.name + "\n";
                     }
 
-                    message.edit(embedGen.custom(name,"0x000000",desc));
+                    message.edit(embedGen.custom(name,utils.getColor("reactionRole","EDIT"),desc));
                 }).catch(err => {
                     embedGen.error("**Emoji doesn't exist!**",data.client,data.interaction)
                     return;
@@ -211,7 +212,7 @@ module.exports = {
             }
 
             //SEND MESSAGE NOW
-            await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("REACTION ROLE EDITED","0x000000","")]}, data.interaction)
+            await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("REACTION ROLE EDITED",utils.getColor("reactionRole","EDIT"),"")]}, data.interaction)
 
             //BUILD EMBED
             var desc = "";
@@ -231,7 +232,7 @@ module.exports = {
                 desc += emoji + " - " + reactRole.name + "\n";
             }
 
-            message.edit(embedGen.custom(name,"0x000000",desc)).then(message => {
+            message.edit(embedGen.custom(name,utils.getColor("reactionRole","ROLE"),desc)).then(message => {
                 message.reactions.removeAll();
 
                 for(let emoji in reactionData.roles) {

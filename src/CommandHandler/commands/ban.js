@@ -7,6 +7,7 @@ const auditLogger = require("../../Modules/AuditLog");
 const db = require("../../Database/db");
 const configHandler = require("../../Utils/configHandler");
 const UserManagement = require('../../Utils/UserManagement.js');
+const utils = require('../../Utils/utils.js');
 const config = configHandler.getConfig();
 
 // Exporting the command for the commandHandler
@@ -78,6 +79,6 @@ module.exports = {
         }
 
         let desc = await UserManagement.banUser(data.client, guild, data.guildData, user, member, reason);
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🚫USER BANNED🚫", config.colors.moderation.BAN, desc)]}, data.interaction)
+        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🚫USER BANNED🚫", utils.getColor("moderation","BAN"), desc)]}, data.interaction)
     }
 };

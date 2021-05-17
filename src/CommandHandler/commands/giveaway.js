@@ -6,6 +6,7 @@ const APICalls = require('../../Utils/APICalls.js')
 const embedGen = require('../../Utils/embedGenerator.js')
 const permissionChecker = require('../../Utils/permissionChecker.js');
 const logger = require('../../Utils/logger.js');
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -59,7 +60,7 @@ module.exports = {
         //ADD TIMER
         description += `\n\n_This giveaway lasts for ${timer} minutes since started!_\n**End is at ${endDate}!**`
 
-        await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🎉GIVEAWAY!🎊", config.colors.giveaway.BODY, description)]}, data.interaction)
+        await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🎉GIVEAWAY!🎊", utils.getColor("giveaway","BODY"), description)]}, data.interaction)
 
         //GET SENT MESSAGE
         let messageData = await APICalls.getInteractionMessage(data.interaction);
@@ -75,7 +76,7 @@ module.exports = {
                 let winner = getRandomUser(cache);
                 //ANNOUNCE WINNER
                 if(winner !== null)
-                    message.channel.send(embedGen.custom("🎉GIVEAWAY ENDED!🎉",config.colors.giveaway.BODY,`**Go To [Giveaway](https://discord.com/channels/${message.channel.guild.id}/${message.channel.id}/${message.id})!** \n\nPrice: **${price}**\nTHE WINNER IS **${winner}**`))
+                    message.channel.send(embedGen.custom("🎉GIVEAWAY ENDED!🎉",utils.getColor("giveaway","BODY"),`**Go To [Giveaway](https://discord.com/channels/${message.channel.guild.id}/${message.channel.id}/${message.id})!** \n\nPrice: **${price}**\nTHE WINNER IS **${winner}**`))
             });
 
             //ADD REACTIONS

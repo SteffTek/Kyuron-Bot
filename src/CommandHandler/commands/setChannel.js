@@ -2,6 +2,7 @@
 const APICalls = require('./../../Utils/APICalls.js')
 const embedGen = require('./../../Utils/embedGenerator.js')
 const permissionChecker = require('./../../Utils/permissionChecker.js');
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -82,6 +83,6 @@ module.exports = {
         data.guildData.markModified("channels");
         data.guildData.save().catch(err => console.log(err));
 
-		embedGen.custom(title, "0xFF964F", description, data.client, data.interaction)
+		embedGen.custom(title, utils.getColor("embedGen","default"), description, data.client, data.interaction)
     }
 };

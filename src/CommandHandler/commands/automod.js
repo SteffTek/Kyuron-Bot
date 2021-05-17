@@ -6,6 +6,7 @@ const APICalls = require('../../Utils/APICalls.js')
 const embedGen = require('../../Utils/embedGenerator.js')
 const permissionChecker = require('../../Utils/permissionChecker.js');
 const logger = require('../../Utils/logger.js');
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -296,7 +297,7 @@ module.exports = {
             data.guildData.save().catch(err => { /* */ })
 
             //SEND MESSAGE
-            embedGen.custom("AUTOMOD RULE","","**Rule `" + rule + "` state `" + subCommand +"` changed successfully!**",data.client, data.interaction);
+            embedGen.custom("AUTOMOD RULE",utils.getColor("autoMod","RULES"),"**Rule `" + rule + "` state `" + subCommand +"` changed successfully!**",data.client, data.interaction);
             return;
         }
 
@@ -375,14 +376,14 @@ module.exports = {
                 guildData.save().catch(err => { console.log(err)});
 
                 //SEND MESSAGE
-                embedGen.custom("AUTOMOD TRIGGER","","Trigger created successfully! \nWhat to do: `" + what.toUpperCase() + "`\nWarns needed: `" + warns + "`\nTime span needed: `" + timeSpan + "`" + (duration ? "\nDuration: `" + duration + " " + durationType.toUpperCase() + "`" : ""),data.client, data.interaction);
+                embedGen.custom("AUTOMOD TRIGGER",utils.getColor("autoMod","TRIGGERS"),"Trigger created successfully! \nWhat to do: `" + what.toUpperCase() + "`\nWarns needed: `" + warns + "`\nTime span needed: `" + timeSpan + "`" + (duration ? "\nDuration: `" + duration + " " + durationType.toUpperCase() + "`" : ""),data.client, data.interaction);
                 return;
             }
 
             //GET COMMAND
             if(subCommand === "get") {
 
-                var embed = embedGen.custom("AUTOMOD TRIGGERS","","List of active triggers:");
+                var embed = embedGen.custom("AUTOMOD TRIGGERS",utils.getColor("autoMod","TRIGGERS"),"List of active triggers:");
 
                 for(let i = 0; i < guildData.autoMod.actionSets.length; i++) {
                     let set = guildData.autoMod.actionSets[i];
@@ -410,7 +411,7 @@ module.exports = {
                 guildData.save().catch(err => { console.log(err)});
 
                 //SEND MESSAGE
-                embedGen.custom("AUTOMOD TRIGGERS","","**Trigger with ID `" + trigger + "` removed!**", data.client, data.interaction);
+                embedGen.custom("AUTOMOD TRIGGERS",utils.getColor("autoMod","TRIGGERS"),"**Trigger with ID `" + trigger + "` removed!**", data.client, data.interaction);
             }
         }
 	}

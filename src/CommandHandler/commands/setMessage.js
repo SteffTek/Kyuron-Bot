@@ -5,6 +5,7 @@ const permissionChecker = require('./../../Utils/permissionChecker.js');
 
 const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -64,7 +65,7 @@ module.exports = {
             if(data.guildData.channels.ticketSystemChannel === "") return;
 
             data.channel.guild.channels.resolve(data.guildData.channels.ticketSystemChannel).messages.fetch(data.guildData.messageIDs.ticketSystem).then(message => {
-                message.edit(embedGen.custom("🎫-Support Tickets",config.colors.tickets.INFO,data.guildData.messages.ticketSystem.replace("%emote%", "📩")))
+                message.edit(embedGen.custom("🎫-Support Tickets",utils.getColor("tickets","INFO"),data.guildData.messages.ticketSystem.replace("%emote%", "📩")))
             });
         }
     }

@@ -8,6 +8,7 @@ const db = require("../../Database/db");
 const modAction = require('../../Database/models/modAction.js');
 const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -75,7 +76,7 @@ module.exports = {
         userMember.roles.remove(role);
 
         let desc = `**User ${userMember} got unmuted by ${member}!**`;
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("✅USER UNMUTED✅", config.colors.moderation.MUTE, desc)]}, data.interaction)
+        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("✅USER UNMUTED✅", utils.getColor("moderation","MUTE"), desc)]}, data.interaction)
 
         //SEND TO AUDIT LOGGER
         auditLogger(client, data.guildData, "✅USER UNMUTED✅", desc);

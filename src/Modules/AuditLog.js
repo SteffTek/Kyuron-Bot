@@ -2,6 +2,7 @@
 const configHandler = require('./../Utils/configHandler.js');
 const config = configHandler.getConfig();
 const embedGen = require('./../Utils/embedGenerator.js')
+const utils = require('../Utils/utils.js');
 
 /**
  * Audit Log Module
@@ -16,12 +17,7 @@ module.exports = (client, guildData, title, content) => {
     if(!guildData?.modules?.auditLogging) return;
     if(!guildData?.channels?.auditLogChannel) return;
 
-    let color;
-    if (!config.colors.auditLog[title]){
-        color = "0xFF964F"
-    }else{
-        color = config.colors.auditLog[title]
-    }
+    let color = utils.getColor("auditLog",title);
     const embed = embedGen.custom(title, color, content);
 
     //LOG

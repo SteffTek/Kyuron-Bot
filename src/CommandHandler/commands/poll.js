@@ -6,6 +6,7 @@ const APICalls = require('../../Utils/APICalls.js')
 const embedGen = require('../../Utils/embedGenerator.js')
 const permissionChecker = require('../../Utils/permissionChecker.js');
 const logger = require('../../Utils/logger.js');
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -118,7 +119,7 @@ module.exports = {
         // MOCK TEXT
         if(type === "vote") {
             const text = data.args[0].options[0]?.value;
-            await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("👍POLL!👎", config.colors.poll.VOTE,`**${text}**`)]}, data.interaction)
+            await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("👍POLL!👎", utils.getColor("poll","VOTE"),`**${text}**`)]}, data.interaction)
 
             //GET SENT MESSAGE
             let messageData = await APICalls.getInteractionMessage(data.interaction);
@@ -159,7 +160,7 @@ module.exports = {
 
                     //ANNOUNCE WINNER
                     if(winner !== null)
-                        message.channel.send(embedGen.custom("🎉RESULTS!🎉",config.colors.poll.VOTE,`**Go To [Poll](https://discord.com/channels/${message.channel.guild.id}/${message.channel.id}/${message.id})** \n\n**THE WINNER IS ${winner.emoji.name}**`))
+                        message.channel.send(embedGen.custom("🎉RESULTS!🎉",utils.getColor("poll","VOTE"),`**Go To [Poll](https://discord.com/channels/${message.channel.guild.id}/${message.channel.id}/${message.id})** \n\n**THE WINNER IS ${winner.emoji.name}**`))
                 });
             });
             return;
@@ -180,7 +181,6 @@ module.exports = {
                 if(timer > 1440) {
                     timer = 1440;
                 }
-        
             }
         }
         let pollOptions = answers.slice(1);
@@ -188,7 +188,7 @@ module.exports = {
         let optionsText = `**${answers[0]}**\n\n`;
         pollOptions.forEach((e, i) => (optionsText += `${NUMBERS[i]} - ${e}\n`));
 
-        await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🔼SURVEY!🔽", config.colors.poll.SURVEY, optionsText)]}, data.interaction)
+        await APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🔼SURVEY!🔽", utils.getColor("poll","SURVEY"), optionsText)]}, data.interaction)
 
         //GET SENT MESSAGE
         let messageData = await APICalls.getInteractionMessage(data.interaction);
@@ -211,7 +211,7 @@ module.exports = {
 
                 //ANNOUNCE WINNER
                 if(winner !== null)
-                    message.channel.send(embedGen.custom("🎉RESULTS!🎉",config.colors.poll.SURVEY,`**Go To [Poll](https://discord.com/channels/${message.channel.guild.id}/${message.channel.id}/${message.id})** \n\n**THE WINNER IS ${winner.emoji.name}**`))
+                    message.channel.send(embedGen.custom("🎉RESULTS!🎉",utils.getColor("poll","SURVEY"),`**Go To [Poll](https://discord.com/channels/${message.channel.guild.id}/${message.channel.id}/${message.id})** \n\n**THE WINNER IS ${winner.emoji.name}**`))
             });
 
             //ADD REACTIONS

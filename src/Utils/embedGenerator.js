@@ -2,6 +2,7 @@
 const Discord = require('discord.js')
 const configHandler = require('./configHandler.js');
 const config = configHandler.getConfig();
+const utils = require('../Utils/utils.js');
 const APICalls = require('./APICalls.js')
 
 /**
@@ -16,7 +17,7 @@ const APICalls = require('./APICalls.js')
 module.exports.error = function (message, client, interaction) {
     const embed = new Discord.MessageEmbed()
         .setAuthor("⚠️ ERROR ⚠️")
-        .setColor(config.colors.embedGen.error)
+        .setColor(utils.getColor("embedGen","error"))
         .setTimestamp()
         .setDescription(message);
     if (!client || !interaction) {

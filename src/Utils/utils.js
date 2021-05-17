@@ -1,3 +1,6 @@
+const configHandler = require("./configHandler");
+const config = configHandler.getConfig();
+
 /**
  * Creates a new ID
  * @param {number} length length of the id needed
@@ -14,6 +17,22 @@ function makeID(length) {
     return result.join('');
 }
 
+/**
+ * Creates a new ID
+ * @param {string} module module name
+ * @param {string} colorKey color key
+ * @returns {string} color
+ */
+function getColor(module, colorKey) {
+    var color = config.colors[module]?.[colorKey];
+    if(!color) {
+        color = "0xFF964F";
+    }
+
+    return color;
+}
+
 module.exports = {
+    getColor: getColor,
     makeID: makeID
 }

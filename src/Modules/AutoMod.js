@@ -5,6 +5,7 @@ const configHandler = require('../Utils/configHandler.js');
 const config = configHandler.getConfig();
 const modAction = require("../Database/models/modAction");
 const UserManagement = require("../Utils/UserManagement");
+const utils = require('../Utils/utils.js');
 /**
  * The AutoMod class for guildData
  */
@@ -134,22 +135,37 @@ module.exports = class AutoMod {
 
             //IF ENOUGH MOD LOGS => MAKE ACTION
             if(what === "mute") {
+                if(!member.manageable) {
+                    return;
+                }
                 UserManagement.muteUser(client, guildData, guild, member, client.user, reason);
             }
 
             if(what === "ban") {
+                if(!member.bannable) {
+                    return;
+                }
                 UserManagement.banUser(client, guild, guildData, member, client.user, reason);
             }
 
             if(what === "kick") {
+                if(!member.kickable) {
+                    return;
+                }
                 UserManagement.kickUser(client, guild, guildData, member, client.user, reason);
             }
 
             if(what === "tempmute") {
+                if(!member.manageable) {
+                    return;
+                }
                 UserManagement.tempMute(client, guildData, guild, member, client.user, reason, duration, function(desc){})
             }
 
             if(what === "tempban") {
+                if(!member.bannable) {
+                    return;
+                }
                 UserManagement.tempBan(client, guild, guildData, member, client.user, reason, duration, function(desc){})
             }
         }
@@ -260,6 +276,10 @@ module.exports = class AutoMod {
                     if(message.content != lastMessage.content) {
                         //SPAM NOT VIOLATED
                         continue;
+                    } else {
+                        if(message.createdTimestamp - lastMessage.createdTimestamp > 5 * 60 * 1000) { //IF MESSAGE SENT TWICE IN 5 MINUTES => SPAM
+                            continue;
+                        }
                     }
                 } else {
                     continue;
@@ -277,7 +297,7 @@ module.exports = class AutoMod {
                 warned = true;
 
                 //SEND MESSAGE TO CHANNEL ABOUT WARN
-                var embed = embedGen.custom("WARN",config.colors.moderation.WARN,`**${member} you can't do that here!**` + "\nAutoMod Rule Violation: `" + rule.toUpperCase() + "`");
+                var embed = embedGen.custom("WARN",utils.getColor("moderation","WARN"),`**${member} you can't do that here!**` + "\nAutoMod Rule Violation: `" + rule.toUpperCase() + "`");
                 message.channel.send(embed)
             }
 

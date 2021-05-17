@@ -7,6 +7,7 @@ const embedGen = require('../../Utils/embedGenerator.js')
 const permissionChecker = require('../../Utils/permissionChecker.js');
 
 const axios = require("axios");
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -85,7 +86,7 @@ module.exports = {
         // MOCK TEXT
         if(type === "mock") {
             const text = mocking(data.args[0].options[0]?.value);
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("💢MOCK!💢", config.colors.fun.MOCK,`**${text}**`)]}, data.interaction)
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("💢MOCK!💢", utils.getColor("fun","MOCK"), `**${text}**`)]}, data.interaction)
             return;
         }
 
@@ -106,7 +107,7 @@ module.exports = {
                 return;
             }
 
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.image("😂MEME!🤣", config.colors.fun.MEME,`[**${meme.title}**](${meme.postLink})`,meme.url)]}, data.interaction)
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.image("😂MEME!🤣", utils.getColor("fun","MEME"), `[**${meme.title}**](${meme.postLink})`,meme.url)]}, data.interaction)
             return;
         }
 
@@ -125,7 +126,7 @@ module.exports = {
                 return;
             }
 
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🍪COOKIE!🍪", config.colors.fun.COOKIE,`**You gave ${member} a cookie :3**`)]}, data.interaction)
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🍪COOKIE!🍪", utils.getColor("fun","COOKIE"), `**You gave ${member} a cookie :3**`)]}, data.interaction)
             return;
         }
 

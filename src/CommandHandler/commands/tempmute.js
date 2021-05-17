@@ -8,6 +8,7 @@ const db = require("../../Database/db");
 const configHandler = require("../../Utils/configHandler");
 const modAction = require('../../Database/models/modAction.js');
 const config = configHandler.getConfig();
+const utils = require('../../Utils/utils.js');
 
 const setTimeout = require('safe-timers').setTimeout;
 const UserManagement = require('../../Utils/UserManagement.js');
@@ -137,7 +138,7 @@ module.exports = {
         }
 
         UserManagement.tempMute(client, data.guildData, guild, userMember, member, reason, duration, function(desc) {
-            embedGen.custom("🗡️USER MUTED🗡️", config.colors.moderation.MUTE, desc, data.client, data.interaction);
+            embedGen.custom("🗡️USER MUTED🗡️", utils.getColor("moderation","MUTE"), desc, data.client, data.interaction);
         });
     }
 };

@@ -8,6 +8,7 @@ const db = require("../../Database/db");
 const configHandler = require("../../Utils/configHandler");
 const UserManagement = require('../../Utils/UserManagement.js');
 const config = configHandler.getConfig();
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -73,6 +74,6 @@ module.exports = {
         }
 
         let desc = await UserManagement.muteUser(data.client, data.guildData, guild, userMember, member, reason);
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER MUTED🗡️", config.colors.moderation.MUTE, desc)]}, data.interaction)
+        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER MUTED🗡️", utils.getColor("moderation","MUTE"), desc)]}, data.interaction)
     }
 };

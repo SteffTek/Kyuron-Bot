@@ -9,6 +9,7 @@ const modAction = require("../../Database/models/modAction");
 
 const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -55,7 +56,7 @@ module.exports = {
         //UNBAN USER
         guild.members.unban(userObj.id).then(async () => {
             let desc = `**User ${userObj} got unbanned by ${member}!**`
-            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("✅USER UNBANNED✅", config.colors.moderation.UNBAN, desc)]}, data.interaction)
+            APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("✅USER UNBANNED✅", utils.getColor("moderation","UNBAN"), desc)]}, data.interaction)
 
             //SEND TO AUDIT LOGGER
             auditLogger(client, data.guildData, "✅USER UNBANNED✅", desc);

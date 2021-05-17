@@ -5,6 +5,7 @@ const permissionChecker = require('./../../Utils/permissionChecker.js');
 
 const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -146,7 +147,7 @@ module.exports = {
                     guildData.channels.ticketSystemChannel = channel.id;
 
                     //COMMIT CHANNEL MESSAGE EMBED
-                    channel.send(embedGen.custom("🎫-Support Tickets",config.colors.tickets.INFO,guildData.messages.ticketSystem.replace("%emote%", "📩"))).then(message => {
+                    channel.send(embedGen.custom("🎫-Support Tickets",utils.getColor("tickets","INFO"),guildData.messages.ticketSystem.replace("%emote%", "📩"))).then(message => {
                         guildData.messageIDs.ticketSystem = message.id;
                         message.react("📩");
 

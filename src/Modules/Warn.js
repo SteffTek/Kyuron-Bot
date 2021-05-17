@@ -3,6 +3,7 @@ const configHandler = require('./../Utils/configHandler.js');
 const config = configHandler.getConfig();
 const embedGen = require('./../Utils/embedGenerator.js')
 const axios = require("axios");
+const utils = require('../Utils/utils.js');
 
 /**
  * Warn Module
@@ -39,7 +40,7 @@ module.exports = async (client, guildData, user) => {
     }
     const warn = `**${user} has joined!** \n` + warnings.join("\n");
 
-    const embed = embedGen.custom("⚠️WARNING⚠️", config.colors.auditLog.WARN, warn);
+    const embed = embedGen.custom("⚠️WARNING⚠️", utils.getColor("auditLog","WARN"), warn);
 
     //LOG
     client.guilds.fetch(guildData.guildID).then(guild => {

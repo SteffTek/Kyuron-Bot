@@ -8,6 +8,7 @@ const AutoMod = require("../../Modules/AutoMod");
 const db = require("../../Database/db");
 const configHandler = require("../../Utils/configHandler");
 const config = configHandler.getConfig();
+const utils = require('../../Utils/utils.js');
 
 // Exporting the command for the commandHandler
 module.exports = {
@@ -73,7 +74,7 @@ module.exports = {
         }
 
         let desc = `**User ${userMember} got a warning by ${member} for reason:**` + "\n`" + reason + "`";
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER WARNED🗡️", config.colors.moderation.WARN, desc)]}, data.interaction)
+        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("🗡️USER WARNED🗡️", utils.getColor("moderation","WARN"), desc)]}, data.interaction)
 
         //SEND TO AUDIT LOGGER
         auditLogger(client, data.guildData, "🗡️USER WARNED🗡️", desc);
