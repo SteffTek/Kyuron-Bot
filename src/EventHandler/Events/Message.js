@@ -18,16 +18,17 @@ module.exports = async (client, message) => {
 
     //SEND TO AUTO MOD
     if(guildData?.modules?.autoMod) {
-        if(permissionChecker.isModerator(guildData, message.member)) {
-            return;
+        if(!permissionChecker.isModerator(guildData, message.member)) {
+            let autoMod = AutoMod.load(guildData.autoMod);
+            autoMod.handleMessage(client, guildData, message, lastUserMessages[message.author.id]);
         }
-
-        let autoMod = AutoMod.load(guildData.autoMod);
-        autoMod.handleMessage(client, guildData, message, lastUserMessages[message.author.id]);
     }
 
     //SET LAST USER MESSAGE
     lastUserMessages[message.author.id] = message;
+
+    //SEND TO AUTO RESPONDER
+    guildData.autoResponder.handleMessage(message);
 
     // LEVELSYSTEM
     if (guildData.modules.leveling){

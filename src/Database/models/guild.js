@@ -45,6 +45,7 @@ const guildSchema = mongoose.Schema({
     },
     levelSystem: Object,
     autoMod: Object,
+    autoResponder: Object,
     blacklist: Array
 });
 

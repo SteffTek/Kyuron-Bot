@@ -13,6 +13,7 @@ const Reaction = require('./models/reaction.js');
 const ModAction = require('./models/modAction.js');
 const Announcement = require('./models/announcement.js');
 const AutoMod = require('../Modules/AutoMod.js');
+const AutoResponder = require("../Modules/AutoResponder");
 
 /*
  * Connects the client with MongoDB
@@ -85,6 +86,7 @@ module.exports.loadGuildData = async function (guildID) {
             },
             levelSystem: new LevelSystem(),
             autoMod: new AutoMod(),
+            autoResponder: new AutoResponder(),
             blacklist: []
         });
 
@@ -93,6 +95,7 @@ module.exports.loadGuildData = async function (guildID) {
 
     doc.levelSystem = LevelSystem.load(doc.levelSystem);
     doc.autoMod = AutoMod.load(doc.autoMod);
+    doc.autoResponder = AutoResponder.load(doc.autoResponder);
     return doc;
 };
 
