@@ -18,7 +18,7 @@ module.exports = {
         let dmChannel = user.dmChannel;
 
         //SEND DM
-        dmChannel.send(embedGen.custom("Hey ho👋",utils.getColor("embedGen","default"),"You have requested some help! We put everything into a nifty help document on our webpage!\n\n **[Our online help page!](https://www.youtube.com/watch?v=dQw4w9WgXcQ)**")).then(message => {
+        dmChannel.send(embedGen.custom("Hey ho👋",utils.getColor("embedGen","default"),"You have requested some help! We put everything into a nifty help document on our webpage!\n\n **[Our online help page!](https://stefftek.github.io/Kyuron-Bot/help.html)**")).then(message => {
             //SENDING ANSWER
             embedGen.custom("PSCHHH🤫", utils.getColor("embedGen","default"), "**_Look in your inbox!_**", data.client, data.interaction);
         }).catch(err => {
