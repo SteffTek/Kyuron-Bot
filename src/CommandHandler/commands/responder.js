@@ -16,7 +16,7 @@ module.exports = {
         {
 
             "name": "set",
-            "description": "Enable or disable rules.",
+            "description": "Creates a new response for this channel.",
             "type": 1,
             "options": [
                 {
@@ -30,7 +30,7 @@ module.exports = {
                     "type": 3,
                     "required": true
                 }, {
-                    "name": "answer",
+                    "name": "response",
                     "description": "What the bot should reply.",
                     "type": 3,
                     "required": true
