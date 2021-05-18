@@ -1,0 +1,182 @@
+/*
+    UTILS
+*/
+body {
+    cursor: auto;
+    background: var(--discord-light-dark);
+    font-family: "Roboto",Helvetica, Arial, sans-serif;
+    margin: 0,
+}
+
+main {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0
+}
+
+:root {
+    --discord-dark: #23272a;
+    --discord-light-dark: #2c2f33;
+    --discord-purple: #7289da;
+
+    --white: rgb(231, 231, 231);
+    --grey: rgb(179, 179, 179);
+    --dark-grey: rgb(110, 110, 110);
+    --shadow: 0 5px 5px -3px rgba(0,0,0,.75);
+}
+
+/*
+    HEADER STYLE
+*/
+.header {
+    background-color: var(--discord-dark);
+
+    width: 100%;
+    height: auto;
+    padding: 10px;
+
+    -webkit-box-shadow: var(--shadow);
+    -moz-box-shadow: var(--shadow);
+    box-shadow: var(--shadow);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.header .icon {
+    width: auto;
+    height: 100px;
+    margin: 10px;
+    border-radius: 50%;
+
+    -webkit-box-shadow: var(--shadow);
+    -moz-box-shadow: var(--shadow);
+    box-shadow: var(--shadow);
+}
+
+.header h1 {
+    font-size: 75px;
+    color: var(--white);
+    font-weight: bolder;
+    text-decoration: none;
+    margin: 0;
+    height: auto;
+}
+
+/*
+    HELP STYLE
+*/
+.content {
+    width: auto;
+    max-width: 1200px;
+    height: auto;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.content h2 {
+    color: var(--white);
+}
+
+.content .help {
+    position: relative;
+    width: 1000px;
+
+    background-color: var(--discord-dark);
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+
+    margin: 10px;
+}
+
+.content .help .side {
+    position: absolute;
+    left: 0px;
+
+    width: 5px;
+    height: 100%;
+
+    background-color: var(--discord-purple);
+    border-radius: 8px 0 0 8px;
+}
+
+.content .help .main {
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    color: var(--grey);
+}
+
+.content .help .main h1 {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    margin: 5px;
+    color: var(--white);
+}
+
+.content .help .main h3 {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    margin: 5px;
+    color: var(--grey);
+}
+
+.content .help .main p {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    margin: 5px;
+    color: var(--grey)
+}
+
+.content .help .main table {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    margin: 5px;
+    color: var(--grey)
+}
+
+.content .help .main table td {
+    padding: 5px;
+    line-height: 25px;
+}
+
+.content .help .main table td a{
+    color: var(--white);
+    text-decoration: underline;
+}
+
+.content .help .main .variable {
+    width: auto;
+    height: auto;
+    padding: 5px;
+    margin: 2px;
+    border-radius: 4px;
+
+    background-color: var(--discord-light-dark);
+}
+
+.content .help .main .divider {
+    width: auto;
+    height: auto;
+    padding: 5px;
+    margin: 2px;
+    color: var(--dark-grey)
+}

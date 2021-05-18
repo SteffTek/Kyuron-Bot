@@ -1,0 +1,482 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/body.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet"> 
+    </head>
+    <body>
+        <main>
+            <div class="header">
+                <img class="icon" src="images/icon.png">
+                <h1>Kyuron - Help Page</h1>
+            </div>
+            <div class="content">
+                <h2>Kyuron is fully modular. But this also means there are a TON of commands to learn and master!</h2>
+                <div class="help">
+                    <div class="side" style="background-color: #21C468;"></div>
+                    <div class="main">
+                        <h1>Modules</h1>
+                        <h3>About:</h3>
+                        <p>Modules are the heart of Kyuron. You can enable or disable any behavior this bot does.</p>
+                        <h3>Commands:</h3>
+                        <table>
+                            <tr>
+                                <td>● /module</td>
+                                <td><span class="variable">module name</span><span class="variable">enabled</span></td>
+                                <td></td>
+                                <td>Enables or disables the specified module for this guild.</td>
+                            </tr>
+                        </table>
+                        <h3>List of Modules:</h3>
+                        <p style="font-style: italic;">Pro Tip: Click on one to jump directly to it!</p>
+                        <table>
+                            <tr>
+                                <td>● <a href="#auditLogger">Audit Logging</a></td>
+                                <td>Logs everything to a specified channel. Like message deletion, channel creation, etc.</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#autoResponder">Auto Responder</a></td>
+                                <td>Responses with a predefined message if a user asks something.</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#autoMod">Auto Mod</a></td>
+                                <td>Automatically hands out warns or bans users based on a guild defined preset.</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#autoVoiceChannel">Auto Voice Channel</a></td>
+                                <td>Creates Voice Channel on the fly and keeps them open as long as a user is in them.</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#announcements">Announcements</a></td>
+                                <td>Notifies you of new uploads or live streams of your favorite content creators.</td>
+                            </tr>
+                            <tr>
+                                <td>● Economy (WIP)</td>
+                                <td>???</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#fun">F.U.N.</a></td>
+                                <td>Share Memes, give out cookies, or ship someone! It's F.U.N.</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#giveaway">Giveaway</a></td>
+                                <td>Create basic giveaways anytime and instantly!</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#leaveNotice">Leave Notice</a></td>
+                                <td>Notify your members if some one leaves your guild.</td>
+                            </tr>
+                            <tr>
+                                <td>● Leveling (WIP)</td>
+                                <td>Level up your chatting skills and earn XP by typing.</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#moderation">Moderation</a></td>
+                                <td>Basic crowd control functions for your discord!</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#tickets">Tickets</a></td>
+                                <td>Ticket system. If someone on your discord has a problem, let them ask it in a channel dedicated for him/her!</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#polls">Polls</a></td>
+                                <td>Create basic polls or surveys with this module.</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#reactionRoles">Reaction Roles</a></td>
+                                <td>Automatically hand out roles based on a reaction the users gives!</td>
+                            </tr>
+                            <tr>
+                                <td>● Timer (WIP)</td>
+                                <td>Remind users every X minutes or keep the chat alive, it's up to you!</td>
+                            </tr>
+                            <tr>
+                                <td>● <a href="#warn">Warn</a></td>
+                                <td>An addon for the Audit Logger. Warns if a user that joins has an account newer than 3 days or is banned on a global ban database.</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="help" id="moderation">
+                    <div class="side"></div>
+                    <div class="main">
+                        <h1>Moderation</h1>
+                        <h3>About:</h3>
+                        <p>
+                            The moderation module allows you and your moderators to take action on your guild.
+                        </p>
+                        <h3>Commands:</h3>
+                        <table>
+                            <tr>
+                                <td>● /kick</td>
+                                <td><span class="variable">user</span></td>
+                                <td><span class="divider">| optional</span><span class="variable">reason</span></td>
+                                <td>Kick a user for the specified reason.</td>
+                            </tr>
+                            <tr>
+                                <td>● /ban</td>
+                                <td><span class="variable">user</span></td>
+                                <td><span class="divider">| optional</span><span class="variable">reason</span></td>
+                                <td>Ban a user for the specified reason.</td>
+                            </tr>
+                            <tr>
+                                <td>● /warn</td>
+                                <td><span class="variable">user</span><span class="variable">reason</span></td>
+                                <td></td>
+                                <td>Warns a user for the specified reason.</td>
+                            </tr>
+                            <tr>
+                                <td>● /unban</td>
+                                <td><span class="variable">user</span></td>
+                                <td></td>
+                                <td>Unban a user previously banned.</td>
+                            </tr>
+                            <tr>
+                                <td>● /tempban</td>
+                                <td><span class="variable">user</span><span class="variable">duration</span><span class="variable">durationtype</span></td>
+                                <td><span class="divider">| optional</span><span class="variable">reason</span></td>
+                                <td>Temporarily bans a user for the specified duration.</td>
+                            </tr>
+                            <tr>
+                                <td>● /mute</td>
+                                <td><span class="variable">user</span></td>
+                                <td><span class="divider">| optional</span><span class="variable">reason</span></td>
+                                <td>Mutes a user for the specified reason.</td>
+                            </tr>
+                            <tr>
+                                <td>● /unmute</td>
+                                <td><span class="variable">user</span></td>
+                                <td></td>
+                                <td>Unmute a user previously muted.</td>
+                            </tr>
+                            <tr>
+                                <td>● /tempmute</td>
+                                <td><span class="variable">user</span><span class="variable">duration</span><span class="variable">durationtype</span></td>
+                                <td><span class="divider">| optional</span><span class="variable">reason</span></td>
+                                <td>Temporarily mutes a user for the specified duration.</td>
+                            </tr>
+                            <tr>
+                                <td>● /clear</td>
+                                <td><span class="variable">amount</span></td>
+                                <td></td>
+                                <td>Clears the last X amount of messages in the current channel.</td>
+                            </tr>
+                            <tr>
+                                <td>● /modlog</td>
+                                <td><span class="variable">user</span></td>
+                                <td><span class="divider">| optional</span><span class="variable">page</span></td>
+                                <td>Shows the mod actions for the selected user.</td>
+                            </tr>
+                            <tr>
+                                <td>● /userinfo</td>
+                                <td><span class="variable">user</span></td>
+                                <td></td>
+                                <td>Shows useful information about a user.</td>
+                            </tr>
+                            <tr>
+                                <td>● /blacklist</td>
+                                <td>set<span class="variable">term</span></td>
+                                <td></td>
+                                <td>Blocks a word from usage on your discord guild.</td>
+                            </tr>
+                            <tr>
+                                <td>● /blacklist</td>
+                                <td>remove <span class="variable">term</span></td>
+                                <td></td>
+                                <td>Permits a blocked word to be used again.</td>
+                            </tr>
+                            <tr>
+                                <td>● /blacklist</td>
+                                <td>get</td>
+                                <td></td>
+                                <td>Lists all blocked words.</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="help" id="autoMod">
+                    <div class="side" style="background-color: #000000;"></div>
+                    <div class="main">
+                        <h1>Auto Mod</h1>
+                        <h3>About:</h3>
+                        <p>Auto Mod helps you moderate your server. You can set up automatic actions and trigger events if a user got to many infractions.</p>
+                        <br>
+                        <p>Triggers help you, for example, automatically mute someone after he got 5 warns in the last 30 minutes.</p>
+                        <p>Example:<span class="variable">/automod trigger set Mute 5 30</span></p>
+                        <h3>Commands:</h3>
+                        <table>
+                            <tr>
+                                <td>● /automod rules enabled</td>
+                                <td><span class="variable">rule</span><span class="variable">enabled</span></td>
+                                <td>Enables or disables a rule.</td>
+                            </tr>
+                            <tr>
+                                <td>● /automod rules action</td>
+                                <td><span class="variable">rule</span><span class="variable">action</span></td>
+                                <td>What should be done in case a rule is broken.</td>
+                            </tr>
+                            <tr>
+                                <td>● /automod rules whitelist</td>
+                                <td><span class="variable">rule</span><span class="variable">channel</span></td>
+                                <td>Whitelist channels where the rule is allowed to be broken.</td>
+                            </tr>
+                            <tr>
+                                <td>● /automod trigger get</td>
+                                <td></td>
+                                <td>List all triggers you have active. You can have up to 5 triggers.</td>
+                            </tr>
+                            <tr>
+                                <td>● /automod trigger remove</td>
+                                <td><span class="variable">trigger</span></td>
+                                <td>Remove a trigger by its ID. Obtain the ID via <span class="variable">trigger get</span>.</td>
+                            </tr>
+                            <tr>
+                                <td>● /automod trigger set</td>
+                                <td><span class="variable">what</span><span class="variable">warns</span><span class="variable">timespan</span></td>
+                                <td>Creates a trigger. Duration and duration type are needed for temp mutes/bans.</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="help" id="autoResponder">
+                    <div class="side" style="background-color: #21C468;"></div>
+                    <div class="main">
+                        <h1>Auto Responder</h1>
+                        <h3>About:</h3>
+                        <p>Getting annoyed by frequently asked questions? Let the auto responder automatically answer for you!</p>
+                        <p><b>Notice:</b> You can have up to 25 responses per guild.</p>
+                        <h3>Commands:</h3>
+                        <table>
+                            <tr>
+                                <td>● /responder get</td>
+                                <td></td>
+                                <td>Get all responses active in the current channel.</td>
+                            </tr>
+                            <tr>
+                                <td>● /responder remove</td>
+                                <td><span class="variable">name</span></td>
+                                <td>Removes the responses specified by the name.</td>
+                            </tr>
+                            <tr>
+                                <td>● /responder set</td>
+                                <td><span class="variable">name</span><span class="variable">question</span><span class="variable">response</span></td>
+                                <td>Create a response by the specified name.<br>The question will be stripped of any punctuation marks.</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="help" id="announcements">
+                    <div class="side" style="background-color: #f4fa84;"></div>
+                    <div class="main">
+                        <h1>Announcements</h1>
+                        <h3>About:</h3>
+                        <p>Announcements provide an opportunity to create notifications for social media platforms. Live notifications are available for Twitch, YouTube and Twitter.</p>
+                        <p><b>Notice:</b> Kyuron checks every 5 minutes for new content to keep server load at a minimum. If your notification doesn't get displayed immediately, please wait a bit longer.</p>
+                        <h3>Commands:</h3>
+                        <table>
+                            <tr>
+                                <td>● /announcement set</td>
+                                <td><span class="variable">platform</span><span class="variable">url</span><span class="variable">message</span></td>
+                                <td>Creates a new announcement in the current channel.</td>
+                            </tr>
+                            <tr>
+                                <td>● /announcement remove</td>
+                                <td><span class="variable">url</span></td>
+                                <td>Removes the announcement specified by the url.</td>
+                            </tr>
+                        </table>
+                        <p>Available placeholders for the messages are <b>%user%</b> and <b>%link%</b>.</p>
+                    </div>
+                </div>
+                <div class="help" id="reactionRoles">
+                    <div class="side" style="background-color: #F52411;"></div>
+                    <div class="main">
+                        <h1>Reaction Roles</h1>
+                        <h3>About:</h3>
+                        <p>With reaction roles you can give your users roles based on their reactions!</p>
+                        <h3>Commands:</h3>
+                        <table>
+                            <tr>
+                                <td>● /reactionrole create</td>
+                                <td><span class="variable">name</span></td>
+                                <td>Creates a new reaction role in this channel with the given name.</td>
+                            </tr>
+                            <tr>
+                                <td>● /reactionrole remove</td>
+                                <td><span class="variable">name</span></td>
+                                <td>Removes the reaction role specified by the name.</td>
+                            </tr>
+                            <tr>
+                                <td>● /reactionrole addrole</td>
+                                <td><span class="variable">name</span><span class="variable">role</span><span class="variable">emote</span></td>
+                                <td>Adds the selected role to the specified reaction with the given emote.</td>
+                            </tr>
+                            <tr>
+                                <td>● /reactionrole removerole</td>
+                                <td><span class="variable">name</span><span class="variable">role</span></td>
+                                <td>Removes the selected role from the specified reaction.</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="help" id="fun">
+                    <div class="side" style="background-color: #E6CEA0;"></div>
+                    <div class="main">
+                        <h1>F.U.N.</h1>
+                        <h3>About:</h3>
+                        <p>F.U.N. is available for every user in your guild. You can do various things with it!</p>
+                        <h3>Commands:</h3>
+                        <table>
+                            <tr>
+                                <td>● /fun mock</td>
+                                <td><span class="variable">test</span></td>
+                                <td>Make fun of any text given.</td>
+                            </tr>
+                            <tr>
+                                <td>● /fun meme</td>
+                                <td><span class="divider">| optional</span><span class="variable">subreddit</span></td>
+                                <td>Get a random meme from a haha funny webpage (reddit.com). <b>Does not support NSFW.</b></td>
+                            </tr>
+                            <tr>
+                                <td>● /fun cookie</td>
+                                <td><span class="variable">user</span></td>
+                                <td>Be nice and give someone a cookie :3 And don't get overweight!</td>
+                            </tr>
+                            <tr>
+                                <td>● /fun color</td>
+                                <td></td>
+                                <td>Returns a random color! How nice ^^</td>
+                            </tr>
+                            <tr>
+                                <td>● /fun ship</td>
+                                <td><span class="variable">user1</span><span class="divider">| optional</span><span class="variable">user2</span></td>
+                                <td>Ship yourself or others. UwU</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="help" id="polls">
+                    <div class="side" style="background-color: #ff7b00;"></div>
+                    <div class="main">
+                        <h1>Polls</h1>
+                        <h3>About:</h3>
+                        <p>The poll module helps with interactive polls on your discord guild.</p>
+                        <p><b>Notice:</b> If the bot crashes, ongoing polls will be lost :/</p>
+                        <h3>Commands:</h3>
+                        <table>
+                            <tr>
+                                <td>● /poll vote</td>
+                                <td><span class="variable">text</span></td>
+                                <td colspan="2"><span class="divider">| optional</span><span class="variable">timer (in minutes)</span></td>
+                                <td>Creates a Yes/No poll in the current channel.<br>The winner will be announced after the timer expires.</td>
+                            </tr>
+                            <tr>
+                                <td>● /poll survey</td>
+                                <td><span class="variable">text</span></td>
+                                <td><span class="variable">option 1</span><span class="variable">option 2</span></td>
+                                <td><span class="divider">| optional</span><span class="variable">option 3-10</span><span class="variable">timer</span></td>
+                                <td>Creates a survey with the provided options.<br>The winner will be announced after the timer expires.</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="help" id="giveaway">
+                    <div class="side" style="background-color: #73168a;"></div>
+                    <div class="main">
+                        <h1>Giveaway</h1>
+                        <h3>About:</h3>
+                        <p>With the giveaway module you can create simple giveaways. User can react to the message to join.</p>
+                        <p><b>Notice:</b> If the bot crashes, ongoing giveaways will be lost :/</p>
+                        <h3>Commands:</h3>
+                        <table>
+                            <tr>
+                                <td>● /giveaway</td>
+                                <td><span class="variable">price</span><span class="variable">timer</span></td>
+                                <td></td>
+                                <td>Creates a giveaway for the specified price and time in minutes.</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="help" id="auditLogger">
+                    <div class="side" style="background-color: #e74d26;"></div>
+                    <div class="main">
+                        <h1>Audit Logger</h1>
+                        <h3>About:</h3>
+                        <p>The audit logger logs almost every event happening on your server, and that can be quite a lot!</p>
+                        <p><b>Notice:</b> Can be customized with <span class="variable">/setchannel</span></p>
+                    </div>
+                </div>
+                <div class="help" id="warn">
+                    <div class="side" style="background-color: #eeea14;"></div>
+                    <div class="main">
+                        <h1>Warn</h1>
+                        <h3>About:</h3>
+                        <p>The warn module is an addition to the audit logger. If a user joins it checks if the account is newer than 3 days and sends an audit log. Additionally: On of the creators of Kyuron has another bot which protects guilds from bot raids. It has an internal database of potentially harmful users, which is also checked against.</p>
+                    </div>
+                </div>
+                <div class="help" id="leaveNotice">
+                    <div class="side" style="background-color: #eeea14;"></div>
+                    <div class="main">
+                        <h1>Leave Notice</h1>
+                        <h3>About:</h3>
+                        <p>Notify users if a users leaves the guild.</p>
+                        <p><b>Notice:</b> Can be customized with <span class="variable">/setchannel</span> and <span class="variable">/setmessage</span></p>
+                    </div>
+                </div>
+                <div class="help" id="autoVoiceChannel">
+                    <div class="side" style="background-color: #2673e7;"></div>
+                    <div class="main">
+                        <h1>Auto Voice Channel</h1>
+                        <h3>About:</h3>
+                        <p>Automatically create and delete voice channels based on need. A user just needs to join your dedicated voice channel and he will automatically sent to a channel just for him. If everyone leaves the dedicated channel, it will be automatically deleted. Never run out of voice channels again!</p>
+                        <p><b>Notice:</b> If the bot crashes, channels will not be deleted!</p>
+                        <p><b>Further notice:</b> Can be customized with <span class="variable">/setchannel</span></p>
+                    </div>
+                </div>
+                <div class="help" id="tickets">
+                    <div class="side" style="background-color: #3581ad;"></div>
+                    <div class="main">
+                        <h1>Ticket System</h1>
+                        <h3>About:</h3>
+                        <p>The ticket system helps your users with private issues only a moderator can solve. It creates a channel for every ticket a user requests. On finish, you can easily delete the channel.</p>
+                        <p><b>Notice:</b> The ticket system is automatically created on module enable and managed by Kyuron.</p>
+                        <p><b>Further notice:</b> Can be customized with <span class="variable">/setmessage</span></p>
+                    </div>
+                </div>
+                <div class="help" id="misc">
+                    <div class="side" style="background-color: #f4fa84;"></div>
+                    <div class="main">
+                        <h1>Misc</h1>
+                        <p>Commands that not belong to a specific module.</p>
+                        <h3>Commands:</h3>
+                        <table>
+                            <tr>
+                                <td>● /setchannel</td>
+                                <td><span class="variable">type</span></td>
+                                <td><span class="divider">| optional</span><span class="variable">channel</span></td>
+                                <td>There are different roles for different channels.<br>You can set specific channel tasks with this command.</td>
+                            </tr>
+                            <tr>
+                                <td>● /setmessage</td>
+                                <td><span class="variable">type</span><span class="variable">message</span></td>
+                                <td></td>
+                                <td>Like /setchannel, different modules use predefined messages.<br>Those are set with this command.</td>
+                            </tr>
+                            <tr>
+                                <td>● /role get</td>
+                                <td><span class="variable">get/set/remove</span></td>
+                                <td><span class="variable">type</span> and/or <span class="variable">role</span></td>
+                                <td>Various commands around specific roles like mod roles and the mute role.</td>
+                            </tr>
+                        </table>
+                        <p>Available placeholders for the messages are <b>%user%</b>.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+
+            </div>
+        </main>
+    </body>
+</html>
