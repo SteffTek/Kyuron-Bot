@@ -76,7 +76,7 @@ module.exports = {
         userMember.roles.remove(role);
 
         let desc = `**User ${userMember} got unmuted by ${member}!**`;
-        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("✅USER UNMUTED✅", utils.getColor("moderation","MUTE"), desc)]}, data.interaction)
+        APICalls.sendInteraction(data.client, {"content": "", "embeds": [embedGen.custom("✅USER UNMUTED✅", utils.getColor("moderation","UNMUTE"), desc)]}, data.interaction)
 
         //SEND TO AUDIT LOGGER
         auditLogger(client, data.guildData, "✅USER UNMUTED✅", desc);

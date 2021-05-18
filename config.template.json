@@ -19,6 +19,7 @@
             "default": "0xFF964F"
         },
         "auditLog": {
+            "WARN": "0x000000",
             "CHANNEL CREATED": "0x21C468",
             "MESSAGE EDITED": "0x21C468",
             "MESSAGE DELETED": "0x21C468"
@@ -46,14 +47,19 @@
             "RULES":"0xFF964F",
             "TRIGGERS":"0xFF964F"
         },
+        "autoResponder": {
+            "SET":"0x21C468",
+            "GET":"0xFF964F",
+            "REMOVE":"0xF52411"
+        },
         "moderation":{
             "KICK":"0xF52411",
-            "BAN":"0x000000",
+            "BAN":"0xF52411",
             "CLEAR":"0x000000",
-            "UNBAN":"0x000000",
-            "WARN":"0x000000",
+            "UNBAN":"0x21C468",
+            "WARN":"0xFF964F",
             "MUTE":"0x000000",
-            "UNMUTE":"0x000000",
+            "UNMUTE":"0x21C468",
             "MODLOG":"0x4957d1",
             "USERINFO":"0x6270f0",
             "BLACKLIST":"0x000000"
