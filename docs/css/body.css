@@ -1,10 +1,11 @@
 /*
     UTILS
 */
+
 body {
     cursor: auto;
     background: var(--discord-light-dark);
-    font-family: "Roboto",Helvetica, Arial, sans-serif;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
     margin: 0,
 }
 
@@ -22,27 +23,51 @@ main {
     --discord-dark: #23272a;
     --discord-light-dark: #2c2f33;
     --discord-purple: #7289da;
-
     --white: rgb(231, 231, 231);
     --grey: rgb(179, 179, 179);
     --dark-grey: rgb(110, 110, 110);
-    --shadow: 0 5px 5px -3px rgba(0,0,0,.75);
+    --shadow: 0 5px 5px -3px rgba(0, 0, 0, .75);
+}
+
+/*
+    BUTTON
+*/
+.button {
+    background-color: var(--discord-purple);
+    padding: 15px;
+    margin: 5px;
+
+    color: var(--white);
+    font-size: 35px;
+    font-weight: bold;
+
+    border-radius: 5px;
+    border: none;
+
+    transition-duration: 0.1s;
+}
+
+.button.grey {
+    background-color: var(--dark-grey);
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: var(--discord-light-dark);
 }
 
 /*
     HEADER STYLE
 */
+
 .header {
     background-color: var(--discord-dark);
-
     width: 100%;
     height: auto;
     padding: 10px;
-
     -webkit-box-shadow: var(--shadow);
     -moz-box-shadow: var(--shadow);
     box-shadow: var(--shadow);
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,7 +79,6 @@ main {
     height: 100px;
     margin: 10px;
     border-radius: 50%;
-
     -webkit-box-shadow: var(--shadow);
     -moz-box-shadow: var(--shadow);
     box-shadow: var(--shadow);
@@ -72,12 +96,12 @@ main {
 /*
     HELP STYLE
 */
+
 .content {
     width: auto;
     max-width: 1200px;
     height: auto;
     padding: 10px;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,25 +115,20 @@ main {
 .content .help {
     position: relative;
     width: 1000px;
-
     background-color: var(--discord-dark);
     border-radius: 8px;
-
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: nowrap;
-
     margin: 10px;
 }
 
 .content .help .side {
     position: absolute;
     left: 0px;
-
     width: 5px;
     height: 100%;
-
     background-color: var(--discord-purple);
     border-radius: 8px 0 0 8px;
 }
@@ -158,7 +177,7 @@ main {
     line-height: 25px;
 }
 
-.content .help .main table td a{
+.content .help .main table td a {
     color: var(--white);
     text-decoration: underline;
 }
@@ -169,7 +188,6 @@ main {
     padding: 5px;
     margin: 2px;
     border-radius: 4px;
-
     background-color: var(--discord-light-dark);
 }
 
@@ -179,4 +197,47 @@ main {
     padding: 5px;
     margin: 2px;
     color: var(--dark-grey)
+}
+
+/*
+    OTHER
+*/
+
+.footer {
+    width: 100%;
+    height: auto;
+}
+
+.backToTop {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Fixed/sticky position */
+    bottom: 20px;
+    /* Place the button at the bottom of the page */
+    right: 30px;
+    /* Place the button 30px from the right */
+    z-index: 99;
+    /* Make sure it does not overlap */
+    border: none;
+    /* Remove borders */
+    outline: none;
+    /* Remove outline */
+    background-color: var(--discord-purple);
+    /* Set a background color */
+    color: white;
+    /* Text color */
+    cursor: pointer;
+    /* Add a mouse pointer on hover */
+    padding: 15px;
+    /* Some padding */
+    border-radius: 10px;
+    /* Rounded corners */
+    font-size: 18px;
+    /* Increase font size */
+}
+
+.backToTop:hover {
+    background-color: var(--discord-dark);
+    /* Add a dark-grey background on hover */
 }

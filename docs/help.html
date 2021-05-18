@@ -1,8 +1,49 @@
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="renderer" content="webkit">
+        <meta name="robots" content="index,follow">
+        <meta http-equiv="Cache-Control" content="no-siteapp">
+        <meta name="apple-mobile-web-app-title" content="Kyuron | Help">
+        <meta name="google" value="notranslate">
+
+        <meta content="authenticity_token" name="csrf-param">
+        <meta content="1s3yKOvo-ukE-pxzenVVBrRbuygyF_0dbDQA" name="csrf-token">
+
+        <title>Kyuron | Help</title>
+        <meta name="title" content="Kyuron | Help">
+        <meta name="description" content="Kyuron">
+        <meta name="application-name" content="Kyuron | Help CMS">
+        <meta name="author" content="Kyuron | Help">
+
+        <link rel="icon" href="/images/icon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="/images/icon.png">
+
+        <meta name="msapplication-TileColor" content="#FF0000">
+        <meta name="msapplication-TileImage" content="/images/icon.png">
+        <meta name="theme-color" content="#FF0000">
+
+        <meta property="og:title" content="Kyuron | Help">
+        <meta property="og:description" content="Kyuron">
+        <meta property="og:site_name" content="Kyuron | Help">
+        <meta property="og:image" content="/images/icon.png" />
+        <meta property="og:type" content="website" />
+        <meta name="theme-color" content="#FF0000">
+
+        <!-- // ============================= // -->
+        <!-- // = Copyright (c) 2021 Kyuron = // -->
+        <!-- // ============================= // -->
+
+        <!-- STYLING -->
         <link rel="stylesheet" href="css/body.css">
+
+        <!-- GOOGLE FONT-->
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet"> 
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+            rel="stylesheet">
     </head>
     <body>
         <main>
@@ -32,7 +73,8 @@
                         <table>
                             <tr>
                                 <td>● <a href="#auditLogger">Audit Logging</a></td>
-                                <td>Logs everything to a specified channel. Like message deletion, channel creation, etc.</td>
+                                <td>Logs everything to a specified channel. Like message deletion, channel creation, etc.
+                                </td>
                             </tr>
                             <tr>
                                 <td>● <a href="#autoResponder">Auto Responder</a></td>
@@ -76,7 +118,8 @@
                             </tr>
                             <tr>
                                 <td>● <a href="#tickets">Tickets</a></td>
-                                <td>Ticket system. If someone on your discord has a problem, let them ask it in a channel dedicated for him/her!</td>
+                                <td>Ticket system. If someone on your discord has a problem, let them ask it in a channel
+                                    dedicated for him/her!</td>
                             </tr>
                             <tr>
                                 <td>● <a href="#polls">Polls</a></td>
@@ -92,7 +135,8 @@
                             </tr>
                             <tr>
                                 <td>● <a href="#warn">Warn</a></td>
-                                <td>An addon for the Audit Logger. Warns if a user that joins has an account newer than 3 days or is banned on a global ban database.</td>
+                                <td>An addon for the Audit Logger. Warns if a user that joins has an account newer than 3
+                                    days or is banned on a global ban database.</td>
                             </tr>
                         </table>
                     </div>
@@ -133,7 +177,8 @@
                             </tr>
                             <tr>
                                 <td>● /tempban</td>
-                                <td><span class="variable">user</span><span class="variable">duration</span><span class="variable">durationtype</span></td>
+                                <td><span class="variable">user</span><span class="variable">duration</span><span
+                                        class="variable">durationtype</span></td>
                                 <td><span class="divider">| optional</span><span class="variable">reason</span></td>
                                 <td>Temporarily bans a user for the specified duration.</td>
                             </tr>
@@ -151,7 +196,8 @@
                             </tr>
                             <tr>
                                 <td>● /tempmute</td>
-                                <td><span class="variable">user</span><span class="variable">duration</span><span class="variable">durationtype</span></td>
+                                <td><span class="variable">user</span><span class="variable">duration</span><span
+                                        class="variable">durationtype</span></td>
                                 <td><span class="divider">| optional</span><span class="variable">reason</span></td>
                                 <td>Temporarily mutes a user for the specified duration.</td>
                             </tr>
@@ -199,9 +245,11 @@
                     <div class="main">
                         <h1>Auto Mod</h1>
                         <h3>About:</h3>
-                        <p>Auto Mod helps you moderate your server. You can set up automatic actions and trigger events if a user got to many infractions.</p>
+                        <p>Auto Mod helps you moderate your server. You can set up automatic actions and trigger events if a
+                            user got to many infractions.</p>
                         <br>
-                        <p>Triggers help you, for example, automatically mute someone after he got 5 warns in the last 30 minutes.</p>
+                        <p>Triggers help you, for example, automatically mute someone after he got 5 warns in the last 30
+                            minutes.</p>
                         <p>Example:<span class="variable">/automod trigger set Mute 5 30</span></p>
                         <h3>Commands:</h3>
                         <table>
@@ -228,11 +276,13 @@
                             <tr>
                                 <td>● /automod trigger remove</td>
                                 <td><span class="variable">trigger</span></td>
-                                <td>Remove a trigger by its ID. Obtain the ID via <span class="variable">trigger get</span>.</td>
+                                <td>Remove a trigger by its ID. Obtain the ID via <span class="variable">trigger get</span>.
+                                </td>
                             </tr>
                             <tr>
                                 <td>● /automod trigger set</td>
-                                <td><span class="variable">what</span><span class="variable">warns</span><span class="variable">timespan</span></td>
+                                <td><span class="variable">what</span><span class="variable">warns</span><span
+                                        class="variable">timespan</span></td>
                                 <td>Creates a trigger. Duration and duration type are needed for temp mutes/bans.</td>
                             </tr>
                         </table>
@@ -243,7 +293,8 @@
                     <div class="main">
                         <h1>Auto Responder</h1>
                         <h3>About:</h3>
-                        <p>Getting annoyed by frequently asked questions? Let the auto responder automatically answer for you!</p>
+                        <p>Getting annoyed by frequently asked questions? Let the auto responder automatically answer for
+                            you!</p>
                         <p><b>Notice:</b> You can have up to 25 responses per guild.</p>
                         <h3>Commands:</h3>
                         <table>
@@ -259,8 +310,10 @@
                             </tr>
                             <tr>
                                 <td>● /responder set</td>
-                                <td><span class="variable">name</span><span class="variable">question</span><span class="variable">response</span></td>
-                                <td>Create a response by the specified name.<br>The question will be stripped of any punctuation marks.</td>
+                                <td><span class="variable">name</span><span class="variable">question</span><span
+                                        class="variable">response</span></td>
+                                <td>Create a response by the specified name.<br>The question will be stripped of any
+                                    punctuation marks.</td>
                             </tr>
                         </table>
                     </div>
@@ -270,13 +323,16 @@
                     <div class="main">
                         <h1>Announcements</h1>
                         <h3>About:</h3>
-                        <p>Announcements provide an opportunity to create notifications for social media platforms. Live notifications are available for Twitch, YouTube and Twitter.</p>
-                        <p><b>Notice:</b> Kyuron checks every 5 minutes for new content to keep server load at a minimum. If your notification doesn't get displayed immediately, please wait a bit longer.</p>
+                        <p>Announcements provide an opportunity to create notifications for social media platforms. Live
+                            notifications are available for Twitch, YouTube and Twitter.</p>
+                        <p><b>Notice:</b> Kyuron checks every 5 minutes for new content to keep server load at a minimum. If
+                            your notification doesn't get displayed immediately, please wait a bit longer.</p>
                         <h3>Commands:</h3>
                         <table>
                             <tr>
                                 <td>● /announcement set</td>
-                                <td><span class="variable">platform</span><span class="variable">url</span><span class="variable">message</span></td>
+                                <td><span class="variable">platform</span><span class="variable">url</span><span
+                                        class="variable">message</span></td>
                                 <td>Creates a new announcement in the current channel.</td>
                             </tr>
                             <tr>
@@ -308,7 +364,8 @@
                             </tr>
                             <tr>
                                 <td>● /reactionrole addrole</td>
-                                <td><span class="variable">name</span><span class="variable">role</span><span class="variable">emote</span></td>
+                                <td><span class="variable">name</span><span class="variable">role</span><span
+                                        class="variable">emote</span></td>
                                 <td>Adds the selected role to the specified reaction with the given emote.</td>
                             </tr>
                             <tr>
@@ -335,7 +392,8 @@
                             <tr>
                                 <td>● /fun meme</td>
                                 <td><span class="divider">| optional</span><span class="variable">subreddit</span></td>
-                                <td>Get a random meme from a haha funny webpage (reddit.com). <b>Does not support NSFW.</b></td>
+                                <td>Get a random meme from a haha funny webpage (reddit.com). <b>Does not support NSFW.</b>
+                                </td>
                             </tr>
                             <tr>
                                 <td>● /fun cookie</td>
@@ -349,7 +407,8 @@
                             </tr>
                             <tr>
                                 <td>● /fun ship</td>
-                                <td><span class="variable">user1</span><span class="divider">| optional</span><span class="variable">user2</span></td>
+                                <td><span class="variable">user1</span><span class="divider">| optional</span><span
+                                        class="variable">user2</span></td>
                                 <td>Ship yourself or others. UwU</td>
                             </tr>
                         </table>
@@ -367,15 +426,19 @@
                             <tr>
                                 <td>● /poll vote</td>
                                 <td><span class="variable">text</span></td>
-                                <td colspan="2"><span class="divider">| optional</span><span class="variable">timer (in minutes)</span></td>
-                                <td>Creates a Yes/No poll in the current channel.<br>The winner will be announced after the timer expires.</td>
+                                <td colspan="2"><span class="divider">| optional</span><span class="variable">timer (in
+                                        minutes)</span></td>
+                                <td>Creates a Yes/No poll in the current channel.<br>The winner will be announced after the
+                                    timer expires.</td>
                             </tr>
                             <tr>
                                 <td>● /poll survey</td>
                                 <td><span class="variable">text</span></td>
                                 <td><span class="variable">option 1</span><span class="variable">option 2</span></td>
-                                <td><span class="divider">| optional</span><span class="variable">option 3-10</span><span class="variable">timer</span></td>
-                                <td>Creates a survey with the provided options.<br>The winner will be announced after the timer expires.</td>
+                                <td><span class="divider">| optional</span><span class="variable">option 3-10</span><span
+                                        class="variable">timer</span></td>
+                                <td>Creates a survey with the provided options.<br>The winner will be announced after the
+                                    timer expires.</td>
                             </tr>
                         </table>
                     </div>
@@ -385,7 +448,8 @@
                     <div class="main">
                         <h1>Giveaway</h1>
                         <h3>About:</h3>
-                        <p>With the giveaway module you can create simple giveaways. User can react to the message to join.</p>
+                        <p>With the giveaway module you can create simple giveaways. User can react to the message to join.
+                        </p>
                         <p><b>Notice:</b> If the bot crashes, ongoing giveaways will be lost :/</p>
                         <h3>Commands:</h3>
                         <table>
@@ -403,7 +467,8 @@
                     <div class="main">
                         <h1>Audit Logger</h1>
                         <h3>About:</h3>
-                        <p>The audit logger logs almost every event happening on your server, and that can be quite a lot!</p>
+                        <p>The audit logger logs almost every event happening on your server, and that can be quite a lot!
+                        </p>
                         <p><b>Notice:</b> Can be customized with <span class="variable">/setchannel</span></p>
                     </div>
                 </div>
@@ -412,7 +477,10 @@
                     <div class="main">
                         <h1>Warn</h1>
                         <h3>About:</h3>
-                        <p>The warn module is an addition to the audit logger. If a user joins it checks if the account is newer than 3 days and sends an audit log. Additionally: On of the creators of Kyuron has another bot which protects guilds from bot raids. It has an internal database of potentially harmful users, which is also checked against.</p>
+                        <p>The warn module is an addition to the audit logger. If a user joins it checks if the account is
+                            newer than 3 days and sends an audit log. Additionally: On of the creators of Kyuron has another
+                            bot which protects guilds from bot raids. It has an internal database of potentially harmful
+                            users, which is also checked against.</p>
                     </div>
                 </div>
                 <div class="help" id="leaveNotice">
@@ -421,7 +489,8 @@
                         <h1>Leave Notice</h1>
                         <h3>About:</h3>
                         <p>Notify users if a users leaves the guild.</p>
-                        <p><b>Notice:</b> Can be customized with <span class="variable">/setchannel</span> and <span class="variable">/setmessage</span></p>
+                        <p><b>Notice:</b> Can be customized with <span class="variable">/setchannel</span> and <span
+                                class="variable">/setmessage</span></p>
                     </div>
                 </div>
                 <div class="help" id="autoVoiceChannel">
@@ -429,7 +498,10 @@
                     <div class="main">
                         <h1>Auto Voice Channel</h1>
                         <h3>About:</h3>
-                        <p>Automatically create and delete voice channels based on need. A user just needs to join your dedicated voice channel and he will automatically sent to a channel just for him. If everyone leaves the dedicated channel, it will be automatically deleted. Never run out of voice channels again!</p>
+                        <p>Automatically create and delete voice channels based on need. A user just needs to join your
+                            dedicated voice channel and he will automatically sent to a channel just for him. If everyone
+                            leaves the dedicated channel, it will be automatically deleted. Never run out of voice channels
+                            again!</p>
                         <p><b>Notice:</b> If the bot crashes, channels will not be deleted!</p>
                         <p><b>Further notice:</b> Can be customized with <span class="variable">/setchannel</span></p>
                     </div>
@@ -439,8 +511,10 @@
                     <div class="main">
                         <h1>Ticket System</h1>
                         <h3>About:</h3>
-                        <p>The ticket system helps your users with private issues only a moderator can solve. It creates a channel for every ticket a user requests. On finish, you can easily delete the channel.</p>
-                        <p><b>Notice:</b> The ticket system is automatically created on module enable and managed by Kyuron.</p>
+                        <p>The ticket system helps your users with private issues only a moderator can solve. It creates a
+                            channel for every ticket a user requests. On finish, you can easily delete the channel.</p>
+                        <p><b>Notice:</b> The ticket system is automatically created on module enable and managed by Kyuron.
+                        </p>
                         <p><b>Further notice:</b> Can be customized with <span class="variable">/setmessage</span></p>
                     </div>
                 </div>
@@ -455,13 +529,15 @@
                                 <td>● /setchannel</td>
                                 <td><span class="variable">type</span></td>
                                 <td><span class="divider">| optional</span><span class="variable">channel</span></td>
-                                <td>There are different roles for different channels.<br>You can set specific channel tasks with this command.</td>
+                                <td>There are different roles for different channels.<br>You can set specific channel tasks
+                                    with this command.</td>
                             </tr>
                             <tr>
                                 <td>● /setmessage</td>
                                 <td><span class="variable">type</span><span class="variable">message</span></td>
                                 <td></td>
-                                <td>Like /setchannel, different modules use predefined messages.<br>Those are set with this command.</td>
+                                <td>Like /setchannel, different modules use predefined messages.<br>Those are set with this
+                                    command.</td>
                             </tr>
                             <tr>
                                 <td>● /role get</td>
@@ -475,8 +551,29 @@
                 </div>
             </div>
             <div class="footer">
-
+                <button onclick="topFunction()" id="toTop" class="backToTop" title="Go to top">Top</button> 
             </div>
         </main>
     </body>
+    <script>
+        //Get the button:
+        mybutton = document.getElementById("toTop");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
 </html>
