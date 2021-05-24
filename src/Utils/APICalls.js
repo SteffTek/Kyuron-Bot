@@ -3,20 +3,27 @@
 const configHandler = require("../Utils/configHandler");
 const config = configHandler.getConfig();
 
+const http_config = {
+    headers: {
+        "Authorization": "Bot " + config.discord.token
+    }
+}
+
 // Core Modules
 const axios = require('axios')
 
 module.exports.createGuildCommand = async function (application_id, guild_id, data) {
-    let http_config = {
-        headers: {
-            "Authorization": "Bot " + config.discord.token
-        }
-    }
-
     axios.post(`https://discordapp.com/api/v8/applications/${application_id}/guilds/${guild_id}/commands`, data, http_config)
-        .catch(function (error) {
-            console.log(error);
-        });
+    .catch(function (error) {
+        console.log(error);
+    });
+}
+
+module.exports.createAppCommand = async function (application_id, data) {
+    axios.post(`https://discordapp.com/api/v8/applications/${application_id}/commands`, data, http_config)
+    .catch(function (error) {
+        console.log(error);
+    });
 }
 
 module.exports.sendInteraction = async function (client, data, interaction, type) {
@@ -33,12 +40,6 @@ module.exports.sendInteraction = async function (client, data, interaction, type
 }
 
 module.exports.sendFollowUp = async function (data, interaction) {
-    let http_config = {
-        headers: {
-            "Authorization": "Bot " + config.discord.token
-        }
-    }
-
     axios.post(`https://discordapp.com/api/v8/webhooks/${config.discord.appID}/${interaction.token}`, data, http_config)
     .catch(function (error) {
         console.log(error);
@@ -46,12 +47,6 @@ module.exports.sendFollowUp = async function (data, interaction) {
 }
 
 module.exports.getInteractionMessage = async function (interaction) {
-    let http_config = {
-        headers: {
-            "Authorization": "Bot " + config.discord.token
-        }
-    }
-
     const result = await axios.get(`https://discordapp.com/api/v8/webhooks/${config.discord.appID}/${interaction.token}/messages/@original`, {}, http_config)
     .catch(function (error) {
         console.log(error);
@@ -59,6 +54,5 @@ module.exports.getInteractionMessage = async function (interaction) {
     }).then(result => {
         return result.data;
     })
-
     return result;
 }

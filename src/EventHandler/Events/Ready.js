@@ -6,6 +6,7 @@ const AnnouncementClass = require('../../Modules/Announcement');
 const announcement = require("../../Database/models/announcement");
 const reactions = require("../../Database/models/reaction");
 const auditLogger = require("../../Modules/AuditLog");
+const embedGen = require("../../Utils/embedGenerator");
 
 const configHandler = require("../../Utils/configHandler");
 const tickets = require("../../Database/models/tickets");
@@ -173,7 +174,7 @@ module.exports = (client) => {
     client.ws.on('INTERACTION_CREATE', async (interaction) => {
         //CHECK IF PRIVATE MESSAGE
         if(!interaction.guild_id) {
-            channel.send("Commands cannot be used in private messages.");
+            embedGen.error("Commands cannot be used in private messages.", client, interaction);
             return;
         }
 

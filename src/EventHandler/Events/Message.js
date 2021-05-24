@@ -4,9 +4,15 @@ const embedGen = require('./../../Utils/embedGenerator.js')
 const permissionChecker = require("../../Utils/permissionChecker");
 const AutoMod = require('../../Modules/AutoMod.js');
 
-//VARS
+/*
+    LAST MESSAGE STORE
+    Stores last messages from users in guilds by id.
+    Needed for check auto mod spam.
+*/
 const lastUserMessages = {
-    /* USERID: MESSAGE */
+    /* GUILDID {
+        USERID:MESSAGE
+    } */
 }
 
 module.exports = async (client, message) => {
@@ -16,16 +22,25 @@ module.exports = async (client, message) => {
     }
     let guildData = await db.loadGuildData(message.guild.id);
 
+    //GET LAST MESSAGE AND INIT IF NO GUILD STORE
+    if(!lastUserMessages[message.guild.id]) {
+        lastUserMessages[message.guild.id] = {} //INIT MESSAGE STORE
+    }
+    let lastMessage = lastUserMessages[message.guild.id][message.author.id]; //GET LAST
+
     //SEND TO AUTO MOD
     if(guildData?.modules?.autoMod) {
         if(!permissionChecker.isModerator(guildData, message.member)) {
             let autoMod = AutoMod.load(guildData.autoMod);
-            autoMod.handleMessage(client, guildData, message, lastUserMessages[message.author.id]);
+            autoMod.handleMessage(client, guildData, message, lastMessage);
         }
     }
 
-    //SET LAST USER MESSAGE
-    lastUserMessages[message.author.id] = message;
+    //SET LAST USER MESSAGE IF AUTO MOD SPAM ACTIVE
+    if(guildData?.modules?.autoMod) {
+        if(guildData?.autoMod?.enabledRules?.spam?.enabled)
+            lastUserMessages[message.guild.id][message.author.id] = message;
+    }
 
     //SEND TO AUTO RESPONDER
     guildData.autoResponder.handleMessage(message);

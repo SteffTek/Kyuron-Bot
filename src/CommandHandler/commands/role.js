@@ -27,6 +27,10 @@ module.exports = {
                         {
                             "name":"Mute Role",
                             "value":"muteRole"
+                        },
+                        {
+                            "name":"Join Role",
+                            "value":"joinRole"
                         }
                     ]
                 },{
@@ -54,6 +58,10 @@ module.exports = {
                         {
                             "name":"Mute Role",
                             "value":"muteRole"
+                        },
+                        {
+                            "name":"Join Role",
+                            "value":"joinRole"
                         }
                     ]
                 },{
@@ -81,6 +89,10 @@ module.exports = {
                         {
                             "name":"Mute Role",
                             "value":"muteRole"
+                        },
+                        {
+                            "name":"Join Role",
+                            "value":"joinRole"
                         }
                     ]
                 }
@@ -109,13 +121,11 @@ module.exports = {
 
         //SET MODULE DATA
         if(type === "set") {
-            if(roleType === "muteRole") {
-                data.guildData.muteRole = roleID;
-            }
-
             if(roleType === "modRole") {
                 if(!data.guildData.modRoles.includes(roleID))
                     data.guildData.modRoles.push(roleID);
+            } else {
+                data.guildData[roleType] = roleID;
             }
         }
 
@@ -123,15 +133,14 @@ module.exports = {
         if(type === "remove") {
             title = "ROLE REMOVED!"
 
-            if(roleType === "muteRole") {
-                if(roleID === data.guildData.muteRole)
-                    data.guildData.muteRole = "";
-            }
-
             if(roleType === "modRole") {
                 if(data.guildData.modRoles.includes(roleID)) {
                     let index = data.guildData.modRoles.indexOf(roleID);
                     data.guildData.modRoles.splice(index,1);
+                }
+            } else {
+                if(roleID === data.guildData[roleType]) {
+                    data.guildData[roleType] = "";
                 }
             }
         }
@@ -143,6 +152,11 @@ module.exports = {
             if(roleType === "muteRole") {
                 let role = await guild.roles.fetch(data.guildData.muteRole).catch(err => { /* ROLE NOT FOUND */ });
                 message = `**Currently, the mute role is set to be ${role}!**`;
+            }
+
+            if(roleType === "joinRole") {
+                let role = await guild.roles.fetch(data.guildData.joinRole).catch(err => { /* ROLE NOT FOUND */ });
+                message = `**Currently, the join role is set to be ${role}!**`;
             }
 
             if(roleType === "modRole") {

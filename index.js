@@ -44,10 +44,20 @@ eventListener(client);
 //Load commands
 commandHandler(client)
 
-//Initializing Debug Guild-Commands
 /*
-let debugCMD = client.commands.get("responder")
+    Initializing Debug Guild-Commands
+*/
+/*
+let debugCMD = client.commands.get("module")
 APICalls.createGuildCommand(config.discord.appID, config.discord.testGuildID, {name: debugCMD.name, description: debugCMD.description, options: debugCMD.options})
+*/
+
+/*
+    DEBUG APP COMMAND
+*/
+/*
+let debugAppCMD = client.commands.get("ping");
+APICalls.createAppCommand(config.discord.appID, {name: debugAppCMD.name, description: debugAppCMD.description, options: debugAppCMD.options})
 */
 
 //Log in Client

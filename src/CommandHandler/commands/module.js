@@ -51,6 +51,10 @@ module.exports = {
                     "value":"giveaway"
                 },
                 {
+                    "name":"Join Role",
+                    "value":"joinRole"
+                },
+                {
                     "name":"Leave Notice",
                     "value":"leaveNotice"
                 },

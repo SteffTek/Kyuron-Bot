@@ -5,6 +5,7 @@ const db = require('./../../Database/db.js')
 module.exports = async (client, member) => {
     //GET GUILD DATA
     const guildData = await db.loadGuildData(member.guild.id);
+    const guild = member.guild;
 
     //SENT TO LOGGER
     let desc = `**User ${member} joined!** \nCreated: ${member.user.createdAt}`
@@ -12,4 +13,14 @@ module.exports = async (client, member) => {
 
     //SENT TO WARN
     warn(client, guildData, member.user);
+
+    //JOIN ROLE
+    if(guildData.modules.joinRole) {
+        //GET JOIN ROLE
+        guild.roles.fetch(guildData.joinRole).then(role => {
+            member.roles.add(role).catch(err => {
+                /* NO PERMISSION */
+            })
+        }).catch(err => { /* DO NOTHING */ })
+    }
 }

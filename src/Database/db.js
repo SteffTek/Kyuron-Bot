@@ -53,6 +53,7 @@ module.exports.loadGuildData = async function (guildID) {
                 economy: false,
                 fun: false,
                 giveaway: false,
+                joinRole: false,
                 leaveNotice: false,
                 leveling: false,
                 moderation: false,
@@ -64,6 +65,7 @@ module.exports.loadGuildData = async function (guildID) {
             },
             modRoles:[],
             muteRole:"",
+            joinRole: "",
             channels: {
                 auditLogChannel: "",
                 auditLogIgnore: [],
