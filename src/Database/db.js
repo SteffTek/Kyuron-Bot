@@ -54,6 +54,7 @@ module.exports.loadGuildData = async function (guildID) {
                 fun: false,
                 giveaway: false,
                 joinRole: false,
+                joinNotice: false,
                 leaveNotice: false,
                 leveling: false,
                 moderation: false,
@@ -72,13 +73,15 @@ module.exports.loadGuildData = async function (guildID) {
                 leaveNoticeChannel: "",
                 ticketSystemChannel: "",
                 levelSystemChannel: "",
-                autoVoiceChannel: ""
+                autoVoiceChannel: "",
+                joinNoticeChannel: ""
             },
             settings: {
 
             },
             messages: {
                 leaveNotice: "**%user% has left the server!**",
+                joinNotice: "**%user% has joined the server!**",
                 ticketSystem: "**React with %emote% to create a ticket!**",
                 ticketIntro: "**Hello %user%! Stay tuned, a moderator will watch your case soon!**",
                 levelSystem: "%user% achieved **`Level %level%`**, congrats!"

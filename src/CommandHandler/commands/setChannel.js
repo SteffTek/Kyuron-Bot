@@ -28,6 +28,10 @@ module.exports = {
                     "value":"leaveNoticeChannel"
                 },
                 {
+                    "name":"Join Notice Channel",
+                    "value":"joinNoticeChannel"
+                },
+                {
                     "name":"LevelUP Announcement Channel",
                     "value":"levelSystemChannel"
                 },

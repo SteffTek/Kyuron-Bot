@@ -55,6 +55,10 @@ module.exports = {
                     "value":"joinRole"
                 },
                 {
+                    "name":"Join Notice",
+                    "value":"joinNotice"
+                },
+                {
                     "name":"Leave Notice",
                     "value":"leaveNotice"
                 },

@@ -22,6 +22,9 @@ module.exports = {
                     "name":"Leave Notice",
                     "value":"leaveNotice"
                 },{
+                    "name":"Join Notice",
+                    "value":"joinNotice"
+                },{
                     "name":"Ticket System Message",
                     "value":"ticketSystem"
                 },{

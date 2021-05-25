@@ -1,4 +1,5 @@
 const auditLogger = require("../../Modules/AuditLog");
+const joinNotice = require("../../Modules/JoinNotice");
 const warn = require("../../Modules/Warn");
 const db = require('./../../Database/db.js')
 
@@ -13,6 +14,9 @@ module.exports = async (client, member) => {
 
     //SENT TO WARN
     warn(client, guildData, member.user);
+
+    //SEND TO JOIN NOTICE
+    joinNotice(client, guildData, member);
 
     //JOIN ROLE
     if(guildData.modules.joinRole) {

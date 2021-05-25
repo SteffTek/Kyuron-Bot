@@ -13,6 +13,7 @@ const guildSchema = mongoose.Schema({
         fun: Boolean,
         giveaway: Boolean,
         joinRole: Boolean,
+        joinNotice: Boolean,
         leaveNotice: Boolean,
         leveling: Boolean,
         moderation: Boolean,
@@ -31,13 +32,15 @@ const guildSchema = mongoose.Schema({
         leaveNoticeChannel: String,
         ticketSystemChannel: String,
         levelSystemChannel: String,
-        autoVoiceChannel: String
+        autoVoiceChannel: String,
+        joinNoticeChannel: String
     },
     settings: {
 
     },
     messages: {
         leaveNotice: String,
+        joinNotice: String,
         ticketSystem: String,
         ticketIntro: String,
         levelSystem: String
